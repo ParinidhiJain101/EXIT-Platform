@@ -55,7 +55,7 @@ export const NeedsSelectionStep: FC = () => {
       <div
         role="group"
         aria-label={t('onboarding.needsStep.title')}
-        style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 'var(--spacing-3)' }}
+        className="responsive-grid-2col"
       >
         {CATEGORIES.map(({ key, icon }) => {
           const isSelected = !!planNeeds[key];

@@ -87,7 +87,7 @@ export const ExitPlanOnboarding: FC = () => {
       </div>
 
       {/* Bottom Navigation Buttons */}
-      <div style={{ display: 'flex', gap: 'var(--spacing-3)', marginTop: 'var(--spacing-4)', paddingTop: 'var(--spacing-3)', borderTop: '1px solid var(--color-neutral-grey)' }}>
+      <div className="responsive-button-row" style={{ marginTop: 'var(--spacing-4)', paddingTop: 'var(--spacing-3)', borderTop: '1px solid var(--color-neutral-grey)' }}>
         {currentStep > 1 && (
           <Button
             variant="outline"
