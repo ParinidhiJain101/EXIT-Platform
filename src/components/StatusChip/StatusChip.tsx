@@ -14,7 +14,9 @@ export type StatusChipVariant =
   | 'prepared'
   | 'partiallyPrepared'
   | 'needsAttention'
-  | 'notPlanned';
+  | 'notPlanned'
+  | 'teal'
+  | 'indigo';
 
 export interface StatusChipProps {
   label: string;
@@ -33,6 +35,20 @@ export const StatusChip: FC<StatusChipProps> = ({
 }) => {
   const getVariantStyles = (): { bg: string; color: string; border: string; dot: string } => {
     switch (variant) {
+      case 'teal':
+        return {
+          bg: 'var(--color-soft-teal)',
+          color: 'var(--color-subtle-teal)',
+          border: 'var(--color-border-teal)',
+          dot: 'var(--color-subtle-teal)',
+        };
+      case 'indigo':
+        return {
+          bg: 'var(--color-soft-indigo)',
+          color: 'var(--color-subtle-indigo)',
+          border: 'var(--color-border-indigo)',
+          dot: 'var(--color-subtle-indigo)',
+        };
       case 'quiet':
         return {
           bg: 'var(--color-soft-purple)',

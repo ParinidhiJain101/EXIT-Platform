@@ -43,6 +43,16 @@
   --color-soft-purple: #F5F3FF;
   --color-border-purple: #EDE9FE;
 
+  /* Subtle Teal Accent Family */
+  --color-subtle-teal: #0D9488;
+  --color-soft-teal: #F0FDFA;
+  --color-border-teal: #CCFBF1;
+
+  /* Subtle Indigo Accent Family */
+  --color-subtle-indigo: #4F46E5;
+  --color-soft-indigo: #EEF2FF;
+  --color-border-indigo: #E0E7FF;
+
   /* Neutral Borders & Dividers */
   --color-neutral-grey: #F1F5F9;
   --color-border-subtle: #E2E8F0;
