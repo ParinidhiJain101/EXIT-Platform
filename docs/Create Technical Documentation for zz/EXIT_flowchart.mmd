@@ -1,0 +1,32 @@
+flowchart LR
+    U[Survivor or trusted helper] --> P[EXIT Plan\nPrivate planning]
+    P --> V[AegisVault\nOptional evidence continuity]
+    P --> C[Consent Gateway\nExplicit granular opt-in]
+    V -. never directly shared .-> C
+    P --> A[De-identification Airlock\nStrip, generalize, validate]
+    C --> A
+    A --> K{Threshold k >= 10?}
+    K -- No --> S[Suppress\nInsufficient data to display safely]
+    K -- Yes --> N[Privacy protection\nNoise simulation and aggregation]
+    N --> L[LIVEGENDER\nRestricted institutional observatory]
+    D[Verified Service Directory] --> P
+    D --> L
+    X[Hash-chained Audit Log] -. Security events only .-> P
+    X -. Security events only .-> V
+    X -. Consent and governance events .-> C
+
+    classDef user fill:#E8F1FF,stroke:#2457A6,stroke-width:2px,color:#102A43;
+    classDef private fill:#E9F7EF,stroke:#1E8449,stroke-width:2px,color:#123524;
+    classDef consent fill:#FFF4D6,stroke:#B9770E,stroke-width:2px,color:#4A2C00;
+    classDef privacy fill:#FDEDEC,stroke:#B03A2E,stroke-width:2px,color:#4A1612;
+    classDef institution fill:#F4ECF7,stroke:#7D3C98,stroke-width:2px,color:#35133F;
+    classDef support fill:#EAF2F8,stroke:#2874A6,stroke-width:2px,color:#153B59;
+    classDef audit fill:#F2F3F4,stroke:#616A6B,stroke-width:2px,color:#202424;
+
+    class U user;
+    class P,V private;
+    class C consent;
+    class A,K,S,N privacy;
+    class L institution;
+    class D support;
+    class X audit;
