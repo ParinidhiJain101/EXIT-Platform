@@ -1,0 +1,19 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "continue": "Continue",
+    "back": "Back",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "safetyShell": {
+    "quickExit": "Quick Exit",
+    "clearSession": "Clear Session",
+    "neutralMode": "Neutral Mode"
+  },
+  "onboarding": {
+    "title": "Welcome",
+    "useWithoutSaving": "Use without saving",
+    "saveLocally": "Save locally (encrypted)"
+  }
+}

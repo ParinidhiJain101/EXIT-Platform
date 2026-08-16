@@ -1,0 +1,51 @@
+:root {
+  /* Colors */
+  --color-deep-ink: #102A43;
+  --color-trust-blue: #2457A6;
+  --color-soft-blue: #E8F1FF;
+  --color-safe-green: #1E8449;
+  --color-soft-green: #E9F7EF;
+  --color-warm-amber: #B9770E;
+  --color-soft-amber: #FFF4D6;
+  --color-muted-red: #B03A2E;
+  --color-soft-rose: #FDEDEC;
+  --color-neutral-grey: #F2F3F4;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  /* Typography */
+  --font-family-sans: 'Noto Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Spacing (Base 4px) */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+
+  /* Layout */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-full: 9999px;
+
+  /* Touch targets */
+  --min-touch-target: 44px;
+}
