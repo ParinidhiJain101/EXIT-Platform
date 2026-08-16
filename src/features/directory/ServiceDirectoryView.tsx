@@ -162,6 +162,17 @@ export const ServiceDirectoryView: FC = () => {
         })}
       </div>
 
+      {/* Scannable Results Header */}
+      {!loading && (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+          <span>
+            Showing <strong style={{ color: 'var(--color-text-primary)' }}>{services.length}</strong> verified support pathways
+            {selectedCategory !== 'All' ? ` in ${selectedCategory}` : ''}
+          </span>
+          <span>Verified NGO & Crisis Network</span>
+        </div>
+      )}
+
       {/* Services List */}
       {loading ? (
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textAlign: 'center', padding: 'var(--spacing-8)' }}>
@@ -169,7 +180,7 @@ export const ServiceDirectoryView: FC = () => {
         </p>
       ) : services.length === 0 ? (
         <Card variant="neutral" padding="lg">
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textAlign: 'center', fontStyle: 'italic' }}>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textAlign: 'center', fontStyle: 'italic', margin: 0 }}>
             {t('directory.noResults')}
           </p>
         </Card>

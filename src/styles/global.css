@@ -124,10 +124,70 @@ body {
 
 .app-main-container {
   width: 100%;
-  max-width: 1020px;
+  max-width: 1160px;
   margin: 0 auto;
   padding: 0 var(--spacing-6);
   flex-grow: 1;
+}
+
+/* Editorial Page Header standard */
+.page-hero-header {
+  margin-bottom: var(--spacing-6);
+}
+
+.page-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-2);
+}
+
+.page-hero-title-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.page-hero-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.page-hero-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  max-width: 760px;
+  margin: 0;
+}
+
+/* Two-column layout on desktop: primary content & contextual sidebar */
+.desktop-split-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .desktop-split-layout {
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 1fr);
+    gap: var(--spacing-8);
+  }
+}
+
+@media (min-width: 1280px) {
+  .desktop-split-layout {
+    grid-template-columns: minmax(0, 1.6fr) minmax(340px, 1fr);
+    gap: var(--spacing-8);
+  }
 }
 
 /* Responsive adjustments */

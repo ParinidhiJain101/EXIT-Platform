@@ -71,14 +71,15 @@ export const DigitalSafetyCheckupView: FC = () => {
     SYNTHETIC_PRESET_ANSWERS,
   );
 
+  /* All categories start collapsed by default for a calm, scannable overview */
   const [expandedCategories, setExpandedCategories] = useState<Record<DigitalSafetyCategory, boolean>>({
-    device: true,
-    accounts: true,
-    location: true,
+    device: false,
+    accounts: false,
+    location: false,
     communication: false,
     social: false,
     cloud: false,
-    recovery: true,
+    recovery: false,
   });
 
   const [selectedDemoFeature, setSelectedDemoFeature] =
@@ -102,21 +103,24 @@ export const DigitalSafetyCheckupView: FC = () => {
     }));
   };
 
+  const handleExpandAll = (expand: boolean) => {
+    setExpandedCategories({
+      device: expand,
+      accounts: expand,
+      location: expand,
+      communication: expand,
+      social: expand,
+      cloud: expand,
+      recovery: expand,
+    });
+  };
+
   const handleResetToBlank = () => {
     setAnswers({});
   };
 
   const handleLoadDemoPreset = () => {
     setAnswers(SYNTHETIC_PRESET_ANSWERS);
-    setExpandedCategories({
-      device: true,
-      accounts: true,
-      location: true,
-      communication: false,
-      social: false,
-      cloud: false,
-      recovery: true,
-    });
   };
 
   const getAnswerButtonStyle = (isSelected: boolean): CSSProperties => {
@@ -144,39 +148,20 @@ export const DigitalSafetyCheckupView: FC = () => {
   };
 
   const premiumFeaturesList: { key: PremiumDemoFeatureKey; icon: ReactNode }[] = [
-    { key: 'walkthrough', icon: <UserCheckIcon size={16} /> },
-    { key: 'actionPlan', icon: <CheckCircleIcon size={16} /> },
-    { key: 'education', icon: <FileTextIcon size={16} /> },
-    { key: 'periodic', icon: <ClockIcon size={16} /> },
-    { key: 'continuity', icon: <LockIcon size={16} /> },
+    { key: 'walkthrough', icon: <UserCheckIcon size={15} /> },
+    { key: 'actionPlan', icon: <CheckCircleIcon size={15} /> },
+    { key: 'education', icon: <FileTextIcon size={15} /> },
+    { key: 'periodic', icon: <ClockIcon size={15} /> },
+    { key: 'continuity', icon: <LockIcon size={15} /> },
   ];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-6)' }}>
-      {/* Header */}
-      <div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            flexWrap: 'wrap',
-            gap: 'var(--spacing-2)',
-            marginBottom: 'var(--spacing-1)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-            <h2
-              style={{
-                fontSize: 'var(--font-size-2xl)',
-                fontWeight: 'var(--font-weight-bold)',
-                color: 'var(--color-text-primary)',
-                letterSpacing: '-0.02em',
-                margin: 0,
-              }}
-            >
-              {t('digitalSafety.title')}
-            </h2>
+      {/* 1. Page Context & Hero */}
+      <div className="page-hero-header" style={{ marginBottom: 'var(--spacing-4)' }}>
+        <div className="page-hero-top">
+          <div className="page-hero-title-group">
+            <h2 className="page-hero-title">{t('digitalSafety.title')}</h2>
             <StatusChip
               label={t('digitalSafety.labels.demoBadge')}
               variant="warning"
@@ -215,67 +200,79 @@ export const DigitalSafetyCheckupView: FC = () => {
             />
           </div>
         </div>
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-sm)' }}>
+        <p className="page-hero-subtitle">
           {t('digitalSafety.subtitle')}
         </p>
       </div>
 
-      {/* Synthetic Demo Notice Banner */}
-      <Card variant="warning" padding="sm">
+      {/* 2. Privacy Disclosure Callout */}
+      <Card variant="neutral" padding="sm">
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
-          <span style={{ color: 'var(--color-warm-amber)', marginTop: '2px', flexShrink: 0 }}>
-            <LockIcon size={16} />
+          <span style={{ color: 'var(--color-trust-blue)', marginTop: '2px', flexShrink: 0 }}>
+            <LockIcon size={15} />
           </span>
-          <div>
-            <h4
-              style={{
-                fontSize: 'var(--font-size-xs)',
-                fontWeight: 'var(--font-weight-bold)',
-                color: '#744210',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                marginBottom: '2px',
-              }}
-            >
-              {t('digitalSafety.privacyNoticeTitle')}
-            </h4>
-            <p style={{ fontSize: 'var(--font-size-xs)', color: '#744210', lineHeight: 1.45 }}>
-              {t('digitalSafety.privacyNoticeText')}
-            </p>
+          <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.45 }}>
+            <strong style={{ color: 'var(--color-text-primary)' }}>
+              {t('digitalSafety.privacyNoticeTitle')}:{' '}
+            </strong>
+            {t('digitalSafety.privacyNoticeText')}
           </div>
         </div>
       </Card>
 
-      {/* 2-Column Responsive Layout on Desktop */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: 'var(--spacing-6)',
-          alignItems: 'start',
-        }}
-      >
-        {/* Left Column: 7 Self-Check Categories */}
+      {/* 3. Primary Responsive 2-Column Grid */}
+      <div className="desktop-split-layout">
+        {/* Left Column: 7 Safety Areas (Progressive Disclosure) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-4)' }}>
+          {/* Section Header & Expand/Collapse Toggle */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3
-              style={{
-                fontSize: 'var(--font-size-base)',
-                fontWeight: 'var(--font-weight-bold)',
-                color: 'var(--color-text-primary)',
-                margin: 0,
-              }}
-            >
-              {t('digitalSafety.freeBadge')} (7 Areas)
-            </h3>
-            <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
-              {t('digitalSafety.labels.answeredCount', {
-                answered: report.answeredQuestions,
-                total: report.totalQuestions,
-              })}
-            </span>
+            <div>
+              <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', margin: 0 }}>
+                Safety Self-Check Areas (7)
+              </h3>
+              <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', margin: '2px 0 0' }}>
+                {t('digitalSafety.labels.answeredCount', {
+                  answered: report.answeredQuestions,
+                  total: report.totalQuestions,
+                })}
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
+              <button
+                type="button"
+                onClick={() => handleExpandAll(true)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--color-trust-blue)',
+                  fontSize: 'var(--font-size-xs)',
+                  fontWeight: 'var(--font-weight-medium)',
+                  cursor: 'pointer',
+                  padding: '2px 6px',
+                }}
+              >
+                Expand all
+              </button>
+              <span style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)' }}>•</span>
+              <button
+                type="button"
+                onClick={() => handleExpandAll(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--color-text-muted)',
+                  fontSize: 'var(--font-size-xs)',
+                  cursor: 'pointer',
+                  padding: '2px 6px',
+                }}
+              >
+                Collapse all
+              </button>
+            </div>
           </div>
 
+          {/* 7 Compact, Scannable Category Rows */}
           {DIGITAL_SAFETY_CATEGORIES.map((category) => {
             const catEval = report.categoryEvaluations[category];
             const isExpanded = expandedCategories[category];
@@ -299,7 +296,7 @@ export const DigitalSafetyCheckupView: FC = () => {
                   transition: 'all var(--transition-fast)',
                 }}
               >
-                {/* Category Header Bar */}
+                {/* Scannable Header Row */}
                 <div
                   onClick={() => handleToggleCategory(category)}
                   style={{
@@ -308,6 +305,7 @@ export const DigitalSafetyCheckupView: FC = () => {
                     alignItems: 'center',
                     cursor: 'pointer',
                     userSelect: 'none',
+                    gap: 'var(--spacing-2)',
                   }}
                   role="button"
                   aria-expanded={isExpanded}
@@ -319,7 +317,7 @@ export const DigitalSafetyCheckupView: FC = () => {
                     }
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
                     <div
                       style={{
                         width: '32px',
@@ -339,7 +337,7 @@ export const DigitalSafetyCheckupView: FC = () => {
                     <div>
                       <h4
                         style={{
-                          fontSize: 'var(--font-size-base)',
+                          fontSize: 'var(--font-size-sm)',
                           fontWeight: 'var(--font-weight-bold)',
                           color: 'var(--color-text-primary)',
                           margin: 0,
@@ -350,12 +348,16 @@ export const DigitalSafetyCheckupView: FC = () => {
                       </h4>
                       <span
                         style={{
-                          fontSize: '11px',
-                          color: 'var(--color-text-muted)',
-                          fontWeight: 'var(--font-weight-medium)',
+                          fontSize: '11.5px',
+                          color: 'var(--color-text-secondary)',
                         }}
                       >
                         {t('digitalSafety.labels.questionCount', { count: questions.length })}
+                        {catEval.flaggedQuestions.length > 0 && (
+                          <span style={{ color: catEval.status === 'needsAttention' ? 'var(--color-muted-red)' : 'var(--color-warm-amber)', fontWeight: 'var(--font-weight-semibold)', marginLeft: '6px' }}>
+                            • {catEval.flaggedQuestions.length} flagged
+                          </span>
+                        )}
                       </span>
                     </div>
                   </div>
@@ -368,15 +370,15 @@ export const DigitalSafetyCheckupView: FC = () => {
                   </div>
                 </div>
 
-                {/* Question Items (Expanded) */}
+                {/* Progressive Disclosure: Question Details */}
                 {isExpanded && (
                   <div
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: 'var(--spacing-4)',
-                      marginTop: 'var(--spacing-4)',
-                      paddingTop: 'var(--spacing-4)',
+                      gap: 'var(--spacing-3)',
+                      marginTop: 'var(--spacing-3)',
+                      paddingTop: 'var(--spacing-3)',
                       borderTop: '1px solid var(--color-border-subtle)',
                     }}
                   >
@@ -407,7 +409,7 @@ export const DigitalSafetyCheckupView: FC = () => {
                           <div>
                             <h5
                               style={{
-                                fontSize: 'var(--font-size-sm)',
+                                fontSize: 'var(--font-size-xs)',
                                 fontWeight: 'var(--font-weight-bold)',
                                 color: 'var(--color-text-primary)',
                                 marginBottom: '2px',
@@ -418,9 +420,10 @@ export const DigitalSafetyCheckupView: FC = () => {
                             </h5>
                             <p
                               style={{
-                                fontSize: 'var(--font-size-xs)',
+                                fontSize: '11.5px',
                                 color: 'var(--color-text-secondary)',
                                 lineHeight: 1.4,
+                                margin: 0,
                               }}
                             >
                               {desc}
@@ -463,11 +466,11 @@ export const DigitalSafetyCheckupView: FC = () => {
                                 borderLeft: `3px solid ${isFlagged ? 'var(--color-warm-amber)' : 'var(--color-trust-blue)'}`,
                                 padding: 'var(--spacing-2) var(--spacing-3)',
                                 borderRadius: '0 var(--border-radius-xs) var(--border-radius-xs) 0',
-                                fontSize: 'var(--font-size-xs)',
-                                marginTop: '4px',
+                                fontSize: '11px',
+                                marginTop: '2px',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: '4px',
+                                gap: '3px',
                               }}
                             >
                               <div style={{ color: 'var(--color-text-primary)' }}>
@@ -494,138 +497,12 @@ export const DigitalSafetyCheckupView: FC = () => {
           })}
         </div>
 
-        {/* Right Column: Checkup Breakdown, DIGITAL SAFETY PLUS Showcase & Scale Pillars */}
+        {/* Right Column: Key Priorities & Digital Safety Plus */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-5)' }}>
-          {/* Checkup Overview Card */}
-          <Card variant="surface" padding="md" style={{ boxShadow: 'var(--shadow-xs)' }}>
-            <h3
-              style={{
-                fontSize: 'var(--font-size-base)',
-                fontWeight: 'var(--font-weight-bold)',
-                color: 'var(--color-text-primary)',
-                marginBottom: 'var(--spacing-2)',
-              }}
-            >
-              {t('digitalSafety.labels.summaryHeading')}
-            </h3>
-
-            {/* Answered Progress Pill */}
-            <div style={{ marginBottom: 'var(--spacing-3)' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  fontSize: 'var(--font-size-xs)',
-                  color: 'var(--color-text-secondary)',
-                  fontWeight: 'var(--font-weight-medium)',
-                  marginBottom: '4px',
-                }}
-              >
-                <span>
-                  {t('digitalSafety.labels.answeredCount', {
-                    answered: report.answeredQuestions,
-                    total: report.totalQuestions,
-                  })}
-                </span>
-                <span>
-                  {Math.round((report.answeredQuestions / report.totalQuestions) * 100)}%
-                </span>
-              </div>
-              <div
-                style={{
-                  height: '6px',
-                  borderRadius: 'var(--border-radius-full)',
-                  backgroundColor: 'var(--color-bg-subtle)',
-                  overflow: 'hidden',
-                }}
-              >
-                <div
-                  style={{
-                    height: '100%',
-                    width: `${(report.answeredQuestions / report.totalQuestions) * 100}%`,
-                    backgroundColor: 'var(--color-trust-blue)',
-                    borderRadius: 'var(--border-radius-full)',
-                    transition: 'width var(--transition-smooth)',
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Status Breakdown Grid */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: 'var(--spacing-2)',
-                fontSize: 'var(--font-size-xs)',
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: 'var(--color-bg-subtle)',
-                  padding: 'var(--spacing-2)',
-                  borderRadius: 'var(--border-radius-xs)',
-                }}
-              >
-                <div style={{ color: 'var(--color-text-muted)', fontSize: '11px' }}>
-                  {t('digitalSafety.status.looksConfigured')}
-                </div>
-                <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-safe-green)' }}>
-                  {report.statusSummary.looksConfigured}
-                </div>
-              </div>
-
-              <div
-                style={{
-                  backgroundColor: 'var(--color-bg-subtle)',
-                  padding: 'var(--spacing-2)',
-                  borderRadius: 'var(--border-radius-xs)',
-                }}
-              >
-                <div style={{ color: 'var(--color-text-muted)', fontSize: '11px' }}>
-                  {t('digitalSafety.status.reviewRecommended')}
-                </div>
-                <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-warm-amber)' }}>
-                  {report.statusSummary.reviewRecommended}
-                </div>
-              </div>
-
-              <div
-                style={{
-                  backgroundColor: 'var(--color-bg-subtle)',
-                  padding: 'var(--spacing-2)',
-                  borderRadius: 'var(--border-radius-xs)',
-                }}
-              >
-                <div style={{ color: 'var(--color-text-muted)', fontSize: '11px' }}>
-                  {t('digitalSafety.status.needsAttention')}
-                </div>
-                <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-muted-red)' }}>
-                  {report.statusSummary.needsAttention}
-                </div>
-              </div>
-
-              <div
-                style={{
-                  backgroundColor: 'var(--color-bg-subtle)',
-                  padding: 'var(--spacing-2)',
-                  borderRadius: 'var(--border-radius-xs)',
-                }}
-              >
-                <div style={{ color: 'var(--color-text-muted)', fontSize: '11px' }}>
-                  {t('digitalSafety.status.notChecked')}
-                </div>
-                <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-muted)' }}>
-                  {report.statusSummary.notChecked}
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          {/* Identified Recommendations List */}
-          {report.flaggedItems.length > 0 && (
-            <Card variant="default" padding="md" style={{ boxShadow: 'var(--shadow-xs)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)', marginBottom: 'var(--spacing-3)' }}>
+          {/* Top Priority Action Recommendations */}
+          {report.flaggedItems.length > 0 ? (
+            <Card variant="surface" padding="md" style={{ border: '1.5px solid var(--color-border-red)', boxShadow: 'var(--shadow-xs)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)', marginBottom: 'var(--spacing-2)' }}>
                 <AlertTriangleIcon size={16} />
                 <h3
                   style={{
@@ -651,22 +528,29 @@ export const DigitalSafetyCheckupView: FC = () => {
                       gap: '2px',
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span
-                        style={{
-                          fontSize: 'var(--font-size-xs)',
-                          fontWeight: 'var(--font-weight-bold)',
-                          color: 'var(--color-text-primary)',
-                        }}
-                      >
-                        {t(question.titleKey)}
-                      </span>
-                    </div>
-                    <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.4, margin: 0 }}>
+                    <span
+                      style={{
+                        fontSize: 'var(--font-size-xs)',
+                        fontWeight: 'var(--font-weight-bold)',
+                        color: 'var(--color-text-primary)',
+                      }}
+                    >
+                      {t(question.titleKey)}
+                    </span>
+                    <p style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)', lineHeight: 1.4, margin: 0 }}>
                       {t(question.actionKey)}
                     </p>
                   </div>
                 ))}
+              </div>
+            </Card>
+          ) : (
+            <Card variant="surface" padding="md" style={{ border: '1.5px solid var(--color-border-green)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)', color: 'var(--color-safe-green)' }}>
+                <CheckCircleIcon size={16} />
+                <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)' }}>
+                  {t('digitalSafety.labels.noFlaggedItems')}
+                </span>
               </div>
             </Card>
           )}
@@ -681,14 +565,14 @@ export const DigitalSafetyCheckupView: FC = () => {
               boxShadow: 'var(--shadow-sm)',
               display: 'flex',
               flexDirection: 'column',
-              gap: 'var(--spacing-4)',
+              gap: 'var(--spacing-3)',
             }}
           >
-            {/* Top Brand Header */}
+            {/* Header */}
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--spacing-1)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-trust-blue)' }}>
-                  <SparklesIcon size={18} />
+                  <SparklesIcon size={16} />
                   <span
                     style={{
                       fontSize: 'var(--font-size-xs)',
@@ -720,12 +604,12 @@ export const DigitalSafetyCheckupView: FC = () => {
               >
                 {t('digitalSafety.plus.subtitle')}
               </h4>
-              <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.45 }}>
+              <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.4, margin: 0 }}>
                 {t('digitalSafety.plus.intro')}
               </p>
             </div>
 
-            {/* FREE vs PLUS Value Comparison */}
+            {/* FREE vs PLUS Value Comparison Table */}
             <div
               style={{
                 display: 'grid',
@@ -738,7 +622,7 @@ export const DigitalSafetyCheckupView: FC = () => {
               }}
             >
               <div>
-                <strong style={{ color: 'var(--color-text-primary)', display: 'block', marginBottom: '4px' }}>
+                <strong style={{ color: 'var(--color-text-primary)', display: 'block', marginBottom: '3px' }}>
                   {t('digitalSafety.plus.freeTierTitle')}
                 </strong>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', color: 'var(--color-text-secondary)' }}>
@@ -750,7 +634,7 @@ export const DigitalSafetyCheckupView: FC = () => {
               </div>
 
               <div style={{ borderLeft: '1px solid var(--color-border-subtle)', paddingLeft: 'var(--spacing-2)' }}>
-                <strong style={{ color: 'var(--color-trust-blue)', display: 'block', marginBottom: '4px' }}>
+                <strong style={{ color: 'var(--color-trust-blue)', display: 'block', marginBottom: '3px' }}>
                   {t('digitalSafety.plus.plusTierTitle')}
                 </strong>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', color: 'var(--color-text-secondary)' }}>
@@ -763,13 +647,13 @@ export const DigitalSafetyCheckupView: FC = () => {
               </div>
             </div>
 
-            {/* Interactive Demo Features Tab Selector */}
+            {/* Interactive Demo Features Selector */}
             <div>
-              <div style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', marginBottom: 'var(--spacing-2)' }}>
-                {t('digitalSafety.plus.exploreCta')} (Select Demo Capability):
+              <div style={{ fontSize: '11.5px', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', marginBottom: 'var(--spacing-2)' }}>
+                {t('digitalSafety.plus.exploreCta')}:
               </div>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
                 {premiumFeaturesList.map(({ key, icon }) => {
                   const isSelected = selectedDemoFeature === key;
                   return (
@@ -778,7 +662,7 @@ export const DigitalSafetyCheckupView: FC = () => {
                       type="button"
                       onClick={() => setSelectedDemoFeature(key)}
                       style={{
-                        padding: '4px 9px',
+                        padding: '4px 8px',
                         borderRadius: 'var(--border-radius-sm)',
                         border: isSelected
                           ? '1.5px solid var(--color-trust-blue)'
@@ -789,14 +673,14 @@ export const DigitalSafetyCheckupView: FC = () => {
                         color: isSelected
                           ? 'var(--color-trust-blue)'
                           : 'var(--color-text-secondary)',
-                        fontSize: '11.5px',
+                        fontSize: '11px',
                         fontWeight: isSelected
                           ? 'var(--font-weight-semibold)'
                           : 'var(--font-weight-medium)',
                         cursor: 'pointer',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '5px',
+                        gap: '4px',
                         transition: 'all var(--transition-fast)',
                       }}
                     >
@@ -808,7 +692,7 @@ export const DigitalSafetyCheckupView: FC = () => {
               </div>
             </div>
 
-            {/* Selected Interactive Feature Synthetic Preview */}
+            {/* Selected Demo Feature Result Box */}
             <div
               style={{
                 backgroundColor: 'var(--color-bg-subtle)',
@@ -822,18 +706,16 @@ export const DigitalSafetyCheckupView: FC = () => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--spacing-2)' }}>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <h5
-                      style={{
-                        fontSize: 'var(--font-size-xs)',
-                        fontWeight: 'var(--font-weight-bold)',
-                        color: 'var(--color-text-primary)',
-                        margin: 0,
-                      }}
-                    >
-                      {t(`digitalSafety.plus.demoFeatures.${selectedDemoFeature}.resTitle`)}
-                    </h5>
-                  </div>
+                  <h5
+                    style={{
+                      fontSize: 'var(--font-size-xs)',
+                      fontWeight: 'var(--font-weight-bold)',
+                      color: 'var(--color-text-primary)',
+                      margin: 0,
+                    }}
+                  >
+                    {t(`digitalSafety.plus.demoFeatures.${selectedDemoFeature}.resTitle`)}
+                  </h5>
                   <p style={{ fontSize: '11px', color: 'var(--color-text-secondary)', margin: '2px 0 0' }}>
                     {t(`digitalSafety.plus.demoFeatures.${selectedDemoFeature}.sub`)}
                   </p>
@@ -845,9 +727,9 @@ export const DigitalSafetyCheckupView: FC = () => {
                 />
               </div>
 
-              {/* Dynamic Feature Synthetic Result Demonstration */}
+              {/* Dynamic Feature Synthetic Result Content */}
               {selectedDemoFeature === 'walkthrough' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: 'var(--font-size-xs)', marginTop: '4px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: 'var(--font-size-xs)', marginTop: '2px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-text-secondary)' }}>
                     <CheckCircleIcon size={13} style={{ color: 'var(--color-safe-green)', flexShrink: 0 }} />
                     <span>{t('digitalSafety.plus.demoFeatures.walkthrough.stat1')}</span>
@@ -861,7 +743,7 @@ export const DigitalSafetyCheckupView: FC = () => {
                     <span>{t('digitalSafety.plus.demoFeatures.walkthrough.stat3')}</span>
                   </div>
 
-                  <div style={{ marginTop: '4px' }}>
+                  <div style={{ marginTop: '3px' }}>
                     <button
                       type="button"
                       onClick={() => setSimulatedRevocationDone(!simulatedRevocationDone)}
@@ -891,45 +773,45 @@ export const DigitalSafetyCheckupView: FC = () => {
               )}
 
               {selectedDemoFeature === 'actionPlan' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: 'var(--font-size-xs)', marginTop: '4px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: 'var(--font-size-xs)', marginTop: '2px' }}>
                   <div style={{ padding: '4px 8px', backgroundColor: 'var(--color-bg-canvas)', borderRadius: 'var(--border-radius-xs)', borderLeft: '3px solid var(--color-muted-red)' }}>
-                    <strong style={{ color: 'var(--color-text-primary)' }}>Priority 1 (Immediate): </strong>
+                    <strong style={{ color: 'var(--color-text-primary)' }}>Priority 1: </strong>
                     <span style={{ color: 'var(--color-text-secondary)' }}>{t('digitalSafety.plus.demoFeatures.actionPlan.step1')}</span>
                   </div>
                   <div style={{ padding: '4px 8px', backgroundColor: 'var(--color-bg-canvas)', borderRadius: 'var(--border-radius-xs)', borderLeft: '3px solid var(--color-warm-amber)' }}>
-                    <strong style={{ color: 'var(--color-text-primary)' }}>Priority 2 (24 Hours): </strong>
+                    <strong style={{ color: 'var(--color-text-primary)' }}>Priority 2: </strong>
                     <span style={{ color: 'var(--color-text-secondary)' }}>{t('digitalSafety.plus.demoFeatures.actionPlan.step2')}</span>
                   </div>
                   <div style={{ padding: '4px 8px', backgroundColor: 'var(--color-bg-canvas)', borderRadius: 'var(--border-radius-xs)', borderLeft: '3px solid var(--color-safe-green)' }}>
-                    <strong style={{ color: 'var(--color-text-primary)' }}>Priority 3 (48 Hours): </strong>
+                    <strong style={{ color: 'var(--color-text-primary)' }}>Priority 3: </strong>
                     <span style={{ color: 'var(--color-text-secondary)' }}>{t('digitalSafety.plus.demoFeatures.actionPlan.step3')}</span>
                   </div>
                 </div>
               )}
 
               {selectedDemoFeature === 'education' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: 'var(--font-size-xs)', marginTop: '4px' }}>
-                  <div style={{ padding: '6px 8px', backgroundColor: 'var(--color-bg-canvas)', borderRadius: 'var(--border-radius-xs)', border: '1px solid var(--color-border-subtle)' }}>
-                    <div style={{ fontWeight: 'var(--font-weight-bold)', color: 'var(--color-trust-blue)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: 'var(--font-size-xs)', marginTop: '2px' }}>
+                  <div style={{ padding: '5px 8px', backgroundColor: 'var(--color-bg-canvas)', borderRadius: 'var(--border-radius-xs)', border: '1px solid var(--color-border-subtle)' }}>
+                    <div style={{ fontWeight: 'var(--font-weight-bold)', color: 'var(--color-trust-blue)', fontSize: '11.5px' }}>
                       📖 {t('digitalSafety.plus.demoFeatures.education.mod1Title')}
                     </div>
-                    <div style={{ color: 'var(--color-text-secondary)', fontSize: '11px', marginTop: '2px' }}>
+                    <div style={{ color: 'var(--color-text-secondary)', fontSize: '11px' }}>
                       {t('digitalSafety.plus.demoFeatures.education.mod1Desc')}
                     </div>
                   </div>
-                  <div style={{ padding: '6px 8px', backgroundColor: 'var(--color-bg-canvas)', borderRadius: 'var(--border-radius-xs)', border: '1px solid var(--color-border-subtle)' }}>
-                    <div style={{ fontWeight: 'var(--font-weight-bold)', color: 'var(--color-trust-blue)' }}>
+                  <div style={{ padding: '5px 8px', backgroundColor: 'var(--color-bg-canvas)', borderRadius: 'var(--border-radius-xs)', border: '1px solid var(--color-border-subtle)' }}>
+                    <div style={{ fontWeight: 'var(--font-weight-bold)', color: 'var(--color-trust-blue)', fontSize: '11.5px' }}>
                       📍 {t('digitalSafety.plus.demoFeatures.education.mod2Title')}
                     </div>
-                    <div style={{ color: 'var(--color-text-secondary)', fontSize: '11px', marginTop: '2px' }}>
+                    <div style={{ color: 'var(--color-text-secondary)', fontSize: '11px' }}>
                       {t('digitalSafety.plus.demoFeatures.education.mod2Desc')}
                     </div>
                   </div>
-                  <div style={{ padding: '6px 8px', backgroundColor: 'var(--color-bg-canvas)', borderRadius: 'var(--border-radius-xs)', border: '1px solid var(--color-border-subtle)' }}>
-                    <div style={{ fontWeight: 'var(--font-weight-bold)', color: 'var(--color-trust-blue)' }}>
+                  <div style={{ padding: '5px 8px', backgroundColor: 'var(--color-bg-canvas)', borderRadius: 'var(--border-radius-xs)', border: '1px solid var(--color-border-subtle)' }}>
+                    <div style={{ fontWeight: 'var(--font-weight-bold)', color: 'var(--color-trust-blue)', fontSize: '11.5px' }}>
                       🔑 {t('digitalSafety.plus.demoFeatures.education.mod3Title')}
                     </div>
-                    <div style={{ color: 'var(--color-text-secondary)', fontSize: '11px', marginTop: '2px' }}>
+                    <div style={{ color: 'var(--color-text-secondary)', fontSize: '11px' }}>
                       {t('digitalSafety.plus.demoFeatures.education.mod3Desc')}
                     </div>
                   </div>
@@ -937,7 +819,7 @@ export const DigitalSafetyCheckupView: FC = () => {
               )}
 
               {selectedDemoFeature === 'periodic' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: 'var(--font-size-xs)', marginTop: '4px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: 'var(--font-size-xs)', marginTop: '2px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-text-secondary)' }}>
                     <CheckCircleIcon size={13} style={{ color: 'var(--color-safe-green)', flexShrink: 0 }} />
                     <span>{t('digitalSafety.plus.demoFeatures.periodic.p1')}</span>
@@ -954,7 +836,7 @@ export const DigitalSafetyCheckupView: FC = () => {
               )}
 
               {selectedDemoFeature === 'continuity' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: 'var(--font-size-xs)', marginTop: '4px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: 'var(--font-size-xs)', marginTop: '2px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-text-secondary)' }}>
                     <CheckCircleIcon size={13} style={{ color: 'var(--color-safe-green)', flexShrink: 0 }} />
                     <span>{t('digitalSafety.plus.demoFeatures.continuity.c1')}</span>
@@ -975,7 +857,7 @@ export const DigitalSafetyCheckupView: FC = () => {
                   fontSize: '11px',
                   color: 'var(--color-text-muted)',
                   fontStyle: 'italic',
-                  marginTop: '4px',
+                  marginTop: '2px',
                 }}
               >
                 {t('digitalSafety.plus.syntheticResultNotice')}
@@ -997,7 +879,7 @@ export const DigitalSafetyCheckupView: FC = () => {
 
           {/* Business Pillars: WHY THIS CAN SCALE */}
           <Card variant="neutral" padding="md">
-            <div style={{ marginBottom: 'var(--spacing-3)' }}>
+            <div style={{ marginBottom: 'var(--spacing-2)' }}>
               <h4
                 style={{
                   fontSize: 'var(--font-size-xs)',
@@ -1010,7 +892,7 @@ export const DigitalSafetyCheckupView: FC = () => {
               >
                 {t('digitalSafety.scale.title')}
               </h4>
-              <p style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
+              <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', margin: 0 }}>
                 {t('digitalSafety.scale.subtitle')}
               </p>
             </div>
@@ -1018,13 +900,13 @@ export const DigitalSafetyCheckupView: FC = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-2)', fontSize: 'var(--font-size-xs)' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
                 <span style={{ color: 'var(--color-trust-blue)', marginTop: '1px' }}>
-                  <SparklesIcon size={14} />
+                  <SparklesIcon size={13} />
                 </span>
                 <div>
                   <strong style={{ color: 'var(--color-text-primary)' }}>
                     {t('digitalSafety.scale.consumerTitle')}:{' '}
                   </strong>
-                  <span style={{ color: 'var(--color-text-secondary)' }}>
+                  <span style={{ color: 'var(--color-text-secondary)', fontSize: '11.5px' }}>
                     {t('digitalSafety.scale.consumerDesc')}
                   </span>
                 </div>
@@ -1032,13 +914,13 @@ export const DigitalSafetyCheckupView: FC = () => {
 
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
                 <span style={{ color: 'var(--color-safe-green)', marginTop: '1px' }}>
-                  <GlobeIcon size={14} />
+                  <GlobeIcon size={13} />
                 </span>
                 <div>
                   <strong style={{ color: 'var(--color-text-primary)' }}>
                     {t('digitalSafety.scale.institutionalTitle')}:{' '}
                   </strong>
-                  <span style={{ color: 'var(--color-text-secondary)' }}>
+                  <span style={{ color: 'var(--color-text-secondary)', fontSize: '11.5px' }}>
                     {t('digitalSafety.scale.institutionalDesc')}
                   </span>
                 </div>
@@ -1046,13 +928,13 @@ export const DigitalSafetyCheckupView: FC = () => {
 
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
                 <span style={{ color: 'var(--color-warm-amber)', marginTop: '1px' }}>
-                  <BarChartIcon size={14} />
+                  <BarChartIcon size={13} />
                 </span>
                 <div>
                   <strong style={{ color: 'var(--color-text-primary)' }}>
                     {t('digitalSafety.scale.observatoryTitle')}:{' '}
                   </strong>
-                  <span style={{ color: 'var(--color-text-secondary)' }}>
+                  <span style={{ color: 'var(--color-text-secondary)', fontSize: '11.5px' }}>
                     {t('digitalSafety.scale.observatoryDesc')}
                   </span>
                 </div>

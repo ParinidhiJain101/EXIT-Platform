@@ -80,42 +80,40 @@ export const ConsentGatewayView: FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-6)' }}>
-      {/* Header */}
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)', marginBottom: 'var(--spacing-1)' }}>
-          <h2
-            style={{
-              fontSize: 'var(--font-size-2xl)',
-              fontWeight: 'var(--font-weight-bold)',
-              color: 'var(--color-text-primary)',
-              letterSpacing: '-0.02em',
-              margin: 0,
-            }}
-          >
-            {t('consent.title')}
-          </h2>
+      {/* 1. Hero Header */}
+      <div className="page-hero-header" style={{ marginBottom: 'var(--spacing-3)' }}>
+        <div className="page-hero-top">
+          <div className="page-hero-title-group">
+            <h2 className="page-hero-title">{t('consent.title')}</h2>
+            <StatusChip
+              label={consentState.optedIn ? t('consent.optedInBadge') : t('consent.privateBadge')}
+              variant={consentState.optedIn ? 'warning' : 'safe'}
+              size="xs"
+              icon={consentState.optedIn ? <ShieldCheckIcon size={12} /> : <LockIcon size={12} />}
+              withDot
+            />
+          </div>
+
           <StatusChip
-            label={consentState.optedIn ? t('consent.optedInBadge') : t('consent.privateBadge')}
-            variant={consentState.optedIn ? 'warning' : 'safe'}
+            label={t('safetyShell.memoryBadge')}
+            variant="memory"
             size="sm"
-            icon={consentState.optedIn ? <ShieldCheckIcon size={12} /> : <LockIcon size={12} />}
+            icon={<ShieldCheckIcon size={13} />}
             withDot
           />
         </div>
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-sm)' }}>
-          {t('consent.subtitle')}
-        </p>
+        <p className="page-hero-subtitle">{t('consent.subtitle')}</p>
       </div>
 
-      {/* One-Way Airlock UX Visualization */}
-      <Card variant="surface" padding="md">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 'var(--spacing-2)' }}>
+      {/* 2. One-Way Airlock UX Visualization */}
+      <Card variant="surface" padding="md" style={{ boxShadow: 'var(--shadow-xs)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 'var(--spacing-1)' }}>
           <ShieldIcon size={18} />
-          <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)' }}>
+          <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', margin: 0 }}>
             {t('consent.airlockTitle')}
           </h3>
         </div>
-        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-4)', lineHeight: 1.45 }}>
+        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-3)', lineHeight: 1.45 }}>
           {t('consent.airlockDescription')}
         </p>
 
@@ -134,10 +132,8 @@ export const ConsentGatewayView: FC = () => {
               style={{
                 backgroundColor: 'var(--color-bg-canvas)',
                 padding: 'var(--spacing-3)',
-                borderRadius: 'var(--border-radius-md)',
+                borderRadius: 'var(--border-radius-sm)',
                 border: '1px solid var(--color-border-subtle)',
-                boxShadow: 'var(--shadow-xs)',
-                position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
@@ -171,7 +167,7 @@ export const ConsentGatewayView: FC = () => {
                   </span>
                 )}
               </div>
-              <div style={{ color: 'var(--color-text-secondary)', fontSize: '12px', marginTop: '4px', paddingLeft: '28px' }}>
+              <div style={{ color: 'var(--color-text-secondary)', fontSize: '11.5px', marginTop: '3px', paddingLeft: '28px' }}>
                 {stg.sub}
               </div>
             </div>
@@ -179,21 +175,21 @@ export const ConsentGatewayView: FC = () => {
         </div>
       </Card>
 
-      {/* Allowed Synthetic Fields vs Forbidden Fields Comparison */}
+      {/* 3. Allowed Synthetic Fields vs Forbidden Fields Comparison */}
       <div className="responsive-grid-2col">
         {/* Allowed Granular Fields */}
         <Card variant="default" padding="md" style={{ boxShadow: 'var(--shadow-xs)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--spacing-2)' }}>
-            <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)' }}>
+            <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', margin: 0 }}>
               {t('consent.allowedFieldsHeading')}
             </h3>
             <StatusChip label={t('consent.explicitOptIn')} variant="safe" size="xs" withDot />
           </div>
-          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--spacing-3)' }}>
+          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-3)', lineHeight: 1.4 }}>
             {t('consent.allowedFieldsSub')}
           </p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-3)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-2)' }}>
             {[
               { key: 'shareHarmCategory' as const, titleKey: 'consent.fieldHarmCategoryTitle', descKey: 'consent.fieldHarmCategoryDesc' },
               { key: 'shareBroadRegion' as const, titleKey: 'consent.fieldBroadRegionTitle', descKey: 'consent.fieldBroadRegionDesc' },
@@ -212,7 +208,7 @@ export const ConsentGatewayView: FC = () => {
                     cursor: 'pointer',
                     padding: 'var(--spacing-2) var(--spacing-3)',
                     borderRadius: 'var(--border-radius-sm)',
-                    backgroundColor: isChecked ? 'var(--color-soft-blue)' : 'transparent',
+                    backgroundColor: isChecked ? 'var(--color-soft-blue)' : 'var(--color-bg-subtle)',
                     border: `1px solid ${isChecked ? 'var(--color-border-blue)' : 'transparent'}`,
                     transition: 'all var(--transition-fast)',
                   }}
@@ -262,12 +258,12 @@ export const ConsentGatewayView: FC = () => {
         {/* Strictly Forbidden Fields */}
         <Card variant="neutral" padding="md">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--spacing-2)' }}>
-            <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-muted-red)' }}>
+            <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-muted-red)', margin: 0 }}>
               {t('consent.forbiddenFieldsHeading')}
             </h3>
             <StatusChip label={t('consent.neverCollected')} variant="essential" size="xs" withDot />
           </div>
-          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--spacing-3)' }}>
+          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-3)', lineHeight: 1.4 }}>
             {t('consent.forbiddenFieldsSub')}
           </p>
 
@@ -280,7 +276,7 @@ export const ConsentGatewayView: FC = () => {
               t('consent.forbidden5'),
             ].map((text, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                <span style={{ color: 'var(--color-muted-red)', marginTop: '2px' }}>
+                <span style={{ color: 'var(--color-muted-red)', marginTop: '2px', flexShrink: 0 }}>
                   <XIcon size={13} />
                 </span>
                 <span style={{ lineHeight: 1.4 }}>{text}</span>
@@ -293,7 +289,7 @@ export const ConsentGatewayView: FC = () => {
       {/* Status Feedback Callout */}
       {feedbackMsg && (
         <Card variant="highlight" padding="sm">
-          <p style={{ fontSize: 'var(--font-size-xs)', color: '#065F46', fontWeight: 'var(--font-weight-semibold)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <p style={{ fontSize: 'var(--font-size-xs)', color: '#065F46', fontWeight: 'var(--font-weight-semibold)', display: 'flex', alignItems: 'center', gap: '6px', margin: 0 }}>
             <CheckCircleIcon size={14} />
             <span>{feedbackMsg}</span>
           </p>

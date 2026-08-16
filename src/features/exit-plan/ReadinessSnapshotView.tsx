@@ -38,13 +38,22 @@ const CATEGORY_ICONS: Record<string, ReactNode> = {
   work: <WorkIcon size={18} />,
 };
 
+const STATUS_PRIORITY: Record<ReadinessStatusType, number> = {
+  'Needs attention': 1,
+  'Partially prepared': 2,
+  Prepared: 3,
+  'Not yet planned': 4,
+  Optional: 5,
+};
+
 export const ReadinessSnapshotView: FC = () => {
   const { t } = useTranslation();
   const { planNeeds, deviceSafety } = useSession();
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
 
   const snapshotItems = useMemo(() => {
-    return evaluateReadiness(planNeeds, deviceSafety);
+    const raw = evaluateReadiness(planNeeds, deviceSafety);
+    return raw.sort((a, b) => STATUS_PRIORITY[a.status] - STATUS_PRIORITY[b.status]);
   }, [planNeeds, deviceSafety]);
 
   const filteredItems = useMemo(() => {
