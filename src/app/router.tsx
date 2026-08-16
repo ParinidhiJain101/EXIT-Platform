@@ -1,3 +1,4 @@
+import { ObservatoryDashboardView } from '../features/observatory-demo/ObservatoryDashboardView';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import { ExitPlanHome } from '../features/exit-plan/ExitPlanHome';
@@ -28,7 +29,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'observatory',
-        element: <div>LIVEGENDER Dashboard (Coming Soon)</div>,
+        element: <ObservatoryDashboardView />,
       },
     ],
   },

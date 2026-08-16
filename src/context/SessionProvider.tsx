@@ -1,18 +1,6 @@
 /**
- * SessionContext — application-wide session state.
- *
- * Storage policy for this MVP:
- *   - Default and only active mode: 'memory' (MemoryStorageService).
- *     No survivor data is written to localStorage or any persistent store.
- *
- * Local persistence is architecturally ready:
- *   - EncryptedLocalStorageService (AES-GCM, PBKDF2) exists in
- *     src/services/storage/encryptedLocalStorage.ts.
- *   - Activating it requires a passphrase collection UX (e.g. a PIN screen)
- *     which is deferred to a later phase.
- *   - The StorageMode type is extended at that point; do NOT add a
- *     'local_encrypted' mode here until the passphrase UX is implemented
- *     and the implementation has been reviewed.
+ * SessionContext — application-wide in-memory session state.
+ * Invariant: Storage mode is memory-only; no survivor data is persisted to localStorage.
  */
 
 import { useState, useEffect } from 'react';
