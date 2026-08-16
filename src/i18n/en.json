@@ -518,6 +518,10 @@
       "answeredCount": "{{answered}} of {{total}} questions completed",
       "summaryHeading": "Checkup Overview",
       "resetAnswers": "Reset Checkup",
+      "loadPreset": "Load Demo Scenario",
+      "clearPreset": "Reset to Blank",
+      "demoBadge": "Synthetic Demo Mode",
+      "demoScenarioActive": "Synthetic Demo Scenario Active",
       "questionCount": "{{count}} questions",
       "categoryAssessment": "Category Status"
     },
@@ -632,22 +636,76 @@
       }
     },
     "plus": {
-      "badge": "Coming Later",
+      "badge": "Premium Demo",
       "title": "DIGITAL SAFETY PLUS",
       "subtitle": "Advanced digital-security guidance for ongoing protection.",
       "intro": "Built for people who want ongoing digital-safety support.",
-      "futureNotice": "Premium guidance will be introduced in a future release.",
+      "prototypeNotice": "Premium capabilities are demonstrated with synthetic data in this prototype.",
+      "exploreCta": "Explore Premium Demo",
+      "activeDemoLabel": "Interactive Feature Preview",
+      "syntheticResultNotice": "Example result based on synthetic demonstration data.",
       "freeTierTitle": "FREE — Digital Safety Checkup",
-      "freeTier1": "Self-check across 7 critical safety areas",
+      "freeTier1": "7-area safety self-check",
       "freeTier2": "Deterministic explainable guidance",
-      "freeTier3": "Targeted action recommendations",
-      "freeTier4": "100% in-memory private session",
+      "freeTier3": "Recommended action items",
+      "freeTier4": "Private in-memory session",
       "plusTierTitle": "PLUS — Digital Safety Plus",
-      "plusTier1": "Guided account-security walkthroughs",
-      "plusTier2": "Periodic digital safety checkups",
-      "plusTier3": "Personalized digital-security action plans",
-      "plusTier4": "Extended digital-safety education modules",
-      "plusTier5": "Deeper continuity and relocation planning tools"
+      "plusTier1": "Guided security workflows",
+      "plusTier2": "Recurring safety checkups",
+      "plusTier3": "Personalized action planning",
+      "plusTier4": "Advanced educational content",
+      "plusTier5": "Deeper safety continuity tools",
+      "demoFeatures": {
+        "walkthrough": {
+          "title": "Guided Account-Security Walkthrough",
+          "tag": "Interactive Workflow",
+          "sub": "Step-by-step interactive workflow auditing active logins, 2FA configurations, and connected third-party apps.",
+          "resTitle": "Synthetic Walkthrough Audit Summary",
+          "stat1": "3 account sessions reviewed",
+          "stat2": "1 session recommended for review (iPad on secondary network)",
+          "stat3": "2 recovery methods verified under user control",
+          "actionHint": "Simulated Action: One-click remote sign-out of unverified tablet session."
+        },
+        "actionPlan": {
+          "title": "Personalized Action Plan",
+          "tag": "Priority Roadmap",
+          "sub": "A prioritized, sequenced roadmap dynamically generated from your self-check answers.",
+          "resTitle": "Synthetic Personalized Priority Plan",
+          "step1": "1. Review and disable live location sharing in navigation apps",
+          "step2": "2. Sign out of unfamiliar secondary account sessions",
+          "step3": "3. Confirm private recovery email ownership and attach an authenticator app"
+        },
+        "education": {
+          "title": "Digital Safety Education",
+          "tag": "Expert Modules",
+          "sub": "Bite-sized, trauma-informed digital security guides designed for survivors and advocates.",
+          "resTitle": "Featured Educational Modules",
+          "mod1Title": "Secure Your Primary Account",
+          "mod1Desc": "Master password habits, authenticator app migration, and emergency backup codes.",
+          "mod2Title": "Review Location Sharing",
+          "mod2Desc": "Audit Apple Find My, Google Location Sharing, and physical Bluetooth tracker alerts.",
+          "mod3Title": "Protect Recovery Methods",
+          "mod3Desc": "Prevent account takeover by isolating recovery email and telephone ownership."
+        },
+        "periodic": {
+          "title": "Periodic Safety Checkup Concept",
+          "tag": "Cadence & Drift",
+          "sub": "Scheduled recurring checkups that detect configuration drift or newly linked devices.",
+          "resTitle": "Synthetic Cadence & Drift Simulation",
+          "p1": "Automated 30-day reassessment cadence configured",
+          "p2": "Configuration drift detection: Alert triggered on new cloud backup connection",
+          "p3": "Discreet scheduled audit notification via Quiet Mode channel"
+        },
+        "continuity": {
+          "title": "Extended Safety Continuity Tools",
+          "tag": "Relocation Readiness",
+          "sub": "Specialized protocols for digital device transitions, emergency packing, and safe document handoff.",
+          "resTitle": "Synthetic Continuity Checklist",
+          "c1": "Digital emergency pack export checklist prepared",
+          "c2": "Confidential document handoff protocol for legal aid representatives",
+          "c3": "Relocation device wipe and factory-reset verification playbook"
+        }
+      }
     },
     "scale": {
       "title": "WHY THIS CAN SCALE",

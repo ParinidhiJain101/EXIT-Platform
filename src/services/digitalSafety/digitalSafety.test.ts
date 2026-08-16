@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   DIGITAL_SAFETY_CATEGORIES,
   DIGITAL_SAFETY_QUESTIONS,
+  SYNTHETIC_PRESET_ANSWERS,
 } from './digitalSafetyQuestions';
 import { evaluateDigitalSafetyCheckup } from './digitalSafetyService';
 import type { SelfCheckAnswer } from './digitalSafetyTypes';
@@ -98,5 +99,22 @@ describe('Digital Safety Checkup Engine', () => {
       expect(q.whyMattersKey).toBeTruthy();
       expect(q.actionKey).toBeTruthy();
     }
+  });
+
+  it('correctly evaluates the preloaded synthetic demonstration scenario', () => {
+    const report = evaluateDigitalSafetyCheckup(SYNTHETIC_PRESET_ANSWERS);
+
+    expect(report.categoryEvaluations.device.status).toBe('looksConfigured');
+    expect(report.categoryEvaluations.accounts.status).toBe('reviewRecommended');
+    expect(report.categoryEvaluations.location.status).toBe('needsAttention');
+    expect(report.categoryEvaluations.communication.status).toBe('looksConfigured');
+    expect(report.categoryEvaluations.social.status).toBe('reviewRecommended');
+    expect(report.categoryEvaluations.cloud.status).toBe('looksConfigured');
+    expect(report.categoryEvaluations.recovery.status).toBe('needsAttention');
+
+    expect(report.statusSummary.looksConfigured).toBe(3); // Device, Communication, Cloud
+    expect(report.statusSummary.reviewRecommended).toBe(2); // Accounts, Social
+    expect(report.statusSummary.needsAttention).toBe(2); // Location, Recovery
+    expect(report.statusSummary.notChecked).toBe(0);
   });
 });

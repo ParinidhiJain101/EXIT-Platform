@@ -205,3 +205,38 @@ export const DIGITAL_SAFETY_QUESTIONS: DigitalSafetyQuestion[] = [
     severity: 'reviewRecommended',
   },
 ];
+
+export const SYNTHETIC_PRESET_ANSWERS: Record<string, 'yes' | 'no' | 'unsure'> = {
+  /* 1. Device — Looks configured */
+  device_shared: 'no',
+  device_lock_notifications: 'no',
+  device_unfamiliar_apps: 'no',
+
+  /* 2. Accounts — Review recommended */
+  accounts_unfamiliar_signed_in: 'no',
+  accounts_recovery_controlled: 'yes',
+  accounts_unknown_sessions: 'yes',
+
+  /* 3. Location — Needs attention */
+  location_live_shared: 'yes',
+  location_connected_shared_accounts: 'no',
+
+  /* 4. Communication — Looks configured */
+  comm_message_previews: 'no',
+  comm_shared_channel: 'no',
+
+  /* 5. Social — Review recommended */
+  social_unfamiliar_sessions: 'yes',
+  social_recovery_access: 'no',
+  social_privacy_settings: 'yes',
+
+  /* 6. Cloud — Looks configured */
+  cloud_shared_folders: 'no',
+  cloud_uncontrolled_backups: 'no',
+
+  /* 7. Recovery — Needs attention */
+  recovery_email_control: 'no',
+  recovery_phone_control: 'yes',
+  recovery_trusted_devices: 'no',
+};
+
