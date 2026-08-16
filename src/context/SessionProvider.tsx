@@ -23,6 +23,7 @@ import {
   type DeviceSafety,
   type StorageMode,
 } from './SessionContext';
+import type { PlanNeeds } from '../api/types';
 
 import { memoryStorage } from '../services/storage/memoryStorage';
 
@@ -32,12 +33,24 @@ const initialDeviceSafety: DeviceSafety = {
   accountsOrLocationShared: null,
 };
 
+const initialPlanNeeds: PlanNeeds = {
+  communicationSafety: false,
+  documents: false,
+  money: false,
+  housing: false,
+  children: false,
+  health: false,
+  legal: false,
+  digitalSafety: false,
+  work: false,
+};
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [neutralMode, setNeutralMode] = useState<boolean>(false);
   const [quietMode, setQuietMode] = useState<boolean>(false);
   const [immediateDanger, setImmediateDanger] = useState<boolean | null>(null);
   const [deviceSafety, setDeviceSafetyState] = useState<DeviceSafety>(initialDeviceSafety);
+  const [planNeeds, setPlanNeedsState] = useState<PlanNeeds>(initialPlanNeeds);
   const [onboardingComplete, setOnboardingComplete] = useState<boolean>(false);
 
   // MVP: memory-only storage. No data leaves the browser tab.
@@ -58,6 +71,13 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const setPlanNeeds = (needs: Partial<PlanNeeds>) => {
+    setPlanNeedsState((prev) => ({
+      ...prev,
+      ...needs,
+    }));
+  };
+
   const completeOnboarding = () => {
     setOnboardingComplete(true);
     // Persist only within the in-memory store; nothing leaves the tab
@@ -67,6 +87,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const resetOnboarding = () => {
     setOnboardingComplete(false);
     setDeviceSafetyState(initialDeviceSafety);
+    setPlanNeedsState(initialPlanNeeds);
     setImmediateDanger(null);
   };
 
@@ -77,6 +98,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setQuietMode(false);
     setImmediateDanger(null);
     setDeviceSafetyState(initialDeviceSafety);
+    setPlanNeedsState(initialPlanNeeds);
     setOnboardingComplete(false);
   };
 
@@ -114,11 +136,13 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         quietMode,
         immediateDanger,
         deviceSafety,
+        planNeeds,
         onboardingComplete,
         setNeutralMode,
         setQuietMode,
         setImmediateDanger,
         setDeviceSafety,
+        setPlanNeeds,
         completeOnboarding,
         resetOnboarding,
         clearSession,

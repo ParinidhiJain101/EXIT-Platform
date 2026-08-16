@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
+import { ExitPlanHome } from '../features/exit-plan/ExitPlanHome';
 
 export const router = createBrowserRouter([
   {
@@ -8,20 +9,20 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <div>Home / Plan Onboarding</div>
+        element: <ExitPlanHome />,
       },
       {
         path: 'directory',
-        element: <div>Service Directory</div>
+        element: <div>Service Directory</div>,
       },
       {
         path: 'vault',
-        element: <div>AegisVault Demo</div>
+        element: <div>AegisVault Demo</div>,
       },
       {
         path: 'observatory',
-        element: <div>LIVEGENDER Dashboard</div>
-      }
-    ]
-  }
+        element: <div>LIVEGENDER Dashboard</div>,
+      },
+    ],
+  },
 ]);

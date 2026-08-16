@@ -4,16 +4,144 @@
     "continue": "Continue",
     "back": "Back",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "edit": "Edit selections",
+    "reset": "Reset",
+    "selected": "Selected",
+    "notSelected": "Not selected",
+    "yes": "Yes",
+    "no": "No",
+    "unsure": "Unsure",
+    "step": "Step {{current}} of {{total}}"
   },
   "safetyShell": {
+    "brandName": "EXIT",
+    "neutralBrandName": "Personal Checklist",
     "quickExit": "Quick Exit",
+    "quickExitAria": "Quick Exit — close this session and open a neutral page immediately",
+    "quickExitHint": "Press ESC twice to exit quickly",
     "clearSession": "Clear Session",
-    "neutralMode": "Neutral Mode"
+    "clearSessionConfirm": "This will clear all in-memory information immediately. Continue?",
+    "neutralMode": "Neutral Mode",
+    "neutralModeAria": "Toggle neutral interface mode for discretion",
+    "quietMode": "Quiet Mode",
+    "quietModeActive": "Quiet Mode Active",
+    "quietModeOff": "Quiet Mode Off",
+    "memoryBadge": "Memory Only",
+    "memoryTooltip": "No data is saved to storage or sent over the network"
+  },
+  "navigation": {
+    "plan": "Plan",
+    "directory": "Directory",
+    "vault": "AegisVault",
+    "observatory": "LIVEGENDER"
   },
   "onboarding": {
-    "title": "Welcome",
-    "useWithoutSaving": "Use without saving",
-    "saveLocally": "Save locally (encrypted)"
+    "badge": "Private Safety Planning",
+    "title": "Private safety and independence preparation",
+    "subtitle": "Take your time. You are in control of every step. No account or personal identification is required.",
+    
+    "privacyStep": {
+      "title": "Privacy & session",
+      "description": "Your safety and privacy come first. EXIT runs completely in your browser's temporary memory.",
+      "memoryOptionTitle": "Use without saving",
+      "memoryOptionBadge": "Default & Active",
+      "memoryOptionDesc": "Runs entirely in temporary memory. When you close this tab or tap Quick Exit, all information is instantly erased.",
+      "localOptionTitle": "Save locally — Coming later",
+      "localOptionBadge": "Deferred",
+      "localOptionDesc": "Secure, PIN/passphrase-protected encrypted local saving is planned for a future release. For your safety, this milestone continues in memory-only mode.",
+      "privacyGuaranteesTitle": "Our privacy commitments",
+      "guarantee1": "No account creation, email, or phone number required.",
+      "guarantee2": "No GPS, contacts, camera, or background permissions requested.",
+      "guarantee3": "Zero survivor data leaves your device tab."
+    },
+
+    "deviceSafetyStep": {
+      "title": "Device & communication safety",
+      "description": "Answering these quick questions helps us configure safety settings like Quiet Mode for your device.",
+      "q1Title": "Is it safe to receive notifications on this device?",
+      "q1Desc": "If someone else checks your lock screen or phone, notifications might be seen.",
+      "q2Title": "Does anyone else have access to this device?",
+      "q2Desc": "Such as knowing your passcode, using your tablet, or looking at your browser history.",
+      "q3Title": "Are any accounts or location shared with someone else?",
+      "q3Desc": "Such as shared Apple/Google Family accounts, find-my-device, or shared email logins.",
+      "quietModeAutoNoticeTitle": "Quiet Mode Recommended",
+      "quietModeAutoNoticeDesc": "Because your device or accounts may be accessed by others, Quiet Mode has been enabled to prevent alerts and keep the interface discreet.",
+      "quietModeManualToggleLabel": "Enable Quiet Mode for this session",
+      "quietModeManualToggleDesc": "Suppresses all popups and subtle notifications."
+    },
+
+    "needsStep": {
+      "title": "What areas would you like to prepare for?",
+      "description": "Select only what is relevant to your situation right now. You can choose one, multiple, or skip.",
+      "categories": {
+        "communicationSafety": {
+          "title": "Communication safety",
+          "description": "Safe phone habits, secure messaging, and identifying trusted contacts if safe."
+        },
+        "documents": {
+          "title": "Essential documents",
+          "description": "Identity cards, birth certificates, deeds, bank records, and document checklists."
+        },
+        "money": {
+          "title": "Money & financial independence",
+          "description": "Independent emergency funds, private bank access, and income continuity."
+        },
+        "housing": {
+          "title": "Safe accommodation",
+          "description": "Temporary housing options, safe shelter pathways, and transition considerations."
+        },
+        "children": {
+          "title": "Children & dependents",
+          "description": "Childcare essentials, school continuity, dependent health, and custody considerations."
+        },
+        "health": {
+          "title": "Health & medical care",
+          "description": "Prescriptions, chronic care medications, urgent healthcare, and counselling pathways."
+        },
+        "legal": {
+          "title": "Legal information",
+          "description": "Understanding protection orders, legal aid resources, and formal rights pathways."
+        },
+        "digitalSafety": {
+          "title": "Digital & account security",
+          "description": "Reviewing account logins, location sharing, spyware checks, and password safety."
+        },
+        "work": {
+          "title": "Work & livelihood",
+          "description": "Workplace discretion, independent salary accounts, and employment safety."
+        }
+      }
+    },
+
+    "summaryStep": {
+      "title": "Ready to begin your private plan",
+      "description": "Here is a summary of your session setup. All information remains in temporary memory.",
+      "storageStatusLabel": "Session storage",
+      "storageStatusValue": "In-memory only (zero trace upon tab close)",
+      "quietModeStatusLabel": "Quiet mode",
+      "quietModeStatusEnabled": "Active (discreet interface)",
+      "quietModeStatusDisabled": "Standard mode",
+      "selectedNeedsLabel": "Selected planning areas",
+      "noNeedsSelected": "No specific areas selected yet (you can add areas anytime)",
+      "needsCount_one": "{{count}} area selected",
+      "needsCount_other": "{{count}} areas selected",
+      "startPlanButton": "Start Private Plan"
+    }
+  },
+
+  "planDashboard": {
+    "title": "Your Private Safety Plan",
+    "subtitle": "Active in-memory session. Nothing is saved to disk or network.",
+    "areasSelectedHeading": "Selected Planning Areas ({{count}})",
+    "noAreasSelectedHeading": "No specific areas selected",
+    "noAreasSelectedDesc": "You can add or update planning areas at any time.",
+    "deviceSafetyHeading": "Device Safety Assessment",
+    "notificationsSafeLabel": "Notifications safe:",
+    "deviceSharedLabel": "Device shared:",
+    "accountsSharedLabel": "Accounts/location shared:",
+    "editPlanButton": "Update Selections",
+    "resetPlanButton": "Reset Onboarding",
+    "milestoneNotice": "Milestone 1 complete: Planning areas and device safety configured in memory."
   }
 }

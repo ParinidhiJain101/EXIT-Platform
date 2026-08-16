@@ -1,5 +1,7 @@
 import { createContext } from 'react';
 
+import type { PlanNeeds } from '../api/types';
+
 export type StorageMode = 'memory';
 
 export interface DeviceSafety {
@@ -14,12 +16,14 @@ export interface SessionContextType {
     quietMode: boolean;
     immediateDanger: boolean | null;
     deviceSafety: DeviceSafety;
+    planNeeds: PlanNeeds;
     onboardingComplete: boolean;
 
     setNeutralMode: (enabled: boolean) => void;
     setQuietMode: (enabled: boolean) => void;
     setImmediateDanger: (danger: boolean | null) => void;
     setDeviceSafety: (safety: Partial<DeviceSafety>) => void;
+    setPlanNeeds: (needs: Partial<PlanNeeds>) => void;
 
     completeOnboarding: () => void;
     resetOnboarding: () => void;

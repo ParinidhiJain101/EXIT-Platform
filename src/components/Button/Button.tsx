@@ -1,5 +1,4 @@
-import React from 'react';
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { FC, ButtonHTMLAttributes, ReactNode, CSSProperties } from 'react';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'destructive' | 'outline' | 'ghost';
 
@@ -10,7 +9,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button: FC<ButtonProps> = ({
   variant = 'primary',
   fullWidth = false,
   children,
@@ -19,7 +18,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const getVariantStyles = (): React.CSSProperties => {
+  const getVariantStyles = (): CSSProperties => {
     switch (variant) {
       case 'primary':
         return {
@@ -54,7 +53,7 @@ export const Button: React.FC<ButtonProps> = ({
     }
   };
 
-  const baseStyles: React.CSSProperties = {
+  const baseStyles: CSSProperties = {
     minHeight: 'var(--min-touch-target)',
     minWidth: 'var(--min-touch-target)',
     padding: 'var(--spacing-2) var(--spacing-4)',
