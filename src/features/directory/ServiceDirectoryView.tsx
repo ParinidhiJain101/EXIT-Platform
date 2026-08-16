@@ -144,8 +144,8 @@ export const ServiceDirectoryView: FC = () => {
               type="button"
               onClick={() => setSelectedCategory(category)}
               style={{
-                padding: '5px 12px',
-                borderRadius: 'var(--border-radius-full)',
+                padding: '4px 10px',
+                borderRadius: 'var(--border-radius-sm)',
                 border: `1px solid ${isSelected ? 'var(--color-trust-blue)' : 'var(--color-border-subtle)'}`,
                 backgroundColor: isSelected ? 'var(--color-trust-blue)' : 'var(--color-bg-canvas)',
                 color: isSelected ? 'var(--color-white)' : 'var(--color-text-secondary)',

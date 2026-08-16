@@ -30,22 +30,22 @@ export function SegmentedControl<T extends string>({
       case 'sm':
         return '2px';
       case 'lg':
-        return '6px';
+        return '4px';
       case 'md':
       default:
-        return '4px';
+        return '3px';
     }
   };
 
   const getItemPadding = () => {
     switch (size) {
       case 'sm':
-        return 'var(--spacing-1) var(--spacing-3)';
+        return '4px 10px';
       case 'lg':
-        return 'var(--spacing-3) var(--spacing-4)';
+        return '8px 14px';
       case 'md':
       default:
-        return 'var(--spacing-2) var(--spacing-3)';
+        return '6px 12px';
     }
   };
 
@@ -68,7 +68,7 @@ export function SegmentedControl<T extends string>({
       style={{
         display: fullWidth ? 'grid' : 'inline-flex',
         gridTemplateColumns: fullWidth ? `repeat(${options.length}, 1fr)` : undefined,
-        gap: '4px',
+        gap: '2px',
         backgroundColor: 'var(--color-bg-subtle)',
         border: '1px solid var(--color-border-subtle)',
         padding: getContainerPadding(),
@@ -98,7 +98,7 @@ export function SegmentedControl<T extends string>({
               color: isSelected ? 'var(--color-trust-blue)' : 'var(--color-text-secondary)',
               fontWeight: isSelected ? 'var(--font-weight-semibold)' : 'var(--font-weight-medium)',
               fontSize: getFontSize(),
-              boxShadow: isSelected ? 'var(--shadow-sm)' : 'none',
+              boxShadow: isSelected ? 'var(--shadow-xs)' : 'none',
               cursor: 'pointer',
               transition: 'all var(--transition-fast)',
               whiteSpace: 'nowrap',
@@ -106,7 +106,7 @@ export function SegmentedControl<T extends string>({
             }}
           >
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-              {opt.icon && <span aria-hidden="true">{opt.icon}</span>}
+              {opt.icon && <span style={{ display: 'inline-flex', alignItems: 'center', flexShrink: 0 }} aria-hidden="true">{opt.icon}</span>}
               <span>{opt.label}</span>
               {opt.badge && <span>{opt.badge}</span>}
             </div>

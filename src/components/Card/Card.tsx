@@ -22,25 +22,25 @@ export const Card: FC<CardProps> = ({
         return {
           backgroundColor: 'var(--color-soft-blue)',
           border: '1px solid var(--color-border-blue)',
-          boxShadow: 'var(--shadow-xs)',
+          boxShadow: 'none',
         };
       case 'highlight':
         return {
           backgroundColor: 'var(--color-soft-green)',
           border: '1px solid var(--color-border-green)',
-          boxShadow: 'var(--shadow-xs)',
+          boxShadow: 'none',
         };
       case 'warning':
         return {
           backgroundColor: 'var(--color-soft-amber)',
           border: '1px solid var(--color-border-amber)',
-          boxShadow: 'var(--shadow-xs)',
+          boxShadow: 'none',
         };
       case 'danger':
         return {
           backgroundColor: 'var(--color-soft-rose)',
           border: '1px solid var(--color-border-red)',
-          boxShadow: 'var(--shadow-xs)',
+          boxShadow: 'none',
         };
       case 'neutral':
         return {
@@ -52,7 +52,7 @@ export const Card: FC<CardProps> = ({
         return {
           backgroundColor: 'var(--color-bg-canvas)',
           border: '1px solid var(--color-border-subtle)',
-          boxShadow: 'var(--shadow-md)',
+          boxShadow: 'var(--shadow-sm)',
         };
       case 'default':
       default:
@@ -71,15 +71,15 @@ export const Card: FC<CardProps> = ({
       case 'sm':
         return 'var(--spacing-3)';
       case 'lg':
-        return 'var(--spacing-6)';
+        return 'var(--spacing-5)';
       case 'md':
       default:
-        return 'var(--spacing-5)';
+        return 'var(--spacing-4)';
     }
   };
 
   const baseStyles: CSSProperties = {
-    borderRadius: 'var(--border-radius-lg)',
+    borderRadius: 'var(--border-radius-md)',
     padding: getPadding(),
     color: 'var(--color-text-primary)',
     transition: 'transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast)',

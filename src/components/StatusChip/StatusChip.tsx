@@ -92,7 +92,7 @@ export const StatusChip: FC<StatusChipProps> = ({
       default:
         return {
           bg: 'var(--color-bg-subtle)',
-          color: 'var(--color-text-muted)',
+          color: 'var(--color-text-secondary)',
           border: 'var(--color-border-subtle)',
           dot: 'var(--color-text-muted)',
         };
@@ -105,22 +105,22 @@ export const StatusChip: FC<StatusChipProps> = ({
     switch (size) {
       case 'xs':
         return {
-          padding: '1px 7px',
+          padding: '1px 6px',
           fontSize: '11px',
           gap: '4px',
         };
       case 'sm':
         return {
-          padding: '2px 9px',
-          fontSize: '12px',
-          gap: '5px',
+          padding: '2px 8px',
+          fontSize: '11.5px',
+          gap: '4px',
         };
       case 'md':
       default:
         return {
-          padding: '4px 12px',
-          fontSize: '13px',
-          gap: '6px',
+          padding: '3px 10px',
+          fontSize: '12px',
+          gap: '5px',
         };
     }
   };
@@ -130,7 +130,7 @@ export const StatusChip: FC<StatusChipProps> = ({
     alignItems: 'center',
     borderRadius: 'var(--border-radius-full)',
     fontWeight: 'var(--font-weight-medium)',
-    lineHeight: 1.25,
+    lineHeight: 1.2,
     backgroundColor: bg,
     color,
     border: `1px solid ${border}`,
@@ -144,16 +144,17 @@ export const StatusChip: FC<StatusChipProps> = ({
       {withDot && (
         <span
           style={{
-            width: '6px',
-            height: '6px',
+            width: '5px',
+            height: '5px',
             borderRadius: '50%',
             backgroundColor: dot,
             display: 'inline-block',
+            flexShrink: 0,
           }}
           aria-hidden="true"
         />
       )}
-      {icon && <span style={{ display: 'inline-flex', alignItems: 'center' }} aria-hidden="true">{icon}</span>}
+      {icon && <span style={{ display: 'inline-flex', alignItems: 'center', flexShrink: 0 }} aria-hidden="true">{icon}</span>}
       <span>{label}</span>
     </span>
   );

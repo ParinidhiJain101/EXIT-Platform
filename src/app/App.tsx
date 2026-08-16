@@ -32,11 +32,11 @@ export default function App() {
   };
 
   const navItems = [
-    { path: '/', label: t('navigation.plan'), icon: <FileTextIcon size={15} /> },
-    { path: '/directory', label: t('navigation.directory'), icon: <SearchIcon size={15} /> },
-    { path: '/vault', label: t('navigation.vault'), icon: <LockIcon size={15} /> },
-    { path: '/consent', label: t('navigation.consent'), icon: <ShieldIcon size={15} /> },
-    { path: '/observatory', label: t('navigation.observatory'), icon: <BarChartIcon size={15} /> },
+    { path: '/', label: t('navigation.plan'), icon: <FileTextIcon size={14} /> },
+    { path: '/directory', label: t('navigation.directory'), icon: <SearchIcon size={14} /> },
+    { path: '/vault', label: t('navigation.vault'), icon: <LockIcon size={14} /> },
+    { path: '/consent', label: t('navigation.consent'), icon: <ShieldIcon size={14} /> },
+    { path: '/observatory', label: t('navigation.observatory'), icon: <BarChartIcon size={14} /> },
   ];
 
   return (
@@ -49,7 +49,7 @@ export default function App() {
         backgroundColor: neutralMode ? '#F8FAFC' : 'var(--color-bg-app)',
       }}
     >
-      {/* Top Safety & Action Header */}
+      {/* Top Application Header */}
       <header className="app-header-wrapper">
         <div className="app-header-container">
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
@@ -58,7 +58,7 @@ export default function App() {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 'var(--spacing-2)',
+                gap: '8px',
                 textDecoration: 'none',
                 color: 'var(--color-deep-ink)',
               }}
@@ -66,24 +66,23 @@ export default function App() {
               {!neutralMode && (
                 <div
                   style={{
-                    width: '32px',
-                    height: '32px',
+                    width: '28px',
+                    height: '28px',
                     borderRadius: 'var(--border-radius-sm)',
                     backgroundColor: 'var(--color-trust-blue)',
                     color: 'white',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: 'var(--shadow-xs)',
                   }}
                   aria-hidden="true"
                 >
-                  <ShieldIcon size={18} />
+                  <ShieldIcon size={16} />
                 </div>
               )}
               <h1
                 style={{
-                  fontSize: 'var(--font-size-lg)',
+                  fontSize: 'var(--font-size-base)',
                   fontWeight: 'var(--font-weight-bold)',
                   letterSpacing: '-0.02em',
                   margin: 0,
@@ -98,32 +97,31 @@ export default function App() {
               <StatusChip
                 label={t('safetyShell.quietModeActive')}
                 variant="quiet"
-                size="sm"
-                icon={<EyeOffIcon size={12} />}
+                size="xs"
+                icon={<EyeOffIcon size={11} />}
                 withDot
               />
             )}
           </div>
 
           <div className="app-header-actions">
-            {/* Quiet Mode Pill Toggle */}
+            {/* Quiet Mode Toggle */}
             <button
               type="button"
               onClick={() => setQuietMode(!quietMode)}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '5px',
+                gap: '4px',
                 background: quietMode ? 'var(--color-soft-purple)' : 'var(--color-bg-canvas)',
                 border: `1px solid ${quietMode ? 'var(--color-border-purple)' : 'var(--color-border-subtle)'}`,
                 cursor: 'pointer',
                 fontSize: 'var(--font-size-xs)',
                 fontWeight: 'var(--font-weight-medium)',
                 color: quietMode ? 'var(--color-quiet-purple)' : 'var(--color-text-secondary)',
-                padding: '5px 10px',
-                borderRadius: 'var(--border-radius-full)',
+                padding: '4px 9px',
+                borderRadius: 'var(--border-radius-sm)',
                 transition: 'all var(--transition-fast)',
-                boxShadow: 'var(--shadow-xs)',
               }}
               aria-label={t('safetyShell.quietMode')}
               aria-pressed={quietMode}
@@ -139,17 +137,16 @@ export default function App() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '5px',
+                gap: '4px',
                 background: neutralMode ? 'var(--color-bg-subtle)' : 'var(--color-bg-canvas)',
                 border: '1px solid var(--color-border-subtle)',
                 cursor: 'pointer',
                 fontSize: 'var(--font-size-xs)',
                 fontWeight: 'var(--font-weight-medium)',
                 color: 'var(--color-text-secondary)',
-                padding: '5px 10px',
-                borderRadius: 'var(--border-radius-full)',
+                padding: '4px 9px',
+                borderRadius: 'var(--border-radius-sm)',
                 transition: 'all var(--transition-fast)',
-                boxShadow: 'var(--shadow-xs)',
               }}
               aria-label={t('safetyShell.neutralModeAria')}
               aria-pressed={neutralMode}
@@ -196,7 +193,7 @@ export default function App() {
                 className={`app-nav-item ${isActive ? 'active' : ''}`}
                 aria-current={isActive ? 'page' : undefined}
               >
-                <span aria-hidden="true">{item.icon}</span>
+                <span aria-hidden="true" style={{ display: 'inline-flex', alignItems: 'center' }}>{item.icon}</span>
                 <span>{item.label}</span>
               </Link>
             );
