@@ -276,13 +276,22 @@ export const AegisVaultDemoView: FC = () => {
                         lineHeight: 1.4,
                       }}
                     >
-                      <strong>{isVerified && !isTampered ? '✓ ' + t('vault.integrityValid') : '❌ ' + t('vault.integrityFailed')}: </strong>
-                      {isVerified && !isTampered
-                        ? t('vault.integrityValidDetails')
-                        : t('vault.integrityTamperDetails', {
-                            computed: res.computedHash.slice(0, 16) + '...',
-                            expected: res.expectedHash.slice(0, 16) + '...',
-                          })}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px', fontWeight: 'var(--font-weight-semibold)' }}>
+                        {isVerified && !isTampered ? (
+                          <CheckCircleIcon size={14} style={{ color: 'var(--color-safe-green)' }} />
+                        ) : (
+                          <AlertCircleIcon size={14} style={{ color: 'var(--color-muted-red)' }} />
+                        )}
+                        <span>{isVerified && !isTampered ? t('vault.integrityValid') : t('vault.integrityFailed')}</span>
+                      </div>
+                      <p style={{ margin: 0 }}>
+                        {isVerified && !isTampered
+                          ? t('vault.integrityValidDetails')
+                          : t('vault.integrityTamperDetails', {
+                              computed: res.computedHash.slice(0, 16) + '...',
+                              expected: res.expectedHash.slice(0, 16) + '...',
+                            })}
+                      </p>
                     </div>
                   )}
 

@@ -13,6 +13,7 @@ import {
   CheckIcon,
   XIcon,
   LockIcon,
+  ArrowRightIcon,
 } from '../../components/Icons/Icons';
 
 export const ConsentGatewayView: FC = () => {
@@ -71,10 +72,10 @@ export const ConsentGatewayView: FC = () => {
   };
 
   const airlockStages = [
-    { num: '1', title: 'Survivor Plan', sub: '100% In-Memory Local' },
-    { num: '2', title: 'Consent Gateway', sub: 'Granular Field Filtering' },
-    { num: '3', title: 'One-Way Airlock', sub: 'De-identify & k ≥ 20 Gate' },
-    { num: '4', title: 'LIVEGENDER', sub: 'Aggregates Only' },
+    { num: '1', title: t('consent.airlockStage1Title'), sub: t('consent.airlockStage1Sub') },
+    { num: '2', title: t('consent.airlockStage2Title'), sub: t('consent.airlockStage2Sub') },
+    { num: '3', title: t('consent.airlockStage3Title'), sub: t('consent.airlockStage3Sub') },
+    { num: '4', title: t('consent.airlockStage4Title'), sub: t('consent.airlockStage4Sub') },
   ];
 
   return (
@@ -123,41 +124,54 @@ export const ConsentGatewayView: FC = () => {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-            gap: 'var(--spacing-2)',
+            gap: 'var(--spacing-3)',
             fontSize: 'var(--font-size-xs)',
           }}
         >
-          {airlockStages.map((stg) => (
+          {airlockStages.map((stg, idx) => (
             <div
               key={stg.num}
               style={{
                 backgroundColor: 'var(--color-bg-canvas)',
                 padding: 'var(--spacing-3)',
-                borderRadius: 'var(--border-radius-sm)',
-                border: '1px solid var(--color-border-blue)',
+                borderRadius: 'var(--border-radius-md)',
+                border: '1px solid var(--color-border-subtle)',
                 boxShadow: 'var(--shadow-xs)',
                 position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
               }}
             >
-              <div style={{ fontWeight: 'var(--font-weight-bold)', color: 'var(--color-trust-blue)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span
-                  style={{
-                    width: '18px',
-                    height: '18px',
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--color-trust-blue)',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '10px',
-                  }}
-                >
-                  {stg.num}
-                </span>
-                <span>{stg.title}</span>
+              <div style={{ fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span
+                    style={{
+                      width: '20px',
+                      height: '20px',
+                      borderRadius: 'var(--border-radius-xs)',
+                      backgroundColor: 'var(--color-soft-blue)',
+                      color: 'var(--color-trust-blue)',
+                      border: '1px solid var(--color-border-blue)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '11px',
+                      fontWeight: 'var(--font-weight-bold)',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {stg.num}
+                  </span>
+                  <span>{stg.title}</span>
+                </div>
+                {idx < airlockStages.length - 1 && (
+                  <span style={{ color: 'var(--color-text-faint)', display: 'inline-flex' }}>
+                    <ArrowRightIcon size={14} />
+                  </span>
+                )}
               </div>
-              <div style={{ color: 'var(--color-text-muted)', fontSize: '11px', marginTop: '2px', paddingLeft: '24px' }}>
+              <div style={{ color: 'var(--color-text-secondary)', fontSize: '12px', marginTop: '4px', paddingLeft: '28px' }}>
                 {stg.sub}
               </div>
             </div>
@@ -173,7 +187,7 @@ export const ConsentGatewayView: FC = () => {
             <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)' }}>
               {t('consent.allowedFieldsHeading')}
             </h3>
-            <StatusChip label="Explicit Opt-in" variant="safe" size="xs" withDot />
+            <StatusChip label={t('consent.explicitOptIn')} variant="safe" size="xs" withDot />
           </div>
           <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--spacing-3)' }}>
             {t('consent.allowedFieldsSub')}
@@ -251,7 +265,7 @@ export const ConsentGatewayView: FC = () => {
             <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-muted-red)' }}>
               {t('consent.forbiddenFieldsHeading')}
             </h3>
-            <StatusChip label="Never Collected" variant="essential" size="xs" withDot />
+            <StatusChip label={t('consent.neverCollected')} variant="essential" size="xs" withDot />
           </div>
           <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--spacing-3)' }}>
             {t('consent.forbiddenFieldsSub')}

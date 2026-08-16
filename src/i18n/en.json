@@ -418,7 +418,17 @@
     "keepPrivateButton": "Keep Everything Private (Decline)",
     "savePreferencesButton": "Save Consent Preferences",
     "lastUpdatedReceipt": "Consent status updated",
-    "versionLabel": "Policy Version"
+    "versionLabel": "Policy Version",
+    "explicitOptIn": "Explicit Opt-in",
+    "neverCollected": "Never Collected",
+    "airlockStage1Title": "Survivor Plan",
+    "airlockStage1Sub": "100% In-Memory Local",
+    "airlockStage2Title": "Consent Gateway",
+    "airlockStage2Sub": "Granular Field Filtering",
+    "airlockStage3Title": "One-Way Airlock",
+    "airlockStage3Sub": "De-identify & k \u2265 20 Gate",
+    "airlockStage4Title": "LIVEGENDER",
+    "airlockStage4Sub": "Aggregates Only"
   },
 
   "observatory": {
@@ -465,6 +475,11 @@
     "showTable": "Show Table",
     "hideTable": "Hide Table",
     "tableNote": "All rows represent aggregated cells meeting the k ≥ {{k}} threshold. No individual-level records are accessible.",
+    "tableColHarm": "Harm Category",
+    "tableColRegion": "Region",
+    "tableColService": "Service Need",
+    "tableColQuarter": "Quarter",
+    "tableColCount": "Count",
     "neverSeesTitle": "What LIVEGENDER Never Receives or Stores",
     "neverSees1": "Survivor identity, names, phone numbers, or email addresses",
     "neverSees2": "Raw EXIT Plan contents, selected checklists, or custom action notes",

@@ -21,7 +21,6 @@ import {
   XIcon,
 } from '../../components/Icons/Icons';
 
-// ─── Mini bar chart component ────────────────────────────────────────────────
 
 interface BarChartProps {
   cells: AggregateCell[];
@@ -114,7 +113,6 @@ const BarChart: FC<BarChartProps> = ({ cells, groupBy }) => {
   );
 };
 
-// ─── Pipeline process step ──────────────────────────────────────────────────
 
 interface PipelineStepProps {
   step: number;
@@ -178,7 +176,6 @@ const PipelineStep: FC<PipelineStepProps> = ({
   </div>
 );
 
-// ─── Main view ──────────────────────────────────────────────────────────────
 
 type ChartView = 'harm' | 'service' | 'region';
 
@@ -232,7 +229,7 @@ export const ObservatoryDashboardView: FC = () => {
         gap: 'var(--spacing-6)',
       }}
     >
-      {/* ── Header ─────────────────────────────────────────────────────────── */}
+      {/* Header */}
       <div>
         <div
           style={{
@@ -292,7 +289,7 @@ export const ObservatoryDashboardView: FC = () => {
         </div>
       </div>
 
-      {/* ── Synthetic data warning ──────────────────────────────────────────── */}
+      {/* Synthetic Demo Notice */}
       <Card variant="warning" padding="sm">
         <div
           style={{
@@ -332,7 +329,7 @@ export const ObservatoryDashboardView: FC = () => {
         </div>
       </Card>
 
-      {/* ── Privacy pipeline process card ──────────────────────────────────── */}
+      {/* Privacy Airlock Pipeline Card */}
       <Card variant="surface" padding="md">
         <div
           style={{
@@ -516,7 +513,7 @@ export const ObservatoryDashboardView: FC = () => {
         )}
       </Card>
 
-      {/* ── K-threshold notice ──────────────────────────────────────────────── */}
+      {/* k-Threshold Notice */}
       <Card variant="neutral" padding="sm">
         <p
           style={{
@@ -541,7 +538,7 @@ export const ObservatoryDashboardView: FC = () => {
         </p>
       </Card>
 
-      {/* ── Aggregate chart ─────────────────────────────────────────────────── */}
+      {/* Aggregate Chart */}
       {aggregateCells.length > 0 ? (
         <Card variant="default" padding="md" style={{ boxShadow: 'var(--shadow-xs)' }}>
           <div
@@ -609,7 +606,7 @@ export const ObservatoryDashboardView: FC = () => {
         </Card>
       )}
 
-      {/* ── Released aggregate cells table ─────────────────────────────────── */}
+      {/* Released Aggregate Cells Table */}
       <Card variant="default" padding="md" style={{ boxShadow: 'var(--shadow-xs)' }}>
         <div
           style={{
@@ -660,11 +657,11 @@ export const ObservatoryDashboardView: FC = () => {
                   }}
                 >
                   {[
-                    'Harm Category',
-                    'Region',
-                    'Service Need',
-                    'Quarter',
-                    'Count',
+                    t('observatory.tableColHarm'),
+                    t('observatory.tableColRegion'),
+                    t('observatory.tableColService'),
+                    t('observatory.tableColQuarter'),
+                    t('observatory.tableColCount'),
                   ].map((heading) => (
                     <th
                       key={heading}
@@ -767,7 +764,7 @@ export const ObservatoryDashboardView: FC = () => {
         )}
       </Card>
 
-      {/* ── What LIVEGENDER never sees ──────────────────────────────────────── */}
+      {/* What LIVEGENDER Never Sees */}
       <Card variant="neutral" padding="md">
         <h3
           style={{

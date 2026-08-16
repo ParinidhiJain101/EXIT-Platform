@@ -101,15 +101,15 @@ export const PrivacyStep: FC = () => {
         </h4>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-2)', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
-            <span style={{ color: 'var(--color-safe-green)', marginTop: '1px' }}>✓</span>
+            <CheckCircleIcon size={14} style={{ color: 'var(--color-safe-green)', marginTop: '2px', flexShrink: 0 }} />
             <span>{t('onboarding.privacyStep.guarantee1')}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
-            <span style={{ color: 'var(--color-safe-green)', marginTop: '1px' }}>✓</span>
+            <CheckCircleIcon size={14} style={{ color: 'var(--color-safe-green)', marginTop: '2px', flexShrink: 0 }} />
             <span>{t('onboarding.privacyStep.guarantee2')}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
-            <span style={{ color: 'var(--color-safe-green)', marginTop: '1px' }}>✓</span>
+            <CheckCircleIcon size={14} style={{ color: 'var(--color-safe-green)', marginTop: '2px', flexShrink: 0 }} />
             <span>{t('onboarding.privacyStep.guarantee3')}</span>
           </div>
         </div>
