@@ -137,8 +137,9 @@
 
   "planDashboard": {
     "title": "Your Private Safety Plan",
-    "subtitle": "Active in-memory session. Categorical readiness and explainable preparation actions.",
-    "tabActions": "Preparation Actions",
+    "subtitle": "Active in-memory session. Categorical readiness, preparation simulator, and explainable actions.",
+    "tabSimulator": "If I Leave Tomorrow",
+    "tabActions": "All Actions",
     "tabReadiness": "Readiness Snapshot",
     "areasSelectedHeading": "Selected Planning Areas ({{count}})",
     "noAreasSelectedHeading": "No specific areas selected",
@@ -149,7 +150,35 @@
     "accountsSharedLabel": "Accounts/location shared:",
     "editPlanButton": "Update Selections",
     "resetPlanButton": "Reset Onboarding",
-    "milestoneNotice": "Milestone 2 active: Deterministic rules engine and categorical readiness evaluation."
+    "milestoneNotice": "Milestones active: In-memory simulation, deterministic actions, and verified directory."
+  },
+
+  "simulator": {
+    "title": "If I Leave Tomorrow — Planning Simulator",
+    "description": "A practical preparation simulator exploring three distinct time horizons at your own pace.",
+    "modeBadge": "Simulation Mode",
+    "progressNote": "{{completed}} of {{total}} actions completed in this horizon",
+    "noActionsForHorizon": "No specific actions required in this time horizon for your current selections.",
+    "horizons": {
+      "24h": {
+        "label": "24 Hours",
+        "sub": "Immediate Essentials",
+        "title": "24-Hour Horizon: Immediate Safety & Critical Essentials",
+        "description": "Focuses on private communication channels, emergency cash, critical prescription medications, and discreet safe routes before taking any steps."
+      },
+      "72h": {
+        "label": "72 Hours",
+        "sub": "Short-Term Transition",
+        "title": "72-Hour Horizon: Document Checklist & Temporary Shelter",
+        "description": "Focuses on organizing essential identity documents, confirming temporary shelter pathways, securing independent accounts, and packing dependent essentials."
+      },
+      "7d": {
+        "label": "7 Days",
+        "sub": "Sustainable Independence",
+        "title": "7-Day Horizon: Legal Support, Health & Workplace Security",
+        "description": "Focuses on confidential legal aid consultations, long-term employment privacy, healthcare continuity, and auditing shared digital devices."
+      }
+    }
   },
 
   "readiness": {
@@ -300,5 +329,23 @@
       "description": "Speak with trusted HR or management to remove public directory listings and restrict visitor access.",
       "reason": "Triggered to maintain workplace safety and confidentiality."
     }
+  },
+
+  "directory": {
+    "title": "Verified Support Directory",
+    "subtitle": "Confidential directory of official NGO legal aid, crisis shelter, health, and digital security pathways.",
+    "verifiedBadge": "Verified Seed Directory",
+    "searchPlaceholder": "Search by service name, state, district, language, or keyword...",
+    "allCategories": "All Categories",
+    "hoursLabel": "Hours",
+    "contactLabel": "Contact",
+    "languagesLabel": "Languages",
+    "costLabel": "Cost",
+    "accessibilityLabel": "Accessibility",
+    "safetyNoteLabel": "Safety Note",
+    "lastVerifiedLabel": "Last verified",
+    "noResults": "No verified support services match your search or filter criteria.",
+    "demoBannerTitle": "Synthetic Demonstration Directory",
+    "demoBannerText": "All service listings, contact lines, and location records are synthetic demonstration fixtures for hackathon evaluation. No real survivor case data or personal information is stored or transmitted."
   }
 }

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import { ExitPlanHome } from '../features/exit-plan/ExitPlanHome';
+import { ServiceDirectoryView } from '../features/directory/ServiceDirectoryView';
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'directory',
-        element: <div>Service Directory</div>,
+        element: <ServiceDirectoryView />,
       },
       {
         path: 'vault',

@@ -25,6 +25,8 @@ export type ReadinessStatusType =
 
 export type ActionPriority = 'Essential' | 'High' | 'Helpful' | 'Optional';
 
+export type PlanningHorizon = '24h' | '72h' | '7d';
+
 export interface ReadinessItem {
   category: keyof PlanNeeds;
   status: ReadinessStatusType;
@@ -37,6 +39,7 @@ export interface PlanAction {
   id: string;
   category: keyof PlanNeeds;
   priority: ActionPriority;
+  horizons: PlanningHorizon[];
   titleKey: string;
   descriptionKey: string;
   reasonKey: string;
@@ -51,8 +54,10 @@ export interface ActionPlan {
 
 export interface DirectoryFilters {
   category?: string;
+  searchQuery?: string;
   state?: string;
   district?: string;
+  language?: string;
 }
 
 export interface DirectoryService {
@@ -61,7 +66,11 @@ export interface DirectoryService {
   categories: string[];
   location: { state: string; district: string };
   contact: { phone: string; hours: string };
-  verificationStatus: string;
+  languages: string[];
+  accessibility: string[];
+  eligibility: string;
+  cost: string;
+  verificationStatus: 'Verified' | 'Pending Review' | 'Community Reported';
   lastVerified: string;
   safetyNote: string;
 }
@@ -99,6 +108,7 @@ export interface IPlanService {
 
 export interface IDirectoryService {
   getServices(filters?: DirectoryFilters): Promise<DirectoryService[]>;
+  getCategories(): Promise<string[]>;
 }
 
 export interface IVaultService {

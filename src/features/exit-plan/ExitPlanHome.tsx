@@ -3,13 +3,14 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSession } from '../../context/useSession';
 import { ExitPlanOnboarding } from './ExitPlanOnboarding';
+import { LeaveTomorrowSimulatorView } from './LeaveTomorrowSimulatorView';
 import { ActionPlanView } from './ActionPlanView';
 import { ReadinessSnapshotView } from './ReadinessSnapshotView';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { StatusChip } from '../../components/StatusChip/StatusChip';
 
-type DashboardTab = 'actions' | 'readiness';
+type DashboardTab = 'simulator' | 'actions' | 'readiness';
 
 export const ExitPlanHome: FC = () => {
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ export const ExitPlanHome: FC = () => {
     quietMode,
     resetOnboarding,
   } = useSession();
-  const [activeTab, setActiveTab] = useState<DashboardTab>('actions');
+  const [activeTab, setActiveTab] = useState<DashboardTab>('simulator');
 
   if (!onboardingComplete) {
     return <ExitPlanOnboarding />;
@@ -64,6 +65,7 @@ export const ExitPlanHome: FC = () => {
           display: 'flex',
           borderBottom: '2px solid var(--color-neutral-grey)',
           gap: 'var(--spacing-2)',
+          flexWrap: 'wrap',
         }}
         role="tablist"
         aria-label="Planning Views"
@@ -71,10 +73,31 @@ export const ExitPlanHome: FC = () => {
         <button
           type="button"
           role="tab"
+          aria-selected={activeTab === 'simulator'}
+          onClick={() => setActiveTab('simulator')}
+          style={{
+            padding: 'var(--spacing-2) var(--spacing-3)',
+            background: 'none',
+            border: 'none',
+            borderBottom: activeTab === 'simulator' ? '3px solid var(--color-trust-blue)' : '3px solid transparent',
+            color: activeTab === 'simulator' ? 'var(--color-trust-blue)' : 'var(--color-deep-ink)',
+            fontWeight: activeTab === 'simulator' ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+            fontSize: 'var(--font-size-base)',
+            cursor: 'pointer',
+            marginBottom: '-2px',
+            transition: 'all 0.15s ease',
+          }}
+        >
+          {t('planDashboard.tabSimulator')}
+        </button>
+
+        <button
+          type="button"
+          role="tab"
           aria-selected={activeTab === 'actions'}
           onClick={() => setActiveTab('actions')}
           style={{
-            padding: 'var(--spacing-2) var(--spacing-4)',
+            padding: 'var(--spacing-2) var(--spacing-3)',
             background: 'none',
             border: 'none',
             borderBottom: activeTab === 'actions' ? '3px solid var(--color-trust-blue)' : '3px solid transparent',
@@ -95,7 +118,7 @@ export const ExitPlanHome: FC = () => {
           aria-selected={activeTab === 'readiness'}
           onClick={() => setActiveTab('readiness')}
           style={{
-            padding: 'var(--spacing-2) var(--spacing-4)',
+            padding: 'var(--spacing-2) var(--spacing-3)',
             background: 'none',
             border: 'none',
             borderBottom: activeTab === 'readiness' ? '3px solid var(--color-trust-blue)' : '3px solid transparent',
@@ -113,7 +136,9 @@ export const ExitPlanHome: FC = () => {
 
       {/* Tab Content */}
       <div style={{ minHeight: '340px' }}>
-        {activeTab === 'actions' ? <ActionPlanView /> : <ReadinessSnapshotView />}
+        {activeTab === 'simulator' && <LeaveTomorrowSimulatorView />}
+        {activeTab === 'actions' && <ActionPlanView />}
+        {activeTab === 'readiness' && <ReadinessSnapshotView />}
       </div>
 
       {/* Collapsible/Summary Device Safety Status Bar */}
