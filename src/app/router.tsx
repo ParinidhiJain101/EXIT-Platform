@@ -6,6 +6,8 @@ import { ServiceDirectoryView } from '../features/directory/ServiceDirectoryView
 import { AegisVaultDemoView } from '../features/vault-demo/AegisVaultDemoView';
 import { ConsentGatewayView } from '../features/consent/ConsentGatewayView';
 
+import { DigitalSafetyCheckupView } from '../features/digital-safety/DigitalSafetyCheckupView';
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -14,6 +16,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <ExitPlanHome />,
+      },
+      {
+        path: 'digital-safety',
+        element: <DigitalSafetyCheckupView />,
       },
       {
         path: 'directory',

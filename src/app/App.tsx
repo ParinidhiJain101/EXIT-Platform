@@ -11,6 +11,7 @@ import {
   FileTextIcon,
   SearchIcon,
   BarChartIcon,
+  SmartphoneIcon,
 } from '../components/Icons/Icons';
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
 
   const navItems = [
     { path: '/', label: t('navigation.plan'), icon: <FileTextIcon size={14} /> },
+    { path: '/digital-safety', label: t('navigation.digitalSafety'), icon: <SmartphoneIcon size={14} /> },
     { path: '/directory', label: t('navigation.directory'), icon: <SearchIcon size={14} /> },
     { path: '/vault', label: t('navigation.vault'), icon: <LockIcon size={14} /> },
     { path: '/consent', label: t('navigation.consent'), icon: <ShieldIcon size={14} /> },

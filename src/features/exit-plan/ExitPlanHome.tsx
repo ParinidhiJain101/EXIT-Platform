@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSession } from '../../context/useSession';
 import { ExitPlanOnboarding } from './ExitPlanOnboarding';
@@ -17,6 +18,7 @@ import {
   RefreshIcon,
   EyeOffIcon,
   ShieldCheckIcon,
+  SmartphoneIcon,
 } from '../../components/Icons/Icons';
 
 type DashboardTab = 'simulator' | 'actions' | 'readiness';
@@ -131,15 +133,37 @@ export const ExitPlanHome: FC = () => {
             </span>
           </div>
 
-          {quietMode && (
-            <StatusChip
-              label={t('safetyShell.quietModeActive')}
-              variant="quiet"
-              size="xs"
-              icon={<EyeOffIcon size={11} />}
-              withDot
-            />
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
+            <Link
+              to="/digital-safety"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                fontSize: 'var(--font-size-xs)',
+                fontWeight: 'var(--font-weight-semibold)',
+                color: 'var(--color-trust-blue)',
+                textDecoration: 'none',
+                padding: '2px 8px',
+                borderRadius: 'var(--border-radius-xs)',
+                backgroundColor: 'var(--color-soft-blue)',
+                border: '1px solid var(--color-border-blue)',
+              }}
+            >
+              <SmartphoneIcon size={12} />
+              <span>{t('digitalSafety.title')}</span>
+            </Link>
+
+            {quietMode && (
+              <StatusChip
+                label={t('safetyShell.quietModeActive')}
+                variant="quiet"
+                size="xs"
+                icon={<EyeOffIcon size={11} />}
+                withDot
+              />
+            )}
+          </div>
         </div>
       </Card>
     </div>

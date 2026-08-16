@@ -37,6 +37,7 @@
   },
   "navigation": {
     "plan": "Plan",
+    "digitalSafety": "Digital Safety",
     "directory": "Directory",
     "vault": "AegisVault",
     "consent": "Consent",
@@ -487,5 +488,176 @@
     "neverSees4": "Exact GPS coordinates, street addresses, or safehouse locations",
     "neverSees5": "Individual contribution rows or linkable transaction histories",
     "neverSees6": "Predictive danger scores, risk ratings, or unsafe-area heatmaps"
+  },
+  "digitalSafety": {
+    "title": "Digital Safety Checkup",
+    "subtitle": "A private review of digital settings that can affect your safety and control.",
+    "freeBadge": "Free Checkup",
+    "privacyNoticeTitle": "Zero-Scan Private Self-Check",
+    "privacyNoticeText": "This checkup uses your answers only. EXIT does not scan your device, inspect files, or access your accounts.",
+    "categories": {
+      "device": "Device Security",
+      "accounts": "Online Accounts",
+      "location": "Location Sharing",
+      "communication": "Communication",
+      "social": "Social Media",
+      "cloud": "Cloud & Backups",
+      "recovery": "Account Recovery"
+    },
+    "status": {
+      "looksConfigured": "Looks configured",
+      "reviewRecommended": "Review recommended",
+      "needsAttention": "Needs attention",
+      "notChecked": "Not checked"
+    },
+    "labels": {
+      "whyMatters": "Why it matters:",
+      "whatYouCanDo": "What you can do:",
+      "recommendationsTitle": "Identified Recommendations",
+      "noFlaggedItems": "No concerns flagged across your completed answers.",
+      "answeredCount": "{{answered}} of {{total}} questions completed",
+      "summaryHeading": "Checkup Overview",
+      "resetAnswers": "Reset Checkup",
+      "questionCount": "{{count}} questions",
+      "categoryAssessment": "Category Status"
+    },
+    "questions": {
+      "deviceShared": {
+        "title": "Is this device shared with someone else?",
+        "desc": "Such as a family tablet, shared home computer, or partner having device passcode access.",
+        "whyMatters": "Shared devices may allow others to view active apps, browsing history, and downloaded files.",
+        "action": "Use private tabs, create a separate user profile, or access sensitive planning on an unshared device."
+      },
+      "deviceLockNotifications": {
+        "title": "Are sensitive notifications visible on the lock screen?",
+        "desc": "Message previews or verification codes displaying when the screen is locked.",
+        "whyMatters": "Lock-screen previews can be read without unlocking your phone.",
+        "action": "Change notification settings to 'Hide sensitive content' or 'Don't show notification content' on lock screen."
+      },
+      "deviceUnfamiliarApps": {
+        "title": "Are there unfamiliar apps with sensitive permissions?",
+        "desc": "Apps you do not remember installing that have location, microphone, camera, or SMS permissions.",
+        "whyMatters": "Unfamiliar apps with elevated permissions can be used for monitoring or location tracking.",
+        "action": "Review installed applications in system settings and uninstall or revoke permissions for unverified apps."
+      },
+      "accountsUnfamiliar": {
+        "title": "Is an unfamiliar account signed in on your device?",
+        "desc": "Secondary Google, Apple ID, Microsoft, or email accounts linked to your apps.",
+        "whyMatters": "Linked secondary accounts can sync browsing history, photos, location, and backup copies.",
+        "action": "Check system Settings > Accounts, remove unfamiliar accounts, and ensure only your personal account is signed in."
+      },
+      "accountsRecovery": {
+        "title": "Is account recovery controlled exclusively by you?",
+        "desc": "Recovery email addresses and phone numbers attached to your primary accounts.",
+        "whyMatters": "If someone else controls your recovery email or phone, they can reset your passwords at any time.",
+        "action": "Verify and update recovery email and phone numbers in your Google/Apple/email security settings."
+      },
+      "accountsSessions": {
+        "title": "Are there unknown active sessions on your primary accounts?",
+        "desc": "Logged-in devices or locations listed in your Google, Apple, or email security dashboards.",
+        "whyMatters": "Old or unrecognized logged-in sessions allow continuous remote access to messages and cloud files.",
+        "action": "Go to your account security center, review all active devices, and click 'Sign out of all other sessions'."
+      },
+      "locationLiveShared": {
+        "title": "Is live location shared with someone you do not want to have it?",
+        "desc": "Active location sharing in Google Maps, Apple Find My, WhatsApp, or carrier family plans.",
+        "whyMatters": "Continuous location sharing reveals exact physical whereabouts and travel routes in real time.",
+        "action": "Open Google Maps and Apple Find My settings, review the 'Location Sharing' list, and stop sharing."
+      },
+      "locationSharedAccounts": {
+        "title": "Are location-sharing services connected to shared accounts?",
+        "desc": "Find My Device or Google Family Link linked to an account shared with a family member or partner.",
+        "whyMatters": "Shared accounts enable device tracking even when standalone app location sharing is disabled.",
+        "action": "Disassociate from shared family organizer accounts or set up an independent account for private travel."
+      },
+      "commPreviews": {
+        "title": "Could message previews appear on the lock screen?",
+        "desc": "WhatsApp, SMS, or Telegram alerts popping up with sender names or message content.",
+        "whyMatters": "Discreet messages from support services or friends can be seen by anyone near your phone.",
+        "action": "Disable message previews inside messaging apps (e.g., WhatsApp > Settings > Notifications > Show Preview: Off)."
+      },
+      "commSharedChannel": {
+        "title": "Is communication happening through a shared device or account?",
+        "desc": "Using a shared tablet, shared cellular plan call logs, or mutual email inbox for planning.",
+        "whyMatters": "Itemized carrier bills and shared inboxes create permanent records visible to account owners.",
+        "action": "Switch to private secure channels, delete individual call records, or communicate from a trusted safe device."
+      },
+      "socialSessions": {
+        "title": "Are there unfamiliar active sessions on your social accounts?",
+        "desc": "Instagram, Facebook, Twitter/X, or LinkedIn logged into devices you do not recognize.",
+        "whyMatters": "Active social logins allow silent reading of direct messages and location check-ins.",
+        "action": "Navigate to Privacy & Security in each social app, view active logins, and log out of all unknown devices."
+      },
+      "socialRecovery": {
+        "title": "Can another person access recovery methods for your social accounts?",
+        "desc": "Shared email inboxes, old family phone numbers, or linked mutual accounts.",
+        "whyMatters": "Account takeover can happen easily if password reset links arrive on accessible devices.",
+        "action": "Update two-factor authentication (2FA) to an authenticator app rather than shared SMS."
+      },
+      "socialPrivacy": {
+        "title": "Are your social account privacy settings configured appropriately?",
+        "desc": "Profiles set to private, story location tags disabled, and friend lists hidden.",
+        "whyMatters": "Public posts, tagged photos, and mutual friend interactions can expose location and routine.",
+        "action": "Set profile visibility to Private, disable tagging without approval, and hide your friend lists."
+      },
+      "cloudSharedFolders": {
+        "title": "Are shared folders or cloud accounts accessible by someone else?",
+        "desc": "Google Drive, iCloud Family Sharing, OneDrive, or Dropbox folders with shared edit/view rights.",
+        "whyMatters": "Uploading documents or photos to shared cloud folders makes them immediately visible to co-owners.",
+        "action": "Audit shared folders, move private safety files to a separate unshared account, and remove shared links."
+      },
+      "cloudBackups": {
+        "title": "Are device or photo backups connected to accounts you do not control?",
+        "desc": "Automatic Google Photos or iCloud photo stream syncing to an unshared or partner-managed account.",
+        "whyMatters": "Screenshots and saved documents may automatically sync into someone else's photo library.",
+        "action": "Turn off automatic cloud photo backup or ensure backups upload exclusively to your private account."
+      },
+      "recoveryEmail": {
+        "title": "Do you exclusively control your recovery email?",
+        "desc": "You are the only person who knows the password and receives alerts for the recovery email address.",
+        "whyMatters": "A recovery email is the master key to regaining or seizing control of an online identity.",
+        "action": "Create a new, dedicated private recovery email account and attach it to your key profiles."
+      },
+      "recoveryPhone": {
+        "title": "Do you exclusively control your recovery phone number?",
+        "desc": "SMS reset codes arrive on a SIM card and phone that only you can access.",
+        "whyMatters": "SIM swapping or access to physical notification screens allows unauthorized account takeovers.",
+        "action": "Ensure your recovery phone is not a shared landline or family plan SIM managed by another person."
+      },
+      "recoveryTrustedDevices": {
+        "title": "Are all trusted devices and authentication sessions under your control?",
+        "desc": "Apple ID 2FA prompt devices, Google Prompt phones, and hardware security keys.",
+        "whyMatters": "Prompt-based 2FA requests can be approved from any registered trusted device.",
+        "action": "Review trusted devices in your Apple/Google security center and delete any old, lost, or shared hardware."
+      }
+    },
+    "plus": {
+      "badge": "Coming Later",
+      "title": "DIGITAL SAFETY PLUS",
+      "subtitle": "Advanced digital-security guidance for ongoing protection.",
+      "intro": "Built for people who want ongoing digital-safety support.",
+      "futureNotice": "Premium guidance will be introduced in a future release.",
+      "freeTierTitle": "FREE — Digital Safety Checkup",
+      "freeTier1": "Self-check across 7 critical safety areas",
+      "freeTier2": "Deterministic explainable guidance",
+      "freeTier3": "Targeted action recommendations",
+      "freeTier4": "100% in-memory private session",
+      "plusTierTitle": "PLUS — Digital Safety Plus",
+      "plusTier1": "Guided account-security walkthroughs",
+      "plusTier2": "Periodic digital safety checkups",
+      "plusTier3": "Personalized digital-security action plans",
+      "plusTier4": "Extended digital-safety education modules",
+      "plusTier5": "Deeper continuity and relocation planning tools"
+    },
+    "scale": {
+      "title": "WHY THIS CAN SCALE",
+      "subtitle": "Three sustainable pillars powering independent civic privacy.",
+      "consumerTitle": "Consumer",
+      "consumerDesc": "Optional premium Digital Safety Plus subscription for individuals needing ongoing security coaching.",
+      "institutionalTitle": "Institutional",
+      "institutionalDesc": "NGO, caseworker, and service-provider toolkits for standardized client safety reviews.",
+      "observatoryTitle": "Observatory",
+      "observatoryDesc": "Privacy-preserving aggregate insight pipelines feeding LIVEGENDER for systemic civil-society reporting."
+    }
   }
 }
