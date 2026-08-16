@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSession } from '../../context/useSession';
 import { Card } from '../../components/Card/Card';
 import { StatusChip } from '../../components/StatusChip/StatusChip';
-import { Button } from '../../components/Button/Button';
+import { EyeOffIcon, EyeIcon, AlertCircleIcon } from '../../components/Icons/Icons';
 
 type SafetyAnswer = boolean | null;
 
@@ -19,24 +19,26 @@ const QuestionCard: FC<QuestionCardProps> = ({ title, description, value, onChan
 
   const getButtonStyle = (isSelected: boolean): CSSProperties => ({
     flex: 1,
+    minHeight: '38px',
     padding: 'var(--spacing-2) var(--spacing-3)',
     borderRadius: 'var(--border-radius-sm)',
-    border: isSelected ? '2px solid var(--color-trust-blue)' : '1px solid #D2D6DC',
-    backgroundColor: isSelected ? 'var(--color-soft-blue)' : 'var(--color-white)',
-    color: isSelected ? 'var(--color-trust-blue)' : 'var(--color-deep-ink)',
-    fontWeight: isSelected ? 'var(--font-weight-semibold)' : 'var(--font-weight-regular)',
+    border: isSelected ? '1.5px solid var(--color-trust-blue)' : '1px solid var(--color-border-subtle)',
+    backgroundColor: isSelected ? 'var(--color-soft-blue)' : 'var(--color-bg-canvas)',
+    color: isSelected ? 'var(--color-trust-blue)' : 'var(--color-text-secondary)',
+    fontWeight: isSelected ? 'var(--font-weight-semibold)' : 'var(--font-weight-medium)',
     fontSize: 'var(--font-size-sm)',
     cursor: 'pointer',
-    transition: 'all 0.15s ease',
+    transition: 'all var(--transition-fast)',
+    boxShadow: isSelected ? 'var(--shadow-xs)' : 'none',
   });
 
   return (
-    <Card variant="default" padding="sm" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-2)' }}>
+    <Card variant="default" padding="md" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-3)' }}>
       <div>
-        <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)', marginBottom: '2px' }}>
+        <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', marginBottom: '3px' }}>
           {title}
         </h3>
-        <p style={{ fontSize: 'var(--font-size-xs)', color: '#486581' }}>{description}</p>
+        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.4 }}>{description}</p>
       </div>
 
       <div style={{ display: 'flex', gap: 'var(--spacing-2)' }} role="group" aria-label={title}>
@@ -81,10 +83,18 @@ export const DeviceSafetyStep: FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-4)' }}>
       <div>
-        <h2 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)', marginBottom: 'var(--spacing-1)' }}>
+        <h2
+          style={{
+            fontSize: 'var(--font-size-2xl)',
+            fontWeight: 'var(--font-weight-bold)',
+            color: 'var(--color-text-primary)',
+            letterSpacing: '-0.02em',
+            marginBottom: 'var(--spacing-1)',
+          }}
+        >
           {t('onboarding.deviceSafetyStep.title')}
         </h2>
-        <p style={{ color: '#486581', fontSize: 'var(--font-size-sm)' }}>
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-sm)', lineHeight: 1.5 }}>
           {t('onboarding.deviceSafetyStep.description')}
         </p>
       </div>
@@ -110,39 +120,85 @@ export const DeviceSafetyStep: FC = () => {
         onChange={(val) => setDeviceSafety({ accountsOrLocationShared: val })}
       />
 
-      {/* Quiet Mode Recommendation or Status Box */}
+      {/* Quiet Mode Recommendation Notice */}
       {isQuietRecommended && (
         <Card variant="warning" padding="sm">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)', marginBottom: '4px' }}>
-            <StatusChip label={t('onboarding.deviceSafetyStep.quietModeAutoNoticeTitle')} variant="quiet" size="sm" />
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
+            <span style={{ color: 'var(--color-warm-amber)', marginTop: '1px' }}>
+              <AlertCircleIcon size={16} />
+            </span>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)', marginBottom: '3px' }}>
+                <StatusChip
+                  label={t('onboarding.deviceSafetyStep.quietModeAutoNoticeTitle')}
+                  variant="quiet"
+                  size="xs"
+                  icon={<EyeOffIcon size={11} />}
+                  withDot
+                />
+              </div>
+              <p style={{ fontSize: 'var(--font-size-xs)', color: '#744210', lineHeight: 1.4 }}>
+                {t('onboarding.deviceSafetyStep.quietModeAutoNoticeDesc')}
+              </p>
+            </div>
           </div>
-          <p style={{ fontSize: 'var(--font-size-xs)', color: '#744210', lineHeight: 1.4 }}>
-            {t('onboarding.deviceSafetyStep.quietModeAutoNoticeDesc')}
-          </p>
         </Card>
       )}
 
-      {/* Manual Quiet Mode Toggle */}
-      <Card variant="surface" padding="sm" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
+      {/* Manual Quiet Mode Toggle Card */}
+      <Card
+        variant="surface"
+        padding="md"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 'var(--spacing-3)',
+        }}
+      >
+        <div style={{ flex: 1, minWidth: '220px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-            <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-deep-ink)' }}>
+            <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text-primary)' }}>
               {t('onboarding.deviceSafetyStep.quietModeManualToggleLabel')}
             </span>
-            {quietMode && <StatusChip label={t('safetyShell.quietModeActive')} variant="quiet" size="sm" />}
+            {quietMode && (
+              <StatusChip
+                label={t('safetyShell.quietModeActive')}
+                variant="quiet"
+                size="xs"
+                withDot
+              />
+            )}
           </div>
-          <p style={{ fontSize: 'var(--font-size-xs)', color: '#486581', marginTop: '2px' }}>
+          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginTop: '2px' }}>
             {t('onboarding.deviceSafetyStep.quietModeManualToggleDesc')}
           </p>
         </div>
-        <Button
-          variant={quietMode ? 'primary' : 'outline'}
-          style={{ minWidth: '80px', padding: 'var(--spacing-1) var(--spacing-3)', fontSize: 'var(--font-size-xs)' }}
+
+        <button
+          type="button"
           onClick={() => setQuietMode(!quietMode)}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            background: quietMode ? 'var(--color-quiet-purple)' : 'var(--color-bg-canvas)',
+            color: quietMode ? 'white' : 'var(--color-text-secondary)',
+            border: `1.5px solid ${quietMode ? 'var(--color-quiet-purple)' : 'var(--color-border-default)'}`,
+            padding: 'var(--spacing-2) var(--spacing-4)',
+            borderRadius: 'var(--border-radius-full)',
+            fontSize: 'var(--font-size-xs)',
+            fontWeight: 'var(--font-weight-semibold)',
+            cursor: 'pointer',
+            boxShadow: 'var(--shadow-xs)',
+            transition: 'all var(--transition-fast)',
+          }}
           aria-pressed={quietMode}
         >
-          {quietMode ? t('common.yes') : t('common.no')}
-        </Button>
+          {quietMode ? <EyeOffIcon size={14} /> : <EyeIcon size={14} />}
+          <span>{quietMode ? t('common.yes') : t('common.no')}</span>
+        </button>
       </Card>
     </div>
   );

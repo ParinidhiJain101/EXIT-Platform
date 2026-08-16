@@ -1,35 +1,74 @@
 :root {
-  /* Colors */
-  --color-deep-ink: #102A43;
-  --color-trust-blue: #2457A6;
-  --color-soft-blue: #E8F1FF;
-  --color-safe-green: #1E8449;
-  --color-soft-green: #E9F7EF;
-  --color-warm-amber: #B9770E;
-  --color-soft-amber: #FFF4D6;
-  --color-muted-red: #B03A2E;
-  --color-soft-rose: #FDEDEC;
-  --color-neutral-grey: #F2F3F4;
+  /* Surface & Base Colors */
+  --color-bg-app: #F8FAFC;
+  --color-bg-canvas: #FFFFFF;
+  --color-bg-subtle: #F1F5F9;
+  --color-bg-muted: #E2E8F0;
+
+  /* Typography / Ink Colors */
+  --color-deep-ink: #0F172A;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748B;
+  --color-text-faint: #94A3B8;
+
+  /* Trust Blue Family (Primary Brand & Navigation) */
+  --color-trust-blue: #1D4ED8;
+  --color-trust-blue-hover: #1E40AF;
+  --color-trust-blue-active: #172554;
+  --color-soft-blue: #EFF6FF;
+  --color-border-blue: #BFDBFE;
+
+  /* Safe Green Family */
+  --color-safe-green: #059669;
+  --color-safe-green-hover: #047857;
+  --color-soft-green: #ECFDF5;
+  --color-border-green: #A7F3D0;
+
+  /* Warm Amber Family */
+  --color-warm-amber: #D97706;
+  --color-warm-amber-hover: #B45309;
+  --color-soft-amber: #FFFBEB;
+  --color-border-amber: #FDE68A;
+
+  /* Muted Red / Destructive Family */
+  --color-muted-red: #DC2626;
+  --color-muted-red-hover: #B91C1C;
+  --color-soft-rose: #FEF2F2;
+  --color-border-red: #FECACA;
+
+  /* Quiet Purple Family (Quiet Mode & Discretion) */
+  --color-quiet-purple: #7C3AED;
+  --color-quiet-purple-hover: #6D28D9;
+  --color-soft-purple: #F5F3FF;
+  --color-border-purple: #DDD6FE;
+
+  /* Neutral Border & Grey */
+  --color-neutral-grey: #F1F5F9;
+  --color-border-subtle: #E2E8F0;
+  --color-border-default: #CBD5E1;
+  --color-border-strong: #94A3B8;
   --color-white: #FFFFFF;
   --color-black: #000000;
 
   /* Typography */
-  --font-family-sans: 'Noto Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  
+  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Inter', system-ui, sans-serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
   --font-size-xs: 12px;
   --font-size-sm: 14px;
-  --font-size-base: 16px;
-  --font-size-lg: 18px;
+  --font-size-base: 15px;
+  --font-size-lg: 17px;
   --font-size-xl: 20px;
   --font-size-2xl: 24px;
-  --font-size-3xl: 28px;
+  --font-size-3xl: 30px;
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Spacing (Base 4px) */
+  /* Spacing Scale (4px base) */
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
@@ -40,12 +79,25 @@
   --spacing-10: 40px;
   --spacing-12: 48px;
 
-  /* Layout */
+  /* Border Radii */
+  --border-radius-xs: 4px;
   --border-radius-sm: 8px;
   --border-radius-md: 12px;
   --border-radius-lg: 16px;
+  --border-radius-xl: 20px;
   --border-radius-full: 9999px;
 
-  /* Touch targets */
+  /* Elevation Shadows (Restrained, Modern) */
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-focus: 0 0 0 3px rgba(29, 78, 216, 0.2);
+
+  /* Touch Targets */
   --min-touch-target: 44px;
+
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }

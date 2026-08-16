@@ -5,6 +5,18 @@ import { directoryService } from '../../api/mockAdapter';
 import type { DirectoryService } from '../../api/types';
 import { Card } from '../../components/Card/Card';
 import { StatusChip } from '../../components/StatusChip/StatusChip';
+import {
+  SearchIcon,
+  ShieldCheckIcon,
+  MapPinIcon,
+  ClockIcon,
+  PhoneIcon,
+  GlobeIcon,
+  MoneyIcon,
+  AccessibilityIcon,
+  LockIcon,
+  AlertTriangleIcon,
+} from '../../components/Icons/Icons';
 
 export const ServiceDirectoryView: FC = () => {
   const { t } = useTranslation();
@@ -38,16 +50,30 @@ export const ServiceDirectoryView: FC = () => {
   }, [selectedCategory, searchQuery]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-5)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-6)' }}>
       {/* Header */}
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)', marginBottom: 'var(--spacing-1)' }}>
-          <h2 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)', margin: 0 }}>
+          <h2
+            style={{
+              fontSize: 'var(--font-size-2xl)',
+              fontWeight: 'var(--font-weight-bold)',
+              color: 'var(--color-text-primary)',
+              letterSpacing: '-0.02em',
+              margin: 0,
+            }}
+          >
             {t('directory.title')}
           </h2>
-          <StatusChip label={t('directory.verifiedBadge')} variant="safe" size="sm" />
+          <StatusChip
+            label={t('directory.verifiedBadge')}
+            variant="safe"
+            size="sm"
+            icon={<ShieldCheckIcon size={13} />}
+            withDot
+          />
         </div>
-        <p style={{ color: '#486581', fontSize: 'var(--font-size-sm)' }}>
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-sm)' }}>
           {t('directory.subtitle')}
         </p>
       </div>
@@ -55,9 +81,11 @@ export const ServiceDirectoryView: FC = () => {
       {/* Synthetic Demo Disclaimer Banner */}
       <Card variant="warning" padding="sm">
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
-          <span style={{ fontSize: '18px' }} aria-hidden="true">⚠️</span>
+          <span style={{ color: 'var(--color-warm-amber)', marginTop: '1px' }}>
+            <AlertTriangleIcon size={16} />
+          </span>
           <div>
-            <h4 style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)', color: '#744210', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <h4 style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)', color: '#744210', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '2px' }}>
               {t('directory.demoBannerTitle')}
             </h4>
             <p style={{ fontSize: 'var(--font-size-xs)', color: '#744210', lineHeight: 1.4 }}>
@@ -67,8 +95,22 @@ export const ServiceDirectoryView: FC = () => {
         </div>
       </Card>
 
-      {/* Search Input Bar */}
-      <div style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
+      {/* Search Input Bar with Icon */}
+      <div style={{ position: 'relative', width: '100%' }}>
+        <div
+          style={{
+            position: 'absolute',
+            left: '12px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: 'var(--color-text-muted)',
+            display: 'flex',
+            alignItems: 'center',
+            pointerEvents: 'none',
+          }}
+        >
+          <SearchIcon size={18} />
+        </div>
         <input
           type="search"
           value={searchQuery}
@@ -77,13 +119,17 @@ export const ServiceDirectoryView: FC = () => {
           aria-label={t('directory.searchPlaceholder')}
           style={{
             width: '100%',
-            padding: 'var(--spacing-2) var(--spacing-4)',
-            borderRadius: 'var(--border-radius-sm)',
-            border: '1px solid #CBD5E1',
+            height: '42px',
+            paddingLeft: '38px',
+            paddingRight: '14px',
+            borderRadius: 'var(--border-radius-md)',
+            border: '1px solid var(--color-border-default)',
             fontSize: 'var(--font-size-sm)',
-            color: 'var(--color-deep-ink)',
-            backgroundColor: 'var(--color-white)',
+            color: 'var(--color-text-primary)',
+            backgroundColor: 'var(--color-bg-canvas)',
+            boxShadow: 'var(--shadow-xs)',
             outline: 'none',
+            transition: 'border-color var(--transition-fast), box-shadow var(--transition-fast)',
           }}
         />
       </div>
@@ -98,15 +144,16 @@ export const ServiceDirectoryView: FC = () => {
               type="button"
               onClick={() => setSelectedCategory(category)}
               style={{
-                padding: '4px 12px',
+                padding: '5px 12px',
                 borderRadius: 'var(--border-radius-full)',
-                border: 'none',
-                backgroundColor: isSelected ? 'var(--color-trust-blue)' : 'var(--color-neutral-grey)',
-                color: isSelected ? 'var(--color-white)' : 'var(--color-deep-ink)',
+                border: `1px solid ${isSelected ? 'var(--color-trust-blue)' : 'var(--color-border-subtle)'}`,
+                backgroundColor: isSelected ? 'var(--color-trust-blue)' : 'var(--color-bg-canvas)',
+                color: isSelected ? 'var(--color-white)' : 'var(--color-text-secondary)',
                 fontSize: 'var(--font-size-xs)',
-                fontWeight: isSelected ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+                fontWeight: isSelected ? 'var(--font-weight-semibold)' : 'var(--font-weight-medium)',
                 cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                boxShadow: 'var(--shadow-xs)',
+                transition: 'all var(--transition-fast)',
               }}
             >
               {category === 'All' ? t('directory.allCategories') : category}
@@ -117,12 +164,12 @@ export const ServiceDirectoryView: FC = () => {
 
       {/* Services List */}
       {loading ? (
-        <p style={{ fontSize: 'var(--font-size-sm)', color: '#64748B', textAlign: 'center' }}>
+        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textAlign: 'center', padding: 'var(--spacing-8)' }}>
           {t('common.loading')}
         </p>
       ) : services.length === 0 ? (
         <Card variant="neutral" padding="lg">
-          <p style={{ fontSize: 'var(--font-size-sm)', color: '#64748B', textAlign: 'center', fontStyle: 'italic' }}>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textAlign: 'center', fontStyle: 'italic' }}>
             {t('directory.noResults')}
           </p>
         </Card>
@@ -137,23 +184,36 @@ export const ServiceDirectoryView: FC = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 'var(--spacing-3)',
-                border: '1px solid #CBD5E1',
+                boxShadow: 'var(--shadow-xs)',
               }}
             >
               {/* Service Header */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--spacing-2)' }}>
                 <div>
-                  <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)', marginBottom: '2px' }}>
+                  <h3
+                    style={{
+                      fontSize: 'var(--font-size-base)',
+                      fontWeight: 'var(--font-weight-bold)',
+                      color: 'var(--color-text-primary)',
+                      marginBottom: '3px',
+                      lineHeight: 1.3,
+                    }}
+                  >
                     {service.name}
                   </h3>
-                  <p style={{ fontSize: 'var(--font-size-xs)', color: '#64748B' }}>
-                    📍 {service.location.district}, {service.location.state}
+                  <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <MapPinIcon size={13} />
+                    <span>{service.location.district}, {service.location.state}</span>
                   </p>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-                  <StatusChip label={service.verificationStatus} variant="safe" size="sm" />
-                </div>
+                <StatusChip
+                  label={service.verificationStatus}
+                  variant="safe"
+                  size="xs"
+                  icon={<ShieldCheckIcon size={12} />}
+                  withDot
+                />
               </div>
 
               {/* Category tags */}
@@ -168,6 +228,7 @@ export const ServiceDirectoryView: FC = () => {
                       padding: '2px 8px',
                       borderRadius: 'var(--border-radius-full)',
                       fontWeight: 'var(--font-weight-medium)',
+                      border: '1px solid var(--color-border-blue)',
                     }}
                   >
                     {cat}
@@ -179,45 +240,61 @@ export const ServiceDirectoryView: FC = () => {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
                   gap: 'var(--spacing-2)',
                   fontSize: 'var(--font-size-xs)',
-                  color: '#334E68',
-                  backgroundColor: '#F8FAFC',
+                  color: 'var(--color-text-secondary)',
+                  backgroundColor: 'var(--color-bg-subtle)',
                   padding: 'var(--spacing-3)',
                   borderRadius: 'var(--border-radius-sm)',
                 }}
               >
-                <div>
-                  <strong style={{ color: '#1E293B' }}>{t('directory.hoursLabel')}: </strong>
-                  {service.contact.hours}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <ClockIcon size={14} />
+                  <span>
+                    <strong style={{ color: 'var(--color-text-primary)' }}>{t('directory.hoursLabel')}: </strong>
+                    {service.contact.hours}
+                  </span>
                 </div>
-                <div>
-                  <strong style={{ color: '#1E293B' }}>{t('directory.contactLabel')}: </strong>
-                  {service.contact.phone}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <PhoneIcon size={14} />
+                  <span>
+                    <strong style={{ color: 'var(--color-text-primary)' }}>{t('directory.contactLabel')}: </strong>
+                    {service.contact.phone}
+                  </span>
                 </div>
-                <div>
-                  <strong style={{ color: '#1E293B' }}>{t('directory.languagesLabel')}: </strong>
-                  {service.languages.join(', ')}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <GlobeIcon size={14} />
+                  <span>
+                    <strong style={{ color: 'var(--color-text-primary)' }}>{t('directory.languagesLabel')}: </strong>
+                    {service.languages.join(', ')}
+                  </span>
                 </div>
-                <div>
-                  <strong style={{ color: '#1E293B' }}>{t('directory.costLabel')}: </strong>
-                  {service.cost}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <MoneyIcon size={14} />
+                  <span>
+                    <strong style={{ color: 'var(--color-text-primary)' }}>{t('directory.costLabel')}: </strong>
+                    {service.cost}
+                  </span>
                 </div>
               </div>
 
               {/* Accessibility tags */}
               {service.accessibility.length > 0 && (
-                <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--spacing-2)', fontSize: 'var(--font-size-xs)', color: '#475569' }}>
-                  <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>♿ {t('directory.accessibilityLabel')}:</span>
+                <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--spacing-2)', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+                  <span style={{ fontWeight: 'var(--font-weight-semibold)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <AccessibilityIcon size={13} />
+                    <span>{t('directory.accessibilityLabel')}:</span>
+                  </span>
                   {service.accessibility.map((acc) => (
                     <span
                       key={acc}
                       style={{
-                        backgroundColor: '#F1F5F9',
+                        backgroundColor: 'var(--color-bg-canvas)',
                         padding: '1px 6px',
-                        borderRadius: '4px',
-                        border: '1px solid #E2E8F0',
+                        borderRadius: 'var(--border-radius-xs)',
+                        border: '1px solid var(--color-border-subtle)',
+                        fontSize: '11px',
                       }}
                     >
                       {acc}
@@ -230,21 +307,28 @@ export const ServiceDirectoryView: FC = () => {
               {service.safetyNote && (
                 <div
                   style={{
-                    backgroundColor: '#FEF2F2',
-                    borderLeft: '3px solid #EF4444',
+                    backgroundColor: 'var(--color-soft-rose)',
+                    borderLeft: '3px solid var(--color-muted-red)',
                     padding: 'var(--spacing-2) var(--spacing-3)',
-                    borderRadius: '0 var(--border-radius-sm) var(--border-radius-sm) 0',
+                    borderRadius: '0 var(--border-radius-xs) var(--border-radius-xs) 0',
                     fontSize: 'var(--font-size-xs)',
                     color: '#7F1D1D',
+                    lineHeight: 1.4,
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '6px',
                   }}
                 >
-                  <span style={{ fontWeight: 'var(--font-weight-bold)' }}>🔒 {t('directory.safetyNoteLabel')}: </span>
-                  {service.safetyNote}
+                  <LockIcon size={14} />
+                  <div>
+                    <span style={{ fontWeight: 'var(--font-weight-bold)' }}>{t('directory.safetyNoteLabel')}: </span>
+                    {service.safetyNote}
+                  </div>
                 </div>
               )}
 
               {/* Verification Freshness Footer */}
-              <div style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '11px', color: '#94A3B8' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '11px', color: 'var(--color-text-faint)' }}>
                 <span>{t('directory.lastVerifiedLabel')}: {service.lastVerified}</span>
               </div>
             </Card>

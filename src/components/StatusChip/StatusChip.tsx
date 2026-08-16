@@ -20,7 +20,8 @@ export interface StatusChipProps {
   label: string;
   variant?: StatusChipVariant;
   icon?: ReactNode;
-  size?: 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md';
+  withDot?: boolean;
 }
 
 export const StatusChip: FC<StatusChipProps> = ({
@@ -28,63 +29,98 @@ export const StatusChip: FC<StatusChipProps> = ({
   variant = 'info',
   icon,
   size = 'md',
+  withDot = false,
 }) => {
-  const getVariantStyles = (): CSSProperties => {
+  const getVariantStyles = (): { bg: string; color: string; border: string; dot: string } => {
     switch (variant) {
       case 'quiet':
         return {
-          backgroundColor: '#EDE9FE',
-          color: '#5B21B6',
-          border: '1px solid #DDD6FE',
+          bg: 'var(--color-soft-purple)',
+          color: 'var(--color-quiet-purple)',
+          border: 'var(--color-border-purple)',
+          dot: 'var(--color-quiet-purple)',
         };
       case 'memory':
         return {
-          backgroundColor: 'var(--color-soft-blue)',
+          bg: 'var(--color-soft-blue)',
           color: 'var(--color-trust-blue)',
-          border: '1px solid #D0E1FD',
+          border: 'var(--color-border-blue)',
+          dot: 'var(--color-trust-blue)',
         };
       case 'safe':
       case 'prepared':
         return {
-          backgroundColor: 'var(--color-soft-green)',
+          bg: 'var(--color-soft-green)',
           color: 'var(--color-safe-green)',
-          border: '1px solid #C3E6CB',
+          border: 'var(--color-border-green)',
+          dot: 'var(--color-safe-green)',
         };
       case 'warning':
       case 'needsAttention':
         return {
-          backgroundColor: 'var(--color-soft-amber)',
+          bg: 'var(--color-soft-amber)',
           color: 'var(--color-warm-amber)',
-          border: '1px solid #FFEAA7',
+          border: 'var(--color-border-amber)',
+          dot: 'var(--color-warm-amber)',
+        };
+      case 'essential':
+        return {
+          bg: 'var(--color-soft-rose)',
+          color: 'var(--color-muted-red)',
+          border: 'var(--color-border-red)',
+          dot: 'var(--color-muted-red)',
+        };
+      case 'high':
+        return {
+          bg: 'var(--color-soft-amber)',
+          color: '#B45309',
+          border: 'var(--color-border-amber)',
+          dot: '#B45309',
         };
       case 'partiallyPrepared':
       case 'helpful':
       case 'info':
         return {
-          backgroundColor: 'var(--color-soft-blue)',
+          bg: 'var(--color-soft-blue)',
           color: 'var(--color-trust-blue)',
-          border: '1px solid #D0E1FD',
-        };
-      case 'essential':
-        return {
-          backgroundColor: '#FDEDEC',
-          color: '#B03A2E',
-          border: '1px solid #F5C6CB',
-        };
-      case 'high':
-        return {
-          backgroundColor: '#FFF4D6',
-          color: '#B9770E',
-          border: '1px solid #FFEAA7',
+          border: 'var(--color-border-blue)',
+          dot: 'var(--color-trust-blue)',
         };
       case 'optional':
       case 'notPlanned':
       case 'muted':
       default:
         return {
-          backgroundColor: 'var(--color-neutral-grey)',
-          color: '#64748B',
-          border: '1px solid #E2E8F0',
+          bg: 'var(--color-bg-subtle)',
+          color: 'var(--color-text-muted)',
+          border: 'var(--color-border-subtle)',
+          dot: 'var(--color-text-muted)',
+        };
+    }
+  };
+
+  const { bg, color, border, dot } = getVariantStyles();
+
+  const getSizeStyles = (): CSSProperties => {
+    switch (size) {
+      case 'xs':
+        return {
+          padding: '1px 7px',
+          fontSize: '11px',
+          gap: '4px',
+        };
+      case 'sm':
+        return {
+          padding: '2px 9px',
+          fontSize: '12px',
+          gap: '5px',
+        };
+      case 'md':
+      default:
+        return {
+          padding: '4px 12px',
+          fontSize: '13px',
+          gap: '6px',
         };
     }
   };
@@ -92,18 +128,32 @@ export const StatusChip: FC<StatusChipProps> = ({
   const style: CSSProperties = {
     display: 'inline-flex',
     alignItems: 'center',
-    gap: 'var(--spacing-1)',
     borderRadius: 'var(--border-radius-full)',
-    padding: size === 'sm' ? '2px 8px' : '4px 10px',
-    fontSize: size === 'sm' ? 'var(--font-size-xs)' : 'var(--font-size-sm)',
     fontWeight: 'var(--font-weight-medium)',
-    lineHeight: 1.2,
-    ...getVariantStyles(),
+    lineHeight: 1.25,
+    backgroundColor: bg,
+    color,
+    border: `1px solid ${border}`,
+    letterSpacing: '0.01em',
+    whiteSpace: 'nowrap',
+    ...getSizeStyles(),
   };
 
   return (
     <span style={style}>
-      {icon && <span aria-hidden="true">{icon}</span>}
+      {withDot && (
+        <span
+          style={{
+            width: '6px',
+            height: '6px',
+            borderRadius: '50%',
+            backgroundColor: dot,
+            display: 'inline-block',
+          }}
+          aria-hidden="true"
+        />
+      )}
+      {icon && <span style={{ display: 'inline-flex', alignItems: 'center' }} aria-hidden="true">{icon}</span>}
       <span>{label}</span>
     </span>
   );

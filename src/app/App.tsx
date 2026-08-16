@@ -1,11 +1,21 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSession } from '../context/useSession';
 import { Button } from '../components/Button/Button';
 import { StatusChip } from '../components/StatusChip/StatusChip';
+import {
+  ShieldIcon,
+  EyeOffIcon,
+  EyeIcon,
+  LockIcon,
+  FileTextIcon,
+  SearchIcon,
+  BarChartIcon,
+} from '../components/Icons/Icons';
 
 export default function App() {
   const { t } = useTranslation();
+  const location = useLocation();
   const {
     quickExit,
     clearSession,
@@ -21,6 +31,14 @@ export default function App() {
     }
   };
 
+  const navItems = [
+    { path: '/', label: t('navigation.plan'), icon: <FileTextIcon size={15} /> },
+    { path: '/directory', label: t('navigation.directory'), icon: <SearchIcon size={15} /> },
+    { path: '/vault', label: t('navigation.vault'), icon: <LockIcon size={15} /> },
+    { path: '/consent', label: t('navigation.consent'), icon: <ShieldIcon size={15} /> },
+    { path: '/observatory', label: t('navigation.observatory'), icon: <BarChartIcon size={15} /> },
+  ];
+
   return (
     <div
       style={{
@@ -28,49 +46,90 @@ export default function App() {
         flexDirection: 'column',
         minHeight: '100vh',
         width: '100%',
-        backgroundColor: neutralMode ? '#F8FAFC' : 'var(--color-white)',
+        backgroundColor: neutralMode ? '#F8FAFC' : 'var(--color-bg-app)',
       }}
     >
       {/* Top Safety & Action Header */}
-      <header
-        className="app-header-wrapper"
-        style={{
-          backgroundColor: neutralMode ? '#F1F5F9' : 'var(--color-soft-blue)',
-        }}
-      >
+      <header className="app-header-wrapper">
         <div className="app-header-container">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-            <h1
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
+            <Link
+              to="/"
               style={{
-                fontSize: 'var(--font-size-lg)',
-                fontWeight: 'var(--font-weight-bold)',
-                margin: 0,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--spacing-2)',
+                textDecoration: 'none',
                 color: 'var(--color-deep-ink)',
               }}
             >
-              {neutralMode ? t('safetyShell.neutralBrandName') : t('safetyShell.brandName')}
-            </h1>
-            {quietMode && <StatusChip label={t('safetyShell.quietModeActive')} variant="quiet" size="sm" />}
+              {!neutralMode && (
+                <div
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: 'var(--border-radius-sm)',
+                    backgroundColor: 'var(--color-trust-blue)',
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: 'var(--shadow-xs)',
+                  }}
+                  aria-hidden="true"
+                >
+                  <ShieldIcon size={18} />
+                </div>
+              )}
+              <h1
+                style={{
+                  fontSize: 'var(--font-size-lg)',
+                  fontWeight: 'var(--font-weight-bold)',
+                  letterSpacing: '-0.02em',
+                  margin: 0,
+                  color: 'var(--color-deep-ink)',
+                }}
+              >
+                {neutralMode ? t('safetyShell.neutralBrandName') : t('safetyShell.brandName')}
+              </h1>
+            </Link>
+
+            {quietMode && (
+              <StatusChip
+                label={t('safetyShell.quietModeActive')}
+                variant="quiet"
+                size="sm"
+                icon={<EyeOffIcon size={12} />}
+                withDot
+              />
+            )}
           </div>
 
           <div className="app-header-actions">
-            {/* Quiet Mode Quick Toggle */}
+            {/* Quiet Mode Pill Toggle */}
             <button
               type="button"
               onClick={() => setQuietMode(!quietMode)}
               style={{
-                background: 'none',
-                border: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                background: quietMode ? 'var(--color-soft-purple)' : 'var(--color-bg-canvas)',
+                border: `1px solid ${quietMode ? 'var(--color-border-purple)' : 'var(--color-border-subtle)'}`,
                 cursor: 'pointer',
                 fontSize: 'var(--font-size-xs)',
-                color: quietMode ? '#5B21B6' : '#64748B',
-                padding: 'var(--spacing-1) var(--spacing-2)',
-                borderRadius: 'var(--border-radius-sm)',
-                textDecoration: 'underline',
+                fontWeight: 'var(--font-weight-medium)',
+                color: quietMode ? 'var(--color-quiet-purple)' : 'var(--color-text-secondary)',
+                padding: '5px 10px',
+                borderRadius: 'var(--border-radius-full)',
+                transition: 'all var(--transition-fast)',
+                boxShadow: 'var(--shadow-xs)',
               }}
               aria-label={t('safetyShell.quietMode')}
+              aria-pressed={quietMode}
             >
-              {quietMode ? t('safetyShell.quietModeActive') : t('safetyShell.quietModeOff')}
+              {quietMode ? <EyeOffIcon size={13} /> : <EyeIcon size={13} />}
+              <span>{quietMode ? t('safetyShell.quietModeActive') : t('safetyShell.quietMode')}</span>
             </button>
 
             {/* Neutral Mode Toggle */}
@@ -78,29 +137,31 @@ export default function App() {
               type="button"
               onClick={() => setNeutralMode(!neutralMode)}
               style={{
-                background: 'none',
-                border: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                background: neutralMode ? 'var(--color-bg-subtle)' : 'var(--color-bg-canvas)',
+                border: '1px solid var(--color-border-subtle)',
                 cursor: 'pointer',
                 fontSize: 'var(--font-size-xs)',
-                color: '#64748B',
-                padding: 'var(--spacing-1) var(--spacing-2)',
-                borderRadius: 'var(--border-radius-sm)',
-                textDecoration: 'underline',
+                fontWeight: 'var(--font-weight-medium)',
+                color: 'var(--color-text-secondary)',
+                padding: '5px 10px',
+                borderRadius: 'var(--border-radius-full)',
+                transition: 'all var(--transition-fast)',
+                boxShadow: 'var(--shadow-xs)',
               }}
               aria-label={t('safetyShell.neutralModeAria')}
+              aria-pressed={neutralMode}
             >
-              {t('safetyShell.neutralMode')}
+              <span>{t('safetyShell.neutralMode')}</span>
             </button>
 
             {/* Clear Session */}
             <Button
-              variant="outline"
+              variant="subtle"
+              size="sm"
               onClick={handleClear}
-              style={{
-                padding: 'var(--spacing-1) var(--spacing-3)',
-                fontSize: 'var(--font-size-xs)',
-                minHeight: '36px',
-              }}
             >
               {t('safetyShell.clearSession')}
             </Button>
@@ -108,14 +169,10 @@ export default function App() {
             {/* Quick Exit */}
             <Button
               variant="destructive"
+              size="sm"
               onClick={quickExit}
               aria-label={t('safetyShell.quickExitAria')}
               title={t('safetyShell.quickExitHint')}
-              style={{
-                padding: 'var(--spacing-1) var(--spacing-3)',
-                fontSize: 'var(--font-size-xs)',
-                minHeight: '36px',
-              }}
             >
               {t('safetyShell.quickExit')}
             </Button>
@@ -124,28 +181,26 @@ export default function App() {
       </header>
 
       {/* Navigation */}
-      <nav
-        className="app-nav-wrapper"
-        style={{
-          backgroundColor: neutralMode ? '#F8FAFC' : 'var(--color-soft-blue)',
-        }}
-      >
+      <nav className="app-nav-wrapper">
         <div className="app-nav-container">
-          <Link to="/" style={{ color: 'var(--color-trust-blue)', textDecoration: 'none' }}>
-            {t('navigation.plan')}
-          </Link>
-          <Link to="/directory" style={{ color: 'var(--color-trust-blue)', textDecoration: 'none' }}>
-            {t('navigation.directory')}
-          </Link>
-          <Link to="/vault" style={{ color: 'var(--color-trust-blue)', textDecoration: 'none' }}>
-            {t('navigation.vault')}
-          </Link>
-          <Link to="/consent" style={{ color: 'var(--color-trust-blue)', textDecoration: 'none' }}>
-            {t('navigation.consent')}
-          </Link>
-          <Link to="/observatory" style={{ color: 'var(--color-trust-blue)', textDecoration: 'none' }}>
-            {t('navigation.observatory')}
-          </Link>
+          {navItems.map((item) => {
+            const isActive =
+              item.path === '/'
+                ? location.pathname === '/'
+                : location.pathname.startsWith(item.path);
+
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`app-nav-item ${isActive ? 'active' : ''}`}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                <span aria-hidden="true">{item.icon}</span>
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
         </div>
       </nav>
 

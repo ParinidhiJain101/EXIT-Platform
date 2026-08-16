@@ -5,6 +5,14 @@ import { useSession } from '../../context/useSession';
 import type { PlanningHorizon, ActionPriority } from '../../api/types';
 import { Card } from '../../components/Card/Card';
 import { StatusChip, type StatusChipVariant } from '../../components/StatusChip/StatusChip';
+import { SegmentedControl } from '../../components/SegmentedControl/SegmentedControl';
+import {
+  ClockIcon,
+  CheckCircleIcon,
+  CheckIcon,
+  RefreshIcon,
+  TrashIcon,
+} from '../../components/Icons/Icons';
 
 const PRIORITY_ORDER: Record<ActionPriority, number> = {
   Essential: 1,
@@ -44,74 +52,60 @@ export const LeaveTomorrowSimulatorView: FC = () => {
     return { total, completed, dismissed, active };
   }, [horizonActions]);
 
+  const horizonOptions = [
+    {
+      value: '24h' as PlanningHorizon,
+      label: t('simulator.horizons.24h.label'),
+      subLabel: t('simulator.horizons.24h.sub'),
+    },
+    {
+      value: '72h' as PlanningHorizon,
+      label: t('simulator.horizons.72h.label'),
+      subLabel: t('simulator.horizons.72h.sub'),
+    },
+    {
+      value: '7d' as PlanningHorizon,
+      label: t('simulator.horizons.7d.label'),
+      subLabel: t('simulator.horizons.7d.sub'),
+    },
+  ];
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-5)' }}>
       {/* Simulator Introduction */}
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)', marginBottom: 'var(--spacing-1)' }}>
-          <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)', margin: 0 }}>
+          <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', margin: 0 }}>
             {t('simulator.title')}
           </h3>
-          <StatusChip label={t('simulator.modeBadge')} variant="memory" size="sm" />
+          <StatusChip label={t('simulator.modeBadge')} variant="memory" size="xs" withDot />
         </div>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: '#486581' }}>
+        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
           {t('simulator.description')}
         </p>
       </div>
 
-      {/* Horizon Tabs (24h, 72h, 7d) */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 'var(--spacing-2)',
-          backgroundColor: 'var(--color-neutral-grey)',
-          padding: '4px',
-          borderRadius: 'var(--border-radius-md)',
-        }}
-        role="tablist"
+      {/* Horizon Tabs (24h, 72h, 7d) via SegmentedControl */}
+      <SegmentedControl
+        options={horizonOptions}
+        value={selectedHorizon}
+        onChange={(val) => setSelectedHorizon(val)}
+        fullWidth
+        size="lg"
         aria-label="Planning Horizon"
-      >
-        {(['24h', '72h', '7d'] as PlanningHorizon[]).map((horizon) => {
-          const isSelected = selectedHorizon === horizon;
-          return (
-            <button
-              key={horizon}
-              type="button"
-              role="tab"
-              aria-selected={isSelected}
-              onClick={() => setSelectedHorizon(horizon)}
-              style={{
-                padding: 'var(--spacing-2) var(--spacing-3)',
-                borderRadius: 'var(--border-radius-sm)',
-                border: 'none',
-                backgroundColor: isSelected ? 'var(--color-white)' : 'transparent',
-                color: isSelected ? 'var(--color-trust-blue)' : 'var(--color-deep-ink)',
-                fontWeight: isSelected ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
-                fontSize: 'var(--font-size-sm)',
-                boxShadow: isSelected ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-                textAlign: 'center',
-              }}
-            >
-              <div>{t(`simulator.horizons.${horizon}.label`)}</div>
-              <div style={{ fontSize: '11px', color: isSelected ? '#3B82F6' : '#64748B', fontWeight: 'normal' }}>
-                {t(`simulator.horizons.${horizon}.sub`)}
-              </div>
-            </button>
-          );
-        })}
-      </div>
+      />
 
       {/* Horizon Focus Guidance Card */}
-      <Card variant="surface" padding="sm">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--spacing-2)' }}>
-          <div>
-            <h4 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)', marginBottom: '2px' }}>
-              {t(`simulator.horizons.${selectedHorizon}.title`)}
-            </h4>
-            <p style={{ fontSize: 'var(--font-size-xs)', color: '#334E68', lineHeight: 1.4 }}>
+      <Card variant="surface" padding="md">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--spacing-3)' }}>
+          <div style={{ flex: 1, minWidth: '240px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)', marginBottom: '4px' }}>
+              <ClockIcon size={16} />
+              <h4 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)' }}>
+                {t(`simulator.horizons.${selectedHorizon}.title`)}
+              </h4>
+            </div>
+            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.45 }}>
               {t(`simulator.horizons.${selectedHorizon}.description`)}
             </p>
           </div>
@@ -123,6 +117,8 @@ export const LeaveTomorrowSimulatorView: FC = () => {
               })}
               variant="safe"
               size="sm"
+              icon={<CheckCircleIcon size={13} />}
+              withDot
             />
           )}
         </div>
@@ -130,8 +126,8 @@ export const LeaveTomorrowSimulatorView: FC = () => {
 
       {/* Actions List for Selected Horizon */}
       {horizonActions.length === 0 ? (
-        <Card variant="neutral" padding="md">
-          <p style={{ fontSize: 'var(--font-size-sm)', color: '#64748B', textAlign: 'center', fontStyle: 'italic' }}>
+        <Card variant="neutral" padding="lg">
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textAlign: 'center', fontStyle: 'italic' }}>
             {t('simulator.noActionsForHorizon')}
           </p>
         </Card>
@@ -152,25 +148,22 @@ export const LeaveTomorrowSimulatorView: FC = () => {
                 variant={isCompleted ? 'highlight' : isDismissed ? 'neutral' : 'default'}
                 padding="md"
                 style={{
-                  opacity: isDismissed ? 0.7 : 1,
-                  border: isCompleted
-                    ? '1px solid #A7F3D0'
-                    : isDismissed
-                    ? '1px solid #E2E8F0'
-                    : '1px solid #CBD5E1',
-                  transition: 'all 0.15s ease',
+                  opacity: isDismissed ? 0.65 : 1,
+                  boxShadow: isCompleted || isDismissed ? 'none' : 'var(--shadow-xs)',
+                  transition: 'all var(--transition-fast)',
                 }}
               >
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-2)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-3)' }}>
                   {/* Action Top Bar */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--spacing-2)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
                       <StatusChip
                         label={t(`actions.priorityBands.${action.priority.toLowerCase()}`)}
                         variant={priorityVariant}
-                        size="sm"
+                        size="xs"
+                        withDot
                       />
-                      <span style={{ fontSize: 'var(--font-size-xs)', color: '#64748B', fontWeight: 'var(--font-weight-medium)' }}>
+                      <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' }}>
                         {categoryTitle}
                       </span>
                     </div>
@@ -181,30 +174,39 @@ export const LeaveTomorrowSimulatorView: FC = () => {
                           type="button"
                           onClick={() => restoreAction(action.id)}
                           style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
                             background: 'none',
                             border: 'none',
                             color: 'var(--color-trust-blue)',
                             fontSize: 'var(--font-size-xs)',
+                            fontWeight: 'var(--font-weight-medium)',
                             cursor: 'pointer',
-                            textDecoration: 'underline',
+                            padding: '2px 6px',
                           }}
                         >
-                          {t('common.restore')}
+                          <RefreshIcon size={12} />
+                          <span>{t('common.restore')}</span>
                         </button>
                       ) : (
                         <button
                           type="button"
                           onClick={() => dismissAction(action.id)}
                           style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
                             background: 'none',
                             border: 'none',
-                            color: '#94A3B8',
+                            color: 'var(--color-text-muted)',
                             fontSize: 'var(--font-size-xs)',
                             cursor: 'pointer',
-                            textDecoration: 'underline',
+                            padding: '2px 6px',
                           }}
                         >
-                          {t('common.dismiss')}
+                          <TrashIcon size={12} />
+                          <span>{t('common.dismiss')}</span>
                         </button>
                       )}
                     </div>
@@ -213,19 +215,30 @@ export const LeaveTomorrowSimulatorView: FC = () => {
                   {/* Action Checkbox & Content */}
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-3)' }}>
                     {!isDismissed && (
-                      <input
-                        type="checkbox"
-                        checked={isCompleted}
-                        onChange={() => toggleActionComplete(action.id)}
+                      <button
+                        type="button"
+                        onClick={() => toggleActionComplete(action.id)}
+                        role="checkbox"
+                        aria-checked={isCompleted}
                         aria-label={`${title} (${isCompleted ? t('common.completed') : t('common.markComplete')})`}
                         style={{
-                          width: '20px',
-                          height: '20px',
-                          marginTop: '2px',
+                          width: '22px',
+                          height: '22px',
+                          borderRadius: 'var(--border-radius-xs)',
+                          border: isCompleted ? '2px solid var(--color-safe-green)' : '1.5px solid var(--color-border-default)',
+                          backgroundColor: isCompleted ? 'var(--color-safe-green)' : 'var(--color-bg-canvas)',
+                          color: 'white',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                           cursor: 'pointer',
-                          accentColor: 'var(--color-safe-green)',
+                          marginTop: '2px',
+                          flexShrink: 0,
+                          transition: 'all var(--transition-fast)',
                         }}
-                      />
+                      >
+                        {isCompleted && <CheckIcon size={14} />}
+                      </button>
                     )}
 
                     <div style={{ flex: 1 }}>
@@ -233,29 +246,31 @@ export const LeaveTomorrowSimulatorView: FC = () => {
                         style={{
                           fontSize: 'var(--font-size-base)',
                           fontWeight: 'var(--font-weight-bold)',
-                          color: isCompleted ? '#065F46' : 'var(--color-deep-ink)',
+                          color: isCompleted ? 'var(--color-safe-green)' : 'var(--color-text-primary)',
                           textDecoration: isCompleted ? 'line-through' : 'none',
                           marginBottom: '4px',
+                          lineHeight: 1.35,
                         }}
                       >
                         {title}
                       </h4>
-                      <p style={{ fontSize: 'var(--font-size-sm)', color: '#334E68', lineHeight: 1.4, marginBottom: 'var(--spacing-2)' }}>
+                      <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.45, marginBottom: 'var(--spacing-2)' }}>
                         {description}
                       </p>
 
                       {/* Explainability Box */}
                       <div
                         style={{
-                          backgroundColor: '#F8FAFC',
+                          backgroundColor: 'var(--color-bg-subtle)',
                           borderLeft: '3px solid var(--color-trust-blue)',
-                          padding: 'var(--spacing-1) var(--spacing-3)',
-                          borderRadius: '0 4px 4px 0',
+                          padding: 'var(--spacing-2) var(--spacing-3)',
+                          borderRadius: '0 var(--border-radius-xs) var(--border-radius-xs) 0',
                           fontSize: 'var(--font-size-xs)',
-                          color: '#475569',
+                          color: 'var(--color-text-secondary)',
+                          lineHeight: 1.4,
                         }}
                       >
-                        <span style={{ fontWeight: 'var(--font-weight-semibold)', color: '#1E293B' }}>
+                        <span style={{ fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text-primary)' }}>
                           {t('actions.whySuggested')}{' '}
                         </span>
                         {reason}

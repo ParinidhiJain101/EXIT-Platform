@@ -9,6 +9,15 @@ import { ReadinessSnapshotView } from './ReadinessSnapshotView';
 import { Card } from '../../components/Card/Card';
 import { Button } from '../../components/Button/Button';
 import { StatusChip } from '../../components/StatusChip/StatusChip';
+import { SegmentedControl } from '../../components/SegmentedControl/SegmentedControl';
+import {
+  ClockIcon,
+  CheckCircleIcon,
+  BarChartIcon,
+  RefreshIcon,
+  EyeOffIcon,
+  ShieldCheckIcon,
+} from '../../components/Icons/Icons';
 
 type DashboardTab = 'simulator' | 'actions' | 'readiness';
 
@@ -32,136 +41,105 @@ export const ExitPlanHome: FC = () => {
     return t('common.unsure');
   };
 
+  const tabOptions = [
+    {
+      value: 'simulator' as DashboardTab,
+      label: t('planDashboard.tabSimulator'),
+      icon: <ClockIcon size={16} />,
+    },
+    {
+      value: 'actions' as DashboardTab,
+      label: t('planDashboard.tabActions'),
+      icon: <CheckCircleIcon size={16} />,
+    },
+    {
+      value: 'readiness' as DashboardTab,
+      label: t('planDashboard.tabReadiness'),
+      icon: <BarChartIcon size={16} />,
+    },
+  ];
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-5)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-6)' }}>
       {/* Header */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--spacing-2)', marginBottom: 'var(--spacing-1)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
-            <h2 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)', margin: 0 }}>
+            <h2
+              style={{
+                fontSize: 'var(--font-size-2xl)',
+                fontWeight: 'var(--font-weight-bold)',
+                color: 'var(--color-text-primary)',
+                letterSpacing: '-0.02em',
+                margin: 0,
+              }}
+            >
               {t('planDashboard.title')}
             </h2>
-            <StatusChip label={t('safetyShell.memoryBadge')} variant="memory" size="sm" />
+            <StatusChip label={t('safetyShell.memoryBadge')} variant="memory" size="sm" withDot />
           </div>
 
-          <div style={{ display: 'flex', gap: 'var(--spacing-2)' }}>
-            <Button
-              variant="outline"
-              onClick={resetOnboarding}
-              style={{ padding: 'var(--spacing-1) var(--spacing-3)', fontSize: 'var(--font-size-xs)', minHeight: '34px' }}
-            >
-              {t('planDashboard.resetPlanButton')}
-            </Button>
-          </div>
+          <Button
+            variant="subtle"
+            size="sm"
+            onClick={resetOnboarding}
+            icon={<RefreshIcon size={13} />}
+          >
+            {t('planDashboard.resetPlanButton')}
+          </Button>
         </div>
-        <p style={{ color: '#486581', fontSize: 'var(--font-size-sm)' }}>
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-sm)' }}>
           {t('planDashboard.subtitle')}
         </p>
       </div>
 
-      {/* Main Tab Navigation */}
-      <div
-        style={{
-          display: 'flex',
-          borderBottom: '2px solid var(--color-neutral-grey)',
-          gap: 'var(--spacing-2)',
-          flexWrap: 'wrap',
-        }}
-        role="tablist"
+      {/* Main Tab Navigation via SegmentedControl */}
+      <SegmentedControl
+        options={tabOptions}
+        value={activeTab}
+        onChange={(val) => setActiveTab(val)}
+        size="lg"
+        fullWidth
         aria-label="Planning Views"
-      >
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === 'simulator'}
-          onClick={() => setActiveTab('simulator')}
-          style={{
-            padding: 'var(--spacing-2) var(--spacing-3)',
-            background: 'none',
-            border: 'none',
-            borderBottom: activeTab === 'simulator' ? '3px solid var(--color-trust-blue)' : '3px solid transparent',
-            color: activeTab === 'simulator' ? 'var(--color-trust-blue)' : 'var(--color-deep-ink)',
-            fontWeight: activeTab === 'simulator' ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
-            fontSize: 'var(--font-size-base)',
-            cursor: 'pointer',
-            marginBottom: '-2px',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          {t('planDashboard.tabSimulator')}
-        </button>
+      />
 
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === 'actions'}
-          onClick={() => setActiveTab('actions')}
-          style={{
-            padding: 'var(--spacing-2) var(--spacing-3)',
-            background: 'none',
-            border: 'none',
-            borderBottom: activeTab === 'actions' ? '3px solid var(--color-trust-blue)' : '3px solid transparent',
-            color: activeTab === 'actions' ? 'var(--color-trust-blue)' : 'var(--color-deep-ink)',
-            fontWeight: activeTab === 'actions' ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
-            fontSize: 'var(--font-size-base)',
-            cursor: 'pointer',
-            marginBottom: '-2px',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          {t('planDashboard.tabActions')}
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === 'readiness'}
-          onClick={() => setActiveTab('readiness')}
-          style={{
-            padding: 'var(--spacing-2) var(--spacing-3)',
-            background: 'none',
-            border: 'none',
-            borderBottom: activeTab === 'readiness' ? '3px solid var(--color-trust-blue)' : '3px solid transparent',
-            color: activeTab === 'readiness' ? 'var(--color-trust-blue)' : 'var(--color-deep-ink)',
-            fontWeight: activeTab === 'readiness' ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
-            fontSize: 'var(--font-size-base)',
-            cursor: 'pointer',
-            marginBottom: '-2px',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          {t('planDashboard.tabReadiness')}
-        </button>
-      </div>
-
-      {/* Tab Content */}
+      {/* Tab Content Canvas */}
       <div style={{ minHeight: '340px' }}>
         {activeTab === 'simulator' && <LeaveTomorrowSimulatorView />}
         {activeTab === 'actions' && <ActionPlanView />}
         {activeTab === 'readiness' && <ReadinessSnapshotView />}
       </div>
 
-      {/* Collapsible/Summary Device Safety Status Bar */}
-      <Card variant="neutral" padding="sm" style={{ marginTop: 'var(--spacing-3)' }}>
+      {/* Device Safety Status Bar */}
+      <Card variant="neutral" padding="sm">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--spacing-2)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)', fontSize: 'var(--font-size-xs)', color: '#475569' }}>
-            <span style={{ fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-deep-ink)' }}>
-              {t('planDashboard.deviceSafetyHeading')}:
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', flexWrap: 'wrap' }}>
+            <span style={{ fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text-primary)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <ShieldCheckIcon size={13} />
+              <span>{t('planDashboard.deviceSafetyHeading')}:</span>
             </span>
             <span>
-              {t('planDashboard.notificationsSafeLabel')} {formatSafetyAnswer(deviceSafety.notificationsSafe)}
-            </span>
-            <span>•</span>
-            <span>
-              {t('planDashboard.deviceSharedLabel')} {formatSafetyAnswer(deviceSafety.deviceShared)}
+              {t('planDashboard.notificationsSafeLabel')} <strong>{formatSafetyAnswer(deviceSafety.notificationsSafe)}</strong>
             </span>
             <span>•</span>
             <span>
-              {t('planDashboard.accountsSharedLabel')} {formatSafetyAnswer(deviceSafety.accountsOrLocationShared)}
+              {t('planDashboard.deviceSharedLabel')} <strong>{formatSafetyAnswer(deviceSafety.deviceShared)}</strong>
+            </span>
+            <span>•</span>
+            <span>
+              {t('planDashboard.accountsSharedLabel')} <strong>{formatSafetyAnswer(deviceSafety.accountsOrLocationShared)}</strong>
             </span>
           </div>
 
-          {quietMode && <StatusChip label={t('safetyShell.quietModeActive')} variant="quiet" size="sm" />}
+          {quietMode && (
+            <StatusChip
+              label={t('safetyShell.quietModeActive')}
+              variant="quiet"
+              size="xs"
+              icon={<EyeOffIcon size={11} />}
+              withDot
+            />
+          )}
         </div>
       </Card>
     </div>

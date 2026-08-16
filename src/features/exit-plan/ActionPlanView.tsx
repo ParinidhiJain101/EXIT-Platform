@@ -5,6 +5,13 @@ import { useSession } from '../../context/useSession';
 import type { ActionPriority } from '../../api/types';
 import { Card } from '../../components/Card/Card';
 import { StatusChip, type StatusChipVariant } from '../../components/StatusChip/StatusChip';
+import { SegmentedControl } from '../../components/SegmentedControl/SegmentedControl';
+import {
+  CheckIcon,
+  CheckCircleIcon,
+  RefreshIcon,
+  TrashIcon,
+} from '../../components/Icons/Icons';
 
 type FilterTab = 'active' | 'all' | 'completed' | 'dismissed';
 
@@ -50,28 +57,48 @@ export const ActionPlanView: FC = () => {
         break;
       case 'all':
       default:
-        // show all non-dismissed first, then dismissed
         break;
     }
 
     return result.sort((a, b) => {
-      // First sort by priority band
       const pDiff = PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority];
       if (pDiff !== 0) return pDiff;
-      // Then active before completed
       if (a.completed !== b.completed) return a.completed ? 1 : -1;
       return 0;
     });
   }, [actions, activeTab]);
 
+  const filterOptions = [
+    {
+      value: 'active' as FilterTab,
+      label: t('actions.filterActive', { count: counts.active }),
+    },
+    {
+      value: 'all' as FilterTab,
+      label: t('actions.filterAll', { count: counts.total }),
+    },
+    {
+      value: 'completed' as FilterTab,
+      label: t('actions.filterCompleted', { count: counts.completed }),
+    },
+    ...(counts.dismissed > 0
+      ? [
+          {
+            value: 'dismissed' as FilterTab,
+            label: t('actions.filterDismissed', { count: counts.dismissed }),
+          },
+        ]
+      : []),
+  ];
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-5)' }}>
       {/* Header & Progress */}
       <div>
-        <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)', marginBottom: 'var(--spacing-1)' }}>
+        <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', marginBottom: 'var(--spacing-1)' }}>
           {t('actions.title')}
         </h3>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: '#486581', marginBottom: 'var(--spacing-2)' }}>
+        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-3)' }}>
           {t('actions.description')}
         </p>
 
@@ -83,98 +110,28 @@ export const ActionPlanView: FC = () => {
                 completed: counts.completed,
                 total: counts.total - counts.dismissed,
               })}
-              variant="memory"
+              variant="safe"
               size="sm"
+              icon={<CheckCircleIcon size={13} />}
+              withDot
             />
           </div>
         )}
       </div>
 
-      {/* Filter Tabs */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--spacing-2)' }} role="tablist" aria-label="Action filters">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === 'active'}
-          onClick={() => setActiveTab('active')}
-          style={{
-            background: activeTab === 'active' ? 'var(--color-trust-blue)' : 'var(--color-neutral-grey)',
-            color: activeTab === 'active' ? 'var(--color-white)' : 'var(--color-deep-ink)',
-            border: 'none',
-            borderRadius: 'var(--border-radius-full)',
-            padding: '4px 12px',
-            fontSize: 'var(--font-size-xs)',
-            fontWeight: 'var(--font-weight-medium)',
-            cursor: 'pointer',
-          }}
-        >
-          {t('actions.filterActive', { count: counts.active })}
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === 'all'}
-          onClick={() => setActiveTab('all')}
-          style={{
-            background: activeTab === 'all' ? 'var(--color-trust-blue)' : 'var(--color-neutral-grey)',
-            color: activeTab === 'all' ? 'var(--color-white)' : 'var(--color-deep-ink)',
-            border: 'none',
-            borderRadius: 'var(--border-radius-full)',
-            padding: '4px 12px',
-            fontSize: 'var(--font-size-xs)',
-            fontWeight: 'var(--font-weight-medium)',
-            cursor: 'pointer',
-          }}
-        >
-          {t('actions.filterAll', { count: counts.total })}
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === 'completed'}
-          onClick={() => setActiveTab('completed')}
-          style={{
-            background: activeTab === 'completed' ? 'var(--color-trust-blue)' : 'var(--color-neutral-grey)',
-            color: activeTab === 'completed' ? 'var(--color-white)' : 'var(--color-deep-ink)',
-            border: 'none',
-            borderRadius: 'var(--border-radius-full)',
-            padding: '4px 12px',
-            fontSize: 'var(--font-size-xs)',
-            fontWeight: 'var(--font-weight-medium)',
-            cursor: 'pointer',
-          }}
-        >
-          {t('actions.filterCompleted', { count: counts.completed })}
-        </button>
-
-        {counts.dismissed > 0 && (
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'dismissed'}
-            onClick={() => setActiveTab('dismissed')}
-            style={{
-              background: activeTab === 'dismissed' ? 'var(--color-trust-blue)' : 'var(--color-neutral-grey)',
-              color: activeTab === 'dismissed' ? 'var(--color-white)' : 'var(--color-deep-ink)',
-              border: 'none',
-              borderRadius: 'var(--border-radius-full)',
-              padding: '4px 12px',
-              fontSize: 'var(--font-size-xs)',
-              fontWeight: 'var(--font-weight-medium)',
-              cursor: 'pointer',
-            }}
-          >
-            {t('actions.filterDismissed', { count: counts.dismissed })}
-          </button>
-        )}
-      </div>
+      {/* Filter Tabs via SegmentedControl */}
+      <SegmentedControl
+        options={filterOptions}
+        value={activeTab}
+        onChange={(val) => setActiveTab(val)}
+        size="sm"
+        aria-label="Action filters"
+      />
 
       {/* Action Cards List */}
       {filteredActions.length === 0 ? (
-        <Card variant="neutral" padding="md">
-          <p style={{ fontSize: 'var(--font-size-sm)', color: '#64748B', textAlign: 'center', fontStyle: 'italic' }}>
+        <Card variant="neutral" padding="lg">
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textAlign: 'center', fontStyle: 'italic' }}>
             {t('actions.noActions')}
           </p>
         </Card>
@@ -195,25 +152,22 @@ export const ActionPlanView: FC = () => {
                 variant={isCompleted ? 'highlight' : isDismissed ? 'neutral' : 'default'}
                 padding="md"
                 style={{
-                  opacity: isDismissed ? 0.7 : 1,
-                  border: isCompleted
-                    ? '1px solid #A7F3D0'
-                    : isDismissed
-                    ? '1px solid #E2E8F0'
-                    : '1px solid #CBD5E1',
-                  transition: 'all 0.15s ease',
+                  opacity: isDismissed ? 0.65 : 1,
+                  boxShadow: isCompleted || isDismissed ? 'none' : 'var(--shadow-xs)',
+                  transition: 'all var(--transition-fast)',
                 }}
               >
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-2)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-3)' }}>
                   {/* Top Bar: Priority Chip, Category Chip, Actions */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--spacing-2)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
                       <StatusChip
                         label={t(`actions.priorityBands.${action.priority.toLowerCase()}`)}
                         variant={priorityVariant}
-                        size="sm"
+                        size="xs"
+                        withDot
                       />
-                      <span style={{ fontSize: 'var(--font-size-xs)', color: '#64748B', fontWeight: 'var(--font-weight-medium)' }}>
+                      <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' }}>
                         {categoryTitle}
                       </span>
                     </div>
@@ -224,30 +178,39 @@ export const ActionPlanView: FC = () => {
                           type="button"
                           onClick={() => restoreAction(action.id)}
                           style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
                             background: 'none',
                             border: 'none',
                             color: 'var(--color-trust-blue)',
                             fontSize: 'var(--font-size-xs)',
+                            fontWeight: 'var(--font-weight-medium)',
                             cursor: 'pointer',
-                            textDecoration: 'underline',
+                            padding: '2px 6px',
                           }}
                         >
-                          {t('common.restore')}
+                          <RefreshIcon size={12} />
+                          <span>{t('common.restore')}</span>
                         </button>
                       ) : (
                         <button
                           type="button"
                           onClick={() => dismissAction(action.id)}
                           style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
                             background: 'none',
                             border: 'none',
-                            color: '#94A3B8',
+                            color: 'var(--color-text-muted)',
                             fontSize: 'var(--font-size-xs)',
                             cursor: 'pointer',
-                            textDecoration: 'underline',
+                            padding: '2px 6px',
                           }}
                         >
-                          {t('common.dismiss')}
+                          <TrashIcon size={12} />
+                          <span>{t('common.dismiss')}</span>
                         </button>
                       )}
                     </div>
@@ -256,19 +219,30 @@ export const ActionPlanView: FC = () => {
                   {/* Main Action Content & Checkbox */}
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-3)' }}>
                     {!isDismissed && (
-                      <input
-                        type="checkbox"
-                        checked={isCompleted}
-                        onChange={() => toggleActionComplete(action.id)}
+                      <button
+                        type="button"
+                        onClick={() => toggleActionComplete(action.id)}
+                        role="checkbox"
+                        aria-checked={isCompleted}
                         aria-label={`${title} (${isCompleted ? t('common.completed') : t('common.markComplete')})`}
                         style={{
-                          width: '20px',
-                          height: '20px',
-                          marginTop: '2px',
+                          width: '22px',
+                          height: '22px',
+                          borderRadius: 'var(--border-radius-xs)',
+                          border: isCompleted ? '2px solid var(--color-safe-green)' : '1.5px solid var(--color-border-default)',
+                          backgroundColor: isCompleted ? 'var(--color-safe-green)' : 'var(--color-bg-canvas)',
+                          color: 'white',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                           cursor: 'pointer',
-                          accentColor: 'var(--color-safe-green)',
+                          marginTop: '2px',
+                          flexShrink: 0,
+                          transition: 'all var(--transition-fast)',
                         }}
-                      />
+                      >
+                        {isCompleted && <CheckIcon size={14} />}
+                      </button>
                     )}
 
                     <div style={{ flex: 1 }}>
@@ -276,29 +250,31 @@ export const ActionPlanView: FC = () => {
                         style={{
                           fontSize: 'var(--font-size-base)',
                           fontWeight: 'var(--font-weight-bold)',
-                          color: isCompleted ? '#065F46' : 'var(--color-deep-ink)',
+                          color: isCompleted ? 'var(--color-safe-green)' : 'var(--color-text-primary)',
                           textDecoration: isCompleted ? 'line-through' : 'none',
                           marginBottom: '4px',
+                          lineHeight: 1.35,
                         }}
                       >
                         {title}
                       </h4>
-                      <p style={{ fontSize: 'var(--font-size-sm)', color: '#334E68', lineHeight: 1.4, marginBottom: 'var(--spacing-2)' }}>
+                      <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.45, marginBottom: 'var(--spacing-2)' }}>
                         {description}
                       </p>
 
                       {/* Explainability Rationale Box */}
                       <div
                         style={{
-                          backgroundColor: '#F8FAFC',
+                          backgroundColor: 'var(--color-bg-subtle)',
                           borderLeft: '3px solid var(--color-trust-blue)',
-                          padding: 'var(--spacing-1) var(--spacing-3)',
-                          borderRadius: '0 4px 4px 0',
+                          padding: 'var(--spacing-2) var(--spacing-3)',
+                          borderRadius: '0 var(--border-radius-xs) var(--border-radius-xs) 0',
                           fontSize: 'var(--font-size-xs)',
-                          color: '#475569',
+                          color: 'var(--color-text-secondary)',
+                          lineHeight: 1.4,
                         }}
                       >
-                        <span style={{ fontWeight: 'var(--font-weight-semibold)', color: '#1E293B' }}>
+                        <span style={{ fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text-primary)' }}>
                           {t('actions.whySuggested')}{' '}
                         </span>
                         {reason}

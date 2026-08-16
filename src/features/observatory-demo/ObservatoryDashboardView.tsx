@@ -12,13 +12,20 @@ import type {
 import { Card } from '../../components/Card/Card';
 import { StatusChip } from '../../components/StatusChip/StatusChip';
 import { Button } from '../../components/Button/Button';
+import { SegmentedControl } from '../../components/SegmentedControl/SegmentedControl';
+import {
+  BarChartIcon,
+  ShieldIcon,
+  AlertTriangleIcon,
+  LockIcon,
+  XIcon,
+} from '../../components/Icons/Icons';
 
 // ─── Mini bar chart component ────────────────────────────────────────────────
 
 interface BarChartProps {
   cells: AggregateCell[];
   groupBy: 'harmCategory' | 'serviceNeed' | 'broadRegion';
-  maxBarWidth?: number;
 }
 
 const BarChart: FC<BarChartProps> = ({ cells, groupBy }) => {
@@ -51,15 +58,16 @@ const BarChart: FC<BarChartProps> = ({ cells, groupBy }) => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 'var(--spacing-2)',
+            gap: 'var(--spacing-3)',
           }}
         >
           <div
             style={{
-              width: '140px',
+              width: '150px',
               flexShrink: 0,
-              fontSize: '11px',
-              color: '#334E68',
+              fontSize: 'var(--font-size-xs)',
+              fontWeight: 'var(--font-weight-medium)',
+              color: 'var(--color-text-secondary)',
               textAlign: 'right',
               lineHeight: 1.3,
             }}
@@ -70,9 +78,9 @@ const BarChart: FC<BarChartProps> = ({ cells, groupBy }) => {
           <div
             style={{
               flex: 1,
-              height: '18px',
-              backgroundColor: '#EBF5FF',
-              borderRadius: '4px',
+              height: '20px',
+              backgroundColor: 'var(--color-bg-subtle)',
+              borderRadius: 'var(--border-radius-xs)',
               overflow: 'hidden',
               position: 'relative',
             }}
@@ -82,7 +90,7 @@ const BarChart: FC<BarChartProps> = ({ cells, groupBy }) => {
                 width: `${(count / max) * 100}%`,
                 height: '100%',
                 backgroundColor: 'var(--color-trust-blue)',
-                borderRadius: '4px',
+                borderRadius: 'var(--border-radius-xs)',
                 transition: 'width 0.4s ease',
               }}
             />
@@ -92,7 +100,7 @@ const BarChart: FC<BarChartProps> = ({ cells, groupBy }) => {
             style={{
               width: '36px',
               flexShrink: 0,
-              fontSize: '11px',
+              fontSize: 'var(--font-size-xs)',
               fontWeight: 'var(--font-weight-bold)',
               color: 'var(--color-trust-blue)',
               textAlign: 'left',
@@ -119,19 +127,19 @@ const PipelineStep: FC<PipelineStepProps> = ({
   step,
   label,
   detail,
-  color = '#334E68',
+  color = 'var(--color-text-secondary)',
 }) => (
   <div
     style={{
       display: 'flex',
       alignItems: 'flex-start',
-      gap: 'var(--spacing-2)',
+      gap: 'var(--spacing-3)',
     }}
   >
     <div
       style={{
-        width: '24px',
-        height: '24px',
+        width: '22px',
+        height: '22px',
         borderRadius: '50%',
         backgroundColor: 'var(--color-trust-blue)',
         color: 'white',
@@ -151,7 +159,7 @@ const PipelineStep: FC<PipelineStepProps> = ({
         style={{
           fontSize: 'var(--font-size-xs)',
           fontWeight: 'var(--font-weight-semibold)',
-          color: 'var(--color-deep-ink)',
+          color: 'var(--color-text-primary)',
         }}
       >
         {label}
@@ -210,12 +218,18 @@ export const ObservatoryDashboardView: FC = () => {
     region: 'broadRegion',
   };
 
+  const chartViewOptions = [
+    { value: 'harm' as ChartView, label: t('observatory.chartBy.harm') },
+    { value: 'service' as ChartView, label: t('observatory.chartBy.service') },
+    { value: 'region' as ChartView, label: t('observatory.chartBy.region') },
+  ];
+
   return (
     <div
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--spacing-5)',
+        gap: 'var(--spacing-6)',
       }}
     >
       {/* ── Header ─────────────────────────────────────────────────────────── */}
@@ -243,7 +257,8 @@ export const ObservatoryDashboardView: FC = () => {
                 style={{
                   fontSize: 'var(--font-size-2xl)',
                   fontWeight: 'var(--font-weight-bold)',
-                  color: 'var(--color-deep-ink)',
+                  color: 'var(--color-text-primary)',
+                  letterSpacing: '-0.02em',
                   margin: 0,
                 }}
               >
@@ -253,13 +268,14 @@ export const ObservatoryDashboardView: FC = () => {
               <StatusChip
                 label={t('observatory.syntheticBadge')}
                 variant="warning"
-                size="sm"
+                size="xs"
+                withDot
               />
             </div>
 
             <p
               style={{
-                color: '#486581',
+                color: 'var(--color-text-secondary)',
                 fontSize: 'var(--font-size-sm)',
               }}
             >
@@ -271,6 +287,7 @@ export const ObservatoryDashboardView: FC = () => {
             label={t('observatory.memoryOnlyBadge')}
             variant="memory"
             size="sm"
+            withDot
           />
         </div>
       </div>
@@ -284,8 +301,8 @@ export const ObservatoryDashboardView: FC = () => {
             gap: 'var(--spacing-2)',
           }}
         >
-          <span style={{ fontSize: '18px' }} aria-hidden="true">
-            ⚠️
+          <span style={{ color: 'var(--color-warm-amber)', marginTop: '1px' }}>
+            <AlertTriangleIcon size={16} />
           </span>
 
           <div>
@@ -327,24 +344,23 @@ export const ObservatoryDashboardView: FC = () => {
             gap: 'var(--spacing-2)',
           }}
         >
-          <h3
-            style={{
-              fontSize: 'var(--font-size-base)',
-              fontWeight: 'var(--font-weight-bold)',
-              color: 'var(--color-deep-ink)',
-            }}
-          >
-            🔏 {t('observatory.pipelineTitle')}
-          </h3>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <ShieldIcon size={18} />
+            <h3
+              style={{
+                fontSize: 'var(--font-size-base)',
+                fontWeight: 'var(--font-weight-bold)',
+                color: 'var(--color-text-primary)',
+              }}
+            >
+              {t('observatory.pipelineTitle')}
+            </h3>
+          </div>
 
           <Button
             variant="ghost"
+            size="sm"
             onClick={() => setShowPipelineDetail((value) => !value)}
-            style={{
-              fontSize: 'var(--font-size-xs)',
-              minHeight: '30px',
-              padding: 'var(--spacing-1) var(--spacing-2)',
-            }}
           >
             {showPipelineDetail
               ? t('observatory.hidePipeline')
@@ -365,48 +381,56 @@ export const ObservatoryDashboardView: FC = () => {
             {
               label: t('observatory.statSubmitted'),
               value: totalCandidatesSubmitted,
-              color: '#334E68',
-              bg: '#F0F7FF',
+              color: 'var(--color-text-primary)',
+              bg: 'var(--color-bg-canvas)',
+              border: 'var(--color-border-subtle)',
             },
             {
               label: t('observatory.statRejected'),
               value: rejected,
-              color: '#B03A2E',
-              bg: '#FEF2F2',
+              color: 'var(--color-muted-red)',
+              bg: 'var(--color-soft-rose)',
+              border: 'var(--color-border-red)',
             },
             {
               label: t('observatory.statAccepted'),
               value: totalAccepted,
-              color: '#1E8449',
-              bg: '#F0FFF4',
+              color: 'var(--color-safe-green)',
+              bg: 'var(--color-soft-green)',
+              border: 'var(--color-border-green)',
             },
             {
               label: t('observatory.statSuppressed'),
               value: totalSuppressed,
-              color: '#744210',
-              bg: '#FFFBEB',
+              color: '#B45309',
+              bg: 'var(--color-soft-amber)',
+              border: 'var(--color-border-amber)',
             },
             {
               label: t('observatory.statReleased'),
               value: totalReleased,
               color: 'var(--color-trust-blue)',
               bg: 'var(--color-soft-blue)',
+              border: 'var(--color-border-blue)',
             },
-          ].map(({ label, value, color, bg }) => (
+          ].map(({ label, value, color, bg, border }) => (
             <div
               key={label}
               style={{
                 backgroundColor: bg,
                 borderRadius: 'var(--border-radius-sm)',
+                border: `1px solid ${border}`,
                 padding: 'var(--spacing-3)',
                 textAlign: 'center',
+                boxShadow: 'var(--shadow-xs)',
               }}
             >
               <div
                 style={{
-                  fontSize: 'var(--font-size-xl)',
+                  fontSize: 'var(--font-size-2xl)',
                   fontWeight: 'var(--font-weight-bold)',
                   color,
+                  lineHeight: 1.2,
                 }}
               >
                 {value}
@@ -415,9 +439,10 @@ export const ObservatoryDashboardView: FC = () => {
               <div
                 style={{
                   fontSize: '11px',
-                  color: '#475569',
-                  marginTop: '2px',
+                  color: 'var(--color-text-muted)',
+                  marginTop: '4px',
                   lineHeight: 1.3,
+                  fontWeight: 'var(--font-weight-medium)',
                 }}
               >
                 {label}
@@ -433,15 +458,15 @@ export const ObservatoryDashboardView: FC = () => {
               display: 'flex',
               flexDirection: 'column',
               gap: 'var(--spacing-3)',
-              borderTop: '1px solid #D0E1FD',
-              paddingTop: 'var(--spacing-3)',
+              borderTop: '1px solid var(--color-border-blue)',
+              paddingTop: 'var(--spacing-4)',
             }}
           >
             <PipelineStep
               step={1}
               label={t('observatory.stage1Title')}
               detail={t('observatory.stage1Detail', { rejected })}
-              color="#B03A2E"
+              color="var(--color-muted-red)"
             />
 
             <PipelineStep
@@ -475,7 +500,7 @@ export const ObservatoryDashboardView: FC = () => {
                 suppressed: totalSuppressed,
                 kThreshold,
               })}
-              color="#744210"
+              color="#B45309"
             />
 
             <PipelineStep
@@ -485,7 +510,7 @@ export const ObservatoryDashboardView: FC = () => {
                 cells: aggregateCells.length,
                 released: totalReleased,
               })}
-              color="#1E8449"
+              color="var(--color-safe-green)"
             />
           </div>
         )}
@@ -496,78 +521,59 @@ export const ObservatoryDashboardView: FC = () => {
         <p
           style={{
             fontSize: 'var(--font-size-xs)',
-            color: '#334E68',
+            color: 'var(--color-text-secondary)',
             lineHeight: 1.5,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '6px',
           }}
         >
-          <strong>🔒 k ≥ {kThreshold} suppression active. </strong>
-
-          {t('observatory.kThresholdExplanation', {
-            k: kThreshold,
-          })}{' '}
-
-          <em style={{ color: '#64748B' }}>
-            {t('observatory.differentialPrivacyNote')}
-          </em>
+          <LockIcon size={14} style={{ marginTop: '2px', flexShrink: 0 }} />
+          <span>
+            <strong>k ≥ {kThreshold} suppression active. </strong>
+            {t('observatory.kThresholdExplanation', {
+              k: kThreshold,
+            })}{' '}
+            <em style={{ color: 'var(--color-text-muted)' }}>
+              {t('observatory.differentialPrivacyNote')}
+            </em>
+          </span>
         </p>
       </Card>
 
       {/* ── Aggregate chart ─────────────────────────────────────────────────── */}
       {aggregateCells.length > 0 ? (
-        <Card variant="default" padding="md">
+        <Card variant="default" padding="md" style={{ boxShadow: 'var(--shadow-xs)' }}>
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: 'var(--spacing-3)',
+              marginBottom: 'var(--spacing-4)',
               flexWrap: 'wrap',
               gap: 'var(--spacing-2)',
             }}
           >
-            <h3
-              style={{
-                fontSize: 'var(--font-size-base)',
-                fontWeight: 'var(--font-weight-bold)',
-                color: 'var(--color-deep-ink)',
-              }}
-            >
-              📊 {t('observatory.chartTitle')}
-            </h3>
-
-            <div
-              style={{
-                display: 'flex',
-                gap: 'var(--spacing-1)',
-              }}
-            >
-              {(['harm', 'service', 'region'] as ChartView[]).map((view) => (
-                <button
-                  key={view}
-                  type="button"
-                  onClick={() => setChartView(view)}
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: 'var(--border-radius-full)',
-                    border: '1px solid',
-                    borderColor:
-                      chartView === view
-                        ? 'var(--color-trust-blue)'
-                        : '#CBD5E1',
-                    backgroundColor:
-                      chartView === view
-                        ? 'var(--color-trust-blue)'
-                        : 'transparent',
-                    color: chartView === view ? 'white' : '#475569',
-                    fontSize: '11px',
-                    fontWeight: 'var(--font-weight-medium)',
-                    cursor: 'pointer',
-                  }}
-                >
-                  {t(`observatory.chartBy.${view}`)}
-                </button>
-              ))}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <BarChartIcon size={18} />
+              <h3
+                style={{
+                  fontSize: 'var(--font-size-base)',
+                  fontWeight: 'var(--font-weight-bold)',
+                  color: 'var(--color-text-primary)',
+                }}
+              >
+                {t('observatory.chartTitle')}
+              </h3>
             </div>
+
+            <SegmentedControl
+              options={chartViewOptions}
+              value={chartView}
+              onChange={(val) => setChartView(val)}
+              size="sm"
+              aria-label="Chart category"
+            />
           </div>
 
           <BarChart
@@ -577,9 +583,9 @@ export const ObservatoryDashboardView: FC = () => {
 
           <p
             style={{
-              fontSize: '10px',
-              color: '#94A3B8',
-              marginTop: 'var(--spacing-3)',
+              fontSize: '11px',
+              color: 'var(--color-text-faint)',
+              marginTop: 'var(--spacing-4)',
               fontStyle: 'italic',
             }}
           >
@@ -587,11 +593,11 @@ export const ObservatoryDashboardView: FC = () => {
           </p>
         </Card>
       ) : (
-        <Card variant="neutral" padding="md">
+        <Card variant="neutral" padding="lg">
           <p
             style={{
               fontSize: 'var(--font-size-sm)',
-              color: '#64748B',
+              color: 'var(--color-text-muted)',
               textAlign: 'center',
               fontStyle: 'italic',
             }}
@@ -604,7 +610,7 @@ export const ObservatoryDashboardView: FC = () => {
       )}
 
       {/* ── Released aggregate cells table ─────────────────────────────────── */}
-      <Card variant="default" padding="md">
+      <Card variant="default" padding="md" style={{ boxShadow: 'var(--shadow-xs)' }}>
         <div
           style={{
             display: 'flex',
@@ -619,7 +625,7 @@ export const ObservatoryDashboardView: FC = () => {
             style={{
               fontSize: 'var(--font-size-base)',
               fontWeight: 'var(--font-weight-bold)',
-              color: 'var(--color-deep-ink)',
+              color: 'var(--color-text-primary)',
             }}
           >
             {t('observatory.tableTitle')} ({aggregateCells.length}{' '}
@@ -628,12 +634,8 @@ export const ObservatoryDashboardView: FC = () => {
 
           <Button
             variant="ghost"
+            size="sm"
             onClick={() => setShowCellTable((value) => !value)}
-            style={{
-              fontSize: 'var(--font-size-xs)',
-              minHeight: '30px',
-              padding: 'var(--spacing-1) var(--spacing-2)',
-            }}
           >
             {showCellTable
               ? t('observatory.hideTable')
@@ -642,7 +644,7 @@ export const ObservatoryDashboardView: FC = () => {
         </div>
 
         {showCellTable && (
-          <div style={{ overflowX: 'auto' }}>
+          <div style={{ overflowX: 'auto', marginTop: 'var(--spacing-3)' }}>
             <table
               style={{
                 width: '100%',
@@ -670,8 +672,8 @@ export const ObservatoryDashboardView: FC = () => {
                         padding:
                           'var(--spacing-2) var(--spacing-3)',
                         fontWeight: 'var(--font-weight-semibold)',
-                        color: '#334E68',
-                        borderBottom: '1px solid #D0E1FD',
+                        color: 'var(--color-trust-blue)',
+                        borderBottom: '1px solid var(--color-border-blue)',
                       }}
                     >
                       {heading}
@@ -685,16 +687,17 @@ export const ObservatoryDashboardView: FC = () => {
                   <tr
                     key={`${cell.harmCategory}-${cell.broadRegion}-${cell.serviceNeed}-${cell.quarterBucket}-${cell.count}-${index}`}
                     style={{
-                      borderBottom: '1px solid #E2E8F0',
+                      borderBottom: '1px solid var(--color-border-subtle)',
                       backgroundColor:
-                        index % 2 === 0 ? 'transparent' : '#F8FAFC',
+                        index % 2 === 0 ? 'transparent' : 'var(--color-bg-subtle)',
                     }}
                   >
                     <td
                       style={{
                         padding:
                           'var(--spacing-2) var(--spacing-3)',
-                        color: 'var(--color-deep-ink)',
+                        color: 'var(--color-text-primary)',
+                        fontWeight: 'var(--font-weight-medium)',
                       }}
                     >
                       {cell.harmCategory}
@@ -704,7 +707,7 @@ export const ObservatoryDashboardView: FC = () => {
                       style={{
                         padding:
                           'var(--spacing-2) var(--spacing-3)',
-                        color: '#475569',
+                        color: 'var(--color-text-secondary)',
                       }}
                     >
                       {cell.broadRegion}
@@ -714,7 +717,7 @@ export const ObservatoryDashboardView: FC = () => {
                       style={{
                         padding:
                           'var(--spacing-2) var(--spacing-3)',
-                        color: '#475569',
+                        color: 'var(--color-text-secondary)',
                       }}
                     >
                       {cell.serviceNeed}
@@ -724,7 +727,7 @@ export const ObservatoryDashboardView: FC = () => {
                       style={{
                         padding:
                           'var(--spacing-2) var(--spacing-3)',
-                        color: '#64748B',
+                        color: 'var(--color-text-muted)',
                       }}
                     >
                       {cell.quarterBucket}
@@ -740,7 +743,7 @@ export const ObservatoryDashboardView: FC = () => {
                       <StatusChip
                         label={`${cell.count}`}
                         variant="memory"
-                        size="sm"
+                        size="xs"
                       />
                     </td>
                   </tr>
@@ -750,9 +753,9 @@ export const ObservatoryDashboardView: FC = () => {
 
             <p
               style={{
-                fontSize: '10px',
-                color: '#94A3B8',
-                marginTop: 'var(--spacing-2)',
+                fontSize: '11px',
+                color: 'var(--color-text-faint)',
+                marginTop: 'var(--spacing-3)',
                 fontStyle: 'italic',
               }}
             >
@@ -770,21 +773,24 @@ export const ObservatoryDashboardView: FC = () => {
           style={{
             fontSize: 'var(--font-size-sm)',
             fontWeight: 'var(--font-weight-bold)',
-            color: 'var(--color-deep-ink)',
-            marginBottom: 'var(--spacing-2)',
+            color: 'var(--color-muted-red)',
+            marginBottom: 'var(--spacing-3)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
           }}
         >
-          🚫 {t('observatory.neverSeesTitle')}
+          <XIcon size={16} />
+          <span>{t('observatory.neverSeesTitle')}</span>
         </h3>
 
-        <ul
+        <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 'var(--spacing-1)',
-            paddingLeft: 'var(--spacing-4)',
+            gap: 'var(--spacing-2)',
             fontSize: 'var(--font-size-xs)',
-            color: '#475569',
+            color: 'var(--color-text-secondary)',
           }}
         >
           {[
@@ -795,9 +801,14 @@ export const ObservatoryDashboardView: FC = () => {
             t('observatory.neverSees5'),
             t('observatory.neverSees6'),
           ].map((item, index) => (
-            <li key={index}>{item}</li>
+            <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+              <span style={{ color: 'var(--color-muted-red)', marginTop: '2px' }}>
+                <XIcon size={13} />
+              </span>
+              <span style={{ lineHeight: 1.4 }}>{item}</span>
+            </div>
           ))}
-        </ul>
+        </div>
       </Card>
     </div>
   );

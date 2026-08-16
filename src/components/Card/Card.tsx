@@ -2,15 +2,18 @@ import type { FC, HTMLAttributes, ReactNode, CSSProperties } from 'react';
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
-  variant?: 'default' | 'surface' | 'highlight' | 'warning' | 'neutral';
-  padding?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'surface' | 'highlight' | 'warning' | 'neutral' | 'elevated' | 'danger';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  interactive?: boolean;
 }
 
 export const Card: FC<CardProps> = ({
   children,
   variant = 'default',
   padding = 'md',
+  interactive = false,
   style,
+  className,
   ...props
 }) => {
   const getVariantStyles = (): CSSProperties => {
@@ -18,55 +21,79 @@ export const Card: FC<CardProps> = ({
       case 'surface':
         return {
           backgroundColor: 'var(--color-soft-blue)',
-          border: '1px solid #D0E1FD',
+          border: '1px solid var(--color-border-blue)',
+          boxShadow: 'var(--shadow-xs)',
         };
       case 'highlight':
         return {
           backgroundColor: 'var(--color-soft-green)',
-          border: '1px solid #C3E6CB',
+          border: '1px solid var(--color-border-green)',
+          boxShadow: 'var(--shadow-xs)',
         };
       case 'warning':
         return {
           backgroundColor: 'var(--color-soft-amber)',
-          border: '1px solid #FFEAA7',
+          border: '1px solid var(--color-border-amber)',
+          boxShadow: 'var(--shadow-xs)',
+        };
+      case 'danger':
+        return {
+          backgroundColor: 'var(--color-soft-rose)',
+          border: '1px solid var(--color-border-red)',
+          boxShadow: 'var(--shadow-xs)',
         };
       case 'neutral':
         return {
-          backgroundColor: 'var(--color-neutral-grey)',
-          border: '1px solid #E2E8F0',
+          backgroundColor: 'var(--color-bg-subtle)',
+          border: '1px solid var(--color-border-subtle)',
+          boxShadow: 'none',
+        };
+      case 'elevated':
+        return {
+          backgroundColor: 'var(--color-bg-canvas)',
+          border: '1px solid var(--color-border-subtle)',
+          boxShadow: 'var(--shadow-md)',
         };
       case 'default':
       default:
         return {
-          backgroundColor: 'var(--color-white)',
-          border: '1px solid var(--color-neutral-grey)',
+          backgroundColor: 'var(--color-bg-canvas)',
+          border: '1px solid var(--color-border-subtle)',
+          boxShadow: 'var(--shadow-xs)',
         };
     }
   };
 
   const getPadding = (): string => {
     switch (padding) {
+      case 'none':
+        return '0';
       case 'sm':
         return 'var(--spacing-3)';
       case 'lg':
         return 'var(--spacing-6)';
       case 'md':
       default:
-        return 'var(--spacing-4)';
+        return 'var(--spacing-5)';
     }
   };
 
   const baseStyles: CSSProperties = {
-    borderRadius: 'var(--border-radius-md)',
+    borderRadius: 'var(--border-radius-lg)',
     padding: getPadding(),
-    boxShadow: '0 1px 3px rgba(16, 42, 67, 0.05)',
-    color: 'var(--color-deep-ink)',
+    color: 'var(--color-text-primary)',
+    transition: 'transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast)',
     ...getVariantStyles(),
     ...style,
   };
 
   return (
-    <div style={baseStyles} {...props}>
+    <div
+      style={baseStyles}
+      className={className}
+      {...(interactive ? { 'data-interactive': 'true' } : {})}
+      {...props}
+    >
       {children}
     </div>
   );

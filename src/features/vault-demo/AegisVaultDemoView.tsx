@@ -6,6 +6,14 @@ import type { SyntheticEvidenceTemplate, VaultCapsuleItem } from '../../api/type
 import { Card } from '../../components/Card/Card';
 import { StatusChip } from '../../components/StatusChip/StatusChip';
 import { Button } from '../../components/Button/Button';
+import {
+  LockIcon,
+  ShieldCheckIcon,
+  FileTextIcon,
+  CheckCircleIcon,
+  AlertTriangleIcon,
+  AlertCircleIcon,
+} from '../../components/Icons/Icons';
 
 export const AegisVaultDemoView: FC = () => {
   const { t } = useTranslation();
@@ -52,16 +60,24 @@ export const AegisVaultDemoView: FC = () => {
   const selectedTemplate = templates.find((t) => t.id === selectedTemplateId);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-5)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-6)' }}>
       {/* Header */}
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)', marginBottom: 'var(--spacing-1)' }}>
-          <h2 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)', margin: 0 }}>
+          <h2
+            style={{
+              fontSize: 'var(--font-size-2xl)',
+              fontWeight: 'var(--font-weight-bold)',
+              color: 'var(--color-text-primary)',
+              letterSpacing: '-0.02em',
+              margin: 0,
+            }}
+          >
             {t('vault.title')}
           </h2>
-          <StatusChip label={t('vault.prototypeBadge')} variant="memory" size="sm" />
+          <StatusChip label={t('vault.prototypeBadge')} variant="memory" size="xs" withDot />
         </div>
-        <p style={{ color: '#486581', fontSize: 'var(--font-size-sm)' }}>
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-sm)' }}>
           {t('vault.subtitle')}
         </p>
       </div>
@@ -69,9 +85,11 @@ export const AegisVaultDemoView: FC = () => {
       {/* Legal & Prototype Disclaimer Banner */}
       <Card variant="warning" padding="sm">
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
-          <span style={{ fontSize: '18px' }} aria-hidden="true">⚖️</span>
+          <span style={{ color: 'var(--color-warm-amber)', marginTop: '1px' }}>
+            <AlertTriangleIcon size={16} />
+          </span>
           <div>
-            <h4 style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)', color: '#744210', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <h4 style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)', color: '#744210', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '2px' }}>
               {t('vault.legalDisclaimerTitle')}
             </h4>
             <p style={{ fontSize: 'var(--font-size-xs)', color: '#744210', lineHeight: 1.4 }}>
@@ -83,15 +101,15 @@ export const AegisVaultDemoView: FC = () => {
 
       {/* Preservation Sandbox Card */}
       <Card variant="surface" padding="md">
-        <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)', marginBottom: 'var(--spacing-1)' }}>
+        <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', marginBottom: 'var(--spacing-1)' }}>
           {t('vault.sandboxTitle')}
         </h3>
-        <p style={{ fontSize: 'var(--font-size-xs)', color: '#334E68', marginBottom: 'var(--spacing-3)' }}>
+        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-4)' }}>
           {t('vault.sandboxSubtitle')}
         </p>
 
         {/* Template Select Grid */}
-        <div className="responsive-grid-2col" style={{ marginBottom: 'var(--spacing-3)' }}>
+        <div className="responsive-grid-2col" style={{ marginBottom: 'var(--spacing-4)' }}>
           {templates.map((tpl) => {
             const isSelected = selectedTemplateId === tpl.id;
             return (
@@ -101,21 +119,26 @@ export const AegisVaultDemoView: FC = () => {
                 padding="sm"
                 style={{
                   cursor: 'pointer',
-                  border: isSelected ? '2px solid var(--color-trust-blue)' : '1px solid #CBD5E1',
+                  border: isSelected ? '1.5px solid var(--color-trust-blue)' : '1px solid var(--color-border-subtle)',
+                  boxShadow: isSelected ? 'var(--shadow-sm)' : 'var(--shadow-xs)',
+                  transition: 'all var(--transition-fast)',
                 }}
                 onClick={() => setSelectedTemplateId(tpl.id)}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
-                  <h4 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: isSelected ? 'var(--color-trust-blue)' : 'var(--color-deep-ink)' }}>
-                    {t(tpl.titleKey)}
-                  </h4>
-                  <StatusChip label={tpl.category} variant="memory" size="sm" />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <FileTextIcon size={16} />
+                    <h4 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: isSelected ? 'var(--color-trust-blue)' : 'var(--color-text-primary)' }}>
+                      {t(tpl.titleKey)}
+                    </h4>
+                  </div>
+                  <StatusChip label={tpl.category} variant="memory" size="xs" />
                 </div>
-                <p style={{ fontSize: 'var(--font-size-xs)', color: '#486581', lineHeight: 1.3 }}>
+                <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.4 }}>
                   {t(tpl.descriptionKey)}
                 </p>
-                <div style={{ fontSize: '11px', color: '#64748B', marginTop: '6px', fontFamily: 'monospace' }}>
-                  📁 {tpl.fileName} ({tpl.fileSize})
+                <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '8px', fontFamily: 'var(--font-family-mono)' }}>
+                  {tpl.fileName} ({tpl.fileSize})
                 </div>
               </Card>
             );
@@ -124,21 +147,22 @@ export const AegisVaultDemoView: FC = () => {
 
         {/* Content Preview Box */}
         {selectedTemplate && (
-          <div style={{ marginBottom: 'var(--spacing-3)' }}>
-            <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-semibold)', color: '#334E68' }}>
+          <div style={{ marginBottom: 'var(--spacing-4)' }}>
+            <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text-secondary)' }}>
               {t('vault.syntheticPreviewLabel')}:
             </span>
             <pre
               style={{
-                backgroundColor: '#1E293B',
+                backgroundColor: '#0F172A',
                 color: '#E2E8F0',
-                padding: 'var(--spacing-3)',
+                padding: 'var(--spacing-3) var(--spacing-4)',
                 borderRadius: 'var(--border-radius-sm)',
                 fontSize: 'var(--font-size-xs)',
-                fontFamily: 'monospace',
+                fontFamily: 'var(--font-family-mono)',
                 overflowX: 'auto',
                 whiteSpace: 'pre-wrap',
-                marginTop: '4px',
+                marginTop: '6px',
+                border: '1px solid #1E293B',
               }}
             >
               {selectedTemplate.syntheticContent}
@@ -150,6 +174,7 @@ export const AegisVaultDemoView: FC = () => {
           variant="primary"
           onClick={handlePreserve}
           disabled={processing}
+          icon={<LockIcon size={16} />}
           style={{ width: '100%' }}
         >
           {processing ? t('common.loading') : t('vault.preserveButton')}
@@ -159,15 +184,15 @@ export const AegisVaultDemoView: FC = () => {
       {/* Preserved Evidence Timeline */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--spacing-3)' }}>
-          <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)' }}>
+          <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)' }}>
             {t('vault.timelineTitle')} ({timeline.length})
           </h3>
-          <StatusChip label={t('vault.inMemoryOnly')} variant="safe" size="sm" />
+          <StatusChip label={t('vault.inMemoryOnly')} variant="safe" size="xs" withDot />
         </div>
 
         {timeline.length === 0 ? (
-          <Card variant="neutral" padding="md">
-            <p style={{ fontSize: 'var(--font-size-sm)', color: '#64748B', textAlign: 'center', fontStyle: 'italic' }}>
+          <Card variant="neutral" padding="lg">
+            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textAlign: 'center', fontStyle: 'italic' }}>
               {t('vault.noItemsInTimeline')}
             </p>
           </Card>
@@ -181,25 +206,22 @@ export const AegisVaultDemoView: FC = () => {
               return (
                 <Card
                   key={item.id}
-                  variant={isVerified && !isTampered ? 'surface' : isTampered ? 'warning' : 'default'}
+                  variant={isVerified && !isTampered ? 'surface' : isTampered ? 'danger' : 'default'}
                   padding="md"
                   style={{
-                    border: isVerified && !isTampered
-                      ? '1px solid #93C5FD'
-                      : isTampered
-                      ? '2px solid #EF4444'
-                      : '1px solid #CBD5E1',
+                    boxShadow: 'var(--shadow-xs)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 'var(--spacing-2)',
+                    gap: 'var(--spacing-3)',
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--spacing-2)' }}>
                     <div>
-                      <h4 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-deep-ink)' }}>
-                        🔒 {item.fileName}
+                      <h4 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <LockIcon size={15} />
+                        <span>{item.fileName}</span>
                       </h4>
-                      <p style={{ fontSize: '11px', color: '#64748B' }}>
+                      <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
                         {t('vault.timestampLabel')}: {new Date(item.timestamp).toLocaleString()}
                       </p>
                     </div>
@@ -207,34 +229,36 @@ export const AegisVaultDemoView: FC = () => {
                     <StatusChip
                       label={isVerified && !isTampered ? t('vault.verifiedMatch') : isTampered ? t('vault.tamperMismatch') : t('vault.unverified')}
                       variant={isVerified && !isTampered ? 'safe' : isTampered ? 'essential' : 'muted'}
-                      size="sm"
+                      size="xs"
+                      icon={isVerified && !isTampered ? <CheckCircleIcon size={11} /> : isTampered ? <AlertCircleIcon size={11} /> : undefined}
+                      withDot
                     />
                   </div>
 
-                  {/* Cryptographic Receipts */}
+                  {/* Cryptographic Receipts Box */}
                   <div
                     style={{
-                      backgroundColor: '#F8FAFC',
+                      backgroundColor: 'var(--color-bg-subtle)',
                       padding: 'var(--spacing-2) var(--spacing-3)',
                       borderRadius: 'var(--border-radius-sm)',
                       fontSize: '11px',
-                      fontFamily: 'monospace',
-                      color: '#334E68',
+                      fontFamily: 'var(--font-family-mono)',
+                      color: 'var(--color-text-secondary)',
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '4px',
                     }}
                   >
                     <div>
-                      <strong style={{ color: '#0F172A' }}>SHA-256: </strong>
+                      <strong style={{ color: 'var(--color-text-primary)' }}>SHA-256: </strong>
                       <span style={{ wordBreak: 'break-all' }}>{item.plainHash}</span>
                     </div>
                     <div>
-                      <strong style={{ color: '#0F172A' }}>AES-GCM (IV): </strong>
+                      <strong style={{ color: 'var(--color-text-primary)' }}>AES-GCM (IV): </strong>
                       <span>{item.ivHex}</span>
                     </div>
                     <div>
-                      <strong style={{ color: '#0F172A' }}>Ciphertext: </strong>
+                      <strong style={{ color: 'var(--color-text-primary)' }}>Ciphertext: </strong>
                       <span style={{ wordBreak: 'break-all' }}>{item.ciphertextBase64.slice(0, 48)}...</span>
                     </div>
                   </div>
@@ -243,12 +267,13 @@ export const AegisVaultDemoView: FC = () => {
                   {res && (
                     <div
                       style={{
-                        backgroundColor: isVerified && !isTampered ? '#ECFDF5' : '#FEF2F2',
-                        borderLeft: `3px solid ${isVerified && !isTampered ? '#10B981' : '#EF4444'}`,
+                        backgroundColor: isVerified && !isTampered ? 'var(--color-soft-green)' : 'var(--color-soft-rose)',
+                        borderLeft: `3px solid ${isVerified && !isTampered ? 'var(--color-safe-green)' : 'var(--color-muted-red)'}`,
                         padding: 'var(--spacing-2) var(--spacing-3)',
-                        borderRadius: '0 4px 4px 0',
+                        borderRadius: '0 var(--border-radius-xs) var(--border-radius-xs) 0',
                         fontSize: 'var(--font-size-xs)',
                         color: isVerified && !isTampered ? '#065F46' : '#991B1B',
+                        lineHeight: 1.4,
                       }}
                     >
                       <strong>{isVerified && !isTampered ? '✓ ' + t('vault.integrityValid') : '❌ ' + t('vault.integrityFailed')}: </strong>
@@ -262,19 +287,22 @@ export const AegisVaultDemoView: FC = () => {
                   )}
 
                   {/* Action Buttons: Live Verify vs Simulate Tamper */}
-                  <div style={{ display: 'flex', gap: 'var(--spacing-2)', marginTop: '4px', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', gap: 'var(--spacing-2)', marginTop: '2px', flexWrap: 'wrap' }}>
                     <Button
                       variant="secondary"
+                      size="sm"
                       onClick={() => handleVerify(item, false)}
-                      style={{ padding: 'var(--spacing-1) var(--spacing-3)', fontSize: 'var(--font-size-xs)', minHeight: '34px' }}
+                      icon={<ShieldCheckIcon size={14} />}
                     >
                       {t('vault.verifyIntegrityBtn')}
                     </Button>
 
                     <Button
-                      variant="destructive"
+                      variant="outline"
+                      size="sm"
                       onClick={() => handleVerify(item, true)}
-                      style={{ padding: 'var(--spacing-1) var(--spacing-3)', fontSize: 'var(--font-size-xs)', minHeight: '34px' }}
+                      style={{ color: 'var(--color-muted-red)', borderColor: 'var(--color-border-red)' }}
+                      icon={<AlertTriangleIcon size={14} />}
                     >
                       {t('vault.simulateTamperBtn')}
                     </Button>
