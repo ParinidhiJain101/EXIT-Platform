@@ -23,7 +23,8 @@ import {
   type DeviceSafety,
   type StorageMode,
 } from './SessionContext';
-import type { PlanNeeds } from '../api/types';
+import type { PlanNeeds, PlanAction } from '../api/types';
+import { evaluateActionPlan } from '../services/rulesEngine/rulesEngine';
 
 import { memoryStorage } from '../services/storage/memoryStorage';
 
@@ -51,6 +52,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [immediateDanger, setImmediateDanger] = useState<boolean | null>(null);
   const [deviceSafety, setDeviceSafetyState] = useState<DeviceSafety>(initialDeviceSafety);
   const [planNeeds, setPlanNeedsState] = useState<PlanNeeds>(initialPlanNeeds);
+  const [actions, setActions] = useState<PlanAction[]>([]);
   const [onboardingComplete, setOnboardingComplete] = useState<boolean>(false);
 
   // MVP: memory-only storage. No data leaves the browser tab.
@@ -78,7 +80,33 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     }));
   };
 
+  const toggleActionComplete = (id: string) => {
+    setActions((prev) =>
+      prev.map((action) =>
+        action.id === id ? { ...action, completed: !action.completed } : action,
+      ),
+    );
+  };
+
+  const dismissAction = (id: string) => {
+    setActions((prev) =>
+      prev.map((action) =>
+        action.id === id ? { ...action, dismissed: true } : action,
+      ),
+    );
+  };
+
+  const restoreAction = (id: string) => {
+    setActions((prev) =>
+      prev.map((action) =>
+        action.id === id ? { ...action, dismissed: false } : action,
+      ),
+    );
+  };
+
   const completeOnboarding = () => {
+    const generatedActions = evaluateActionPlan(planNeeds, deviceSafety);
+    setActions(generatedActions);
     setOnboardingComplete(true);
     // Persist only within the in-memory store; nothing leaves the tab
     void memoryStorage.setItem('onboarding_complete', true);
@@ -88,6 +116,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setOnboardingComplete(false);
     setDeviceSafetyState(initialDeviceSafety);
     setPlanNeedsState(initialPlanNeeds);
+    setActions([]);
     setImmediateDanger(null);
   };
 
@@ -99,6 +128,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setImmediateDanger(null);
     setDeviceSafetyState(initialDeviceSafety);
     setPlanNeedsState(initialPlanNeeds);
+    setActions([]);
     setOnboardingComplete(false);
   };
 
@@ -137,12 +167,16 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         immediateDanger,
         deviceSafety,
         planNeeds,
+        actions,
         onboardingComplete,
         setNeutralMode,
         setQuietMode,
         setImmediateDanger,
         setDeviceSafety,
         setPlanNeeds,
+        toggleActionComplete,
+        dismissAction,
+        restoreAction,
         completeOnboarding,
         resetOnboarding,
         clearSession,
@@ -153,4 +187,3 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     </SessionContext.Provider>
   );
 }
-

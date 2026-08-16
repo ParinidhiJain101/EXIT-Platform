@@ -1,6 +1,20 @@
 import type { FC, ReactNode, CSSProperties } from 'react';
 
-export type StatusChipVariant = 'quiet' | 'memory' | 'info' | 'safe' | 'warning' | 'muted';
+export type StatusChipVariant =
+  | 'quiet'
+  | 'memory'
+  | 'info'
+  | 'safe'
+  | 'warning'
+  | 'muted'
+  | 'essential'
+  | 'high'
+  | 'helpful'
+  | 'optional'
+  | 'prepared'
+  | 'partiallyPrepared'
+  | 'needsAttention'
+  | 'notPlanned';
 
 export interface StatusChipProps {
   label: string;
@@ -30,29 +44,47 @@ export const StatusChip: FC<StatusChipProps> = ({
           border: '1px solid #D0E1FD',
         };
       case 'safe':
+      case 'prepared':
         return {
           backgroundColor: 'var(--color-soft-green)',
           color: 'var(--color-safe-green)',
           border: '1px solid #C3E6CB',
         };
       case 'warning':
+      case 'needsAttention':
         return {
           backgroundColor: 'var(--color-soft-amber)',
           color: 'var(--color-warm-amber)',
           border: '1px solid #FFEAA7',
         };
-      case 'muted':
-        return {
-          backgroundColor: 'var(--color-neutral-grey)',
-          color: '#64748B',
-          border: '1px solid #E2E8F0',
-        };
+      case 'partiallyPrepared':
+      case 'helpful':
       case 'info':
-      default:
         return {
           backgroundColor: 'var(--color-soft-blue)',
           color: 'var(--color-trust-blue)',
           border: '1px solid #D0E1FD',
+        };
+      case 'essential':
+        return {
+          backgroundColor: '#FDEDEC',
+          color: '#B03A2E',
+          border: '1px solid #F5C6CB',
+        };
+      case 'high':
+        return {
+          backgroundColor: '#FFF4D6',
+          color: '#B9770E',
+          border: '1px solid #FFEAA7',
+        };
+      case 'optional':
+      case 'notPlanned':
+      case 'muted':
+      default:
+        return {
+          backgroundColor: 'var(--color-neutral-grey)',
+          color: '#64748B',
+          border: '1px solid #E2E8F0',
         };
     }
   };

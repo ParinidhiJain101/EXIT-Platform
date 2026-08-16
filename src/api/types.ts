@@ -10,14 +10,43 @@ export interface PlanNeeds {
   work: boolean;
 }
 
-export interface ReadinessStatus {
-  category: string;
-  status: 'Prepared' | 'Partially prepared' | 'Needs attention' | 'Not yet planned' | 'Not relevant';
+export interface DeviceSafetyAnswers {
+  notificationsSafe: boolean | null;
+  deviceShared: boolean | null;
+  accountsOrLocationShared: boolean | null;
+}
+
+export type ReadinessStatusType =
+  | 'Prepared'
+  | 'Partially prepared'
+  | 'Needs attention'
+  | 'Not yet planned'
+  | 'Optional';
+
+export type ActionPriority = 'Essential' | 'High' | 'Helpful' | 'Optional';
+
+export interface ReadinessItem {
+  category: keyof PlanNeeds;
+  status: ReadinessStatusType;
+  titleKey: string;
+  reasonKey: string;
+  rationaleKey: string;
+}
+
+export interface PlanAction {
+  id: string;
+  category: keyof PlanNeeds;
+  priority: ActionPriority;
+  titleKey: string;
+  descriptionKey: string;
+  reasonKey: string;
+  completed: boolean;
+  dismissed: boolean;
 }
 
 export interface ActionPlan {
-  plan: string;
-  actions?: string[];
+  actions: PlanAction[];
+  generatedAt: string;
 }
 
 export interface DirectoryFilters {
@@ -58,8 +87,14 @@ export interface ObservatoryDashboardData {
 
 // API Service Interfaces
 export interface IPlanService {
-  getReadinessSnapshot(needs: PlanNeeds): Promise<ReadinessStatus[]>;
-  generateActionPlan(needs: PlanNeeds): Promise<ActionPlan>;
+  getReadinessSnapshot(
+    needs: PlanNeeds,
+    deviceSafety: DeviceSafetyAnswers,
+  ): Promise<ReadinessItem[]>;
+  generateActionPlan(
+    needs: PlanNeeds,
+    deviceSafety: DeviceSafetyAnswers,
+  ): Promise<PlanAction[]>;
 }
 
 export interface IDirectoryService {

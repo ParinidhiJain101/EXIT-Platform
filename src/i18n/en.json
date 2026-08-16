@@ -12,7 +12,12 @@
     "yes": "Yes",
     "no": "No",
     "unsure": "Unsure",
-    "step": "Step {{current}} of {{total}}"
+    "step": "Step {{current}} of {{total}}",
+    "dismiss": "Dismiss",
+    "restore": "Restore",
+    "completed": "Completed",
+    "markComplete": "Mark complete",
+    "markIncomplete": "Mark incomplete"
   },
   "safetyShell": {
     "brandName": "EXIT",
@@ -132,7 +137,9 @@
 
   "planDashboard": {
     "title": "Your Private Safety Plan",
-    "subtitle": "Active in-memory session. Nothing is saved to disk or network.",
+    "subtitle": "Active in-memory session. Categorical readiness and explainable preparation actions.",
+    "tabActions": "Preparation Actions",
+    "tabReadiness": "Readiness Snapshot",
     "areasSelectedHeading": "Selected Planning Areas ({{count}})",
     "noAreasSelectedHeading": "No specific areas selected",
     "noAreasSelectedDesc": "You can add or update planning areas at any time.",
@@ -142,6 +149,156 @@
     "accountsSharedLabel": "Accounts/location shared:",
     "editPlanButton": "Update Selections",
     "resetPlanButton": "Reset Onboarding",
-    "milestoneNotice": "Milestone 1 complete: Planning areas and device safety configured in memory."
+    "milestoneNotice": "Milestone 2 active: Deterministic rules engine and categorical readiness evaluation."
+  },
+
+  "readiness": {
+    "title": "Categorical Readiness Snapshot",
+    "description": "This snapshot evaluates planning areas into categorical preparation states. It is a preparation checklist, not a safety score.",
+    "statuses": {
+      "prepared": "Prepared",
+      "partiallyPrepared": "Partially prepared",
+      "needsAttention": "Needs attention",
+      "notPlanned": "Not yet planned",
+      "optional": "Optional"
+    },
+    "filterAll": "All categories",
+    "reasons": {
+      "notSelected": "Not selected during onboarding",
+      "commMonitored": "Device or notifications may be monitored by others",
+      "commPendingSafeChannel": "Safe communication channel not yet established",
+      "digitalShared": "Accounts or device location are shared with someone else",
+      "digitalAuditPending": "Digital account audit recommended",
+      "docsChecklistPending": "Essential document access checklist needed",
+      "moneyFundPending": "Independent financial access pathway needed",
+      "housingTemporaryPending": "Temporary shelter or accommodation pathway needed",
+      "childrenCarePending": "Dependent continuity and essentials checklist needed",
+      "healthPathwayPending": "Prescription and confidential medical pathway recommended",
+      "legalAidPending": "Protection orders and legal aid pathway recommended",
+      "workDiscretionPending": "Workplace discretion and salary independence recommended"
+    },
+    "rationales": {
+      "notSelected": "This area was not selected during setup. You can add it anytime by updating your selections.",
+      "commMonitored": "Because your device or notifications may be seen by others, establishing a private channel and using Quiet Mode requires immediate focus.",
+      "commPendingSafeChannel": "A secure communication method and trusted contact should be identified before making other arrangements.",
+      "digitalShared": "Shared Apple/Google accounts or active location tracking may reveal your research or preparations.",
+      "digitalAuditPending": "Reviewing active logins, passwords, and find-my-device settings helps maintain your privacy.",
+      "docsChecklistPending": "Having certified copies or safe access to IDs, birth certificates, and financial records is an essential preparation step.",
+      "moneyFundPending": "Securing independent cash or a private bank account provides vital freedom of choice.",
+      "housingTemporaryPending": "Identifying temporary shelter options or trusted accommodation before leaving prevents emergency disruption.",
+      "childrenCarePending": "Preparing dependent medical records, school documents, and daily essentials safeguards children in transition.",
+      "healthPathwayPending": "Securing sufficient prescription medication and locating confidential clinics ensures uninterrupted healthcare.",
+      "legalAidPending": "Knowing your statutory rights, protection orders, and legal aid options empowers informed decision making.",
+      "workDiscretionPending": "Protecting your workplace contact details and salary routing prevents financial or employment interference."
+    }
+  },
+
+  "actions": {
+    "title": "Suggested Preparation Actions",
+    "description": "These deterministic actions are generated based on your selected needs and device safety assessment. You can complete, edit, or dismiss any action.",
+    "filterAll": "All ({{count}})",
+    "filterActive": "Active ({{count}})",
+    "filterCompleted": "Completed ({{count}})",
+    "filterDismissed": "Dismissed ({{count}})",
+    "whySuggested": "Why this action is suggested:",
+    "progressLabel": "Checklist progress: {{completed}} of {{total}} actions completed",
+    "noActions": "No actions match this filter.",
+    "priorityBands": {
+      "essential": "Essential",
+      "high": "High",
+      "helpful": "Helpful",
+      "optional": "Optional"
+    },
+
+    "commSafeChannel": {
+      "title": "Establish a discreet communication method",
+      "description": "Use private browser tabs, clear call histories, or communicate from a separate safe device outside the home.",
+      "reason": "Triggered because your device or notifications may be accessed by others."
+    },
+    "commTrustedContact": {
+      "title": "Identify one trusted contact if safe",
+      "description": "Choose a trusted friend or support worker who does not communicate with the person causing concern.",
+      "reason": "Triggered because having a discreet point of contact provides reliable safety continuity."
+    },
+    "digitalAuditLogins": {
+      "title": "Audit shared accounts and location sharing",
+      "description": "Check Find My Device, Google Family Link, shared cloud backups, and remove unknown paired devices if safe to do so.",
+      "reason": "Triggered because shared accounts or active location tracking were indicated."
+    },
+    "digitalLocationCheck": {
+      "title": "Review app permissions and Bluetooth tracking",
+      "description": "Turn off location permissions for non-essential apps and check for Bluetooth trackers or unfamiliar connected accessories.",
+      "reason": "Triggered to prevent unnoticed physical movement tracking."
+    },
+    "docsChecklist": {
+      "title": "Create an essential documents checklist",
+      "description": "List all critical documents: Aadhaar/National ID, passport, birth certificates, marriage certificate, property papers, and bank passbooks.",
+      "reason": "Triggered because essential documents were selected as a planning need."
+    },
+    "docsSecureStorage": {
+      "title": "Store digital copies in a confidential location",
+      "description": "Keep digital scans in a new private cloud account or leave physical copies with a trusted legal aid representative.",
+      "reason": "Triggered to ensure document availability if originals cannot be accessed."
+    },
+    "moneyEmergencyCash": {
+      "title": "Build a confidential emergency cash reserve",
+      "description": "Keep a small amount of physical cash in a secure, accessible place outside joint bank visibility.",
+      "reason": "Triggered because money and emergency independence were selected."
+    },
+    "moneyIndependentBank": {
+      "title": "Open a sole-name bank account",
+      "description": "Open a bank account in your name only with digital statements sent to a secure, unshared email address.",
+      "reason": "Triggered to secure future salary and emergency fund access."
+    },
+    "housingTemporaryOptions": {
+      "title": "Explore verified temporary accommodation",
+      "description": "Review verified crisis shelters, short-stay homes, or trusted temporary living arrangements.",
+      "reason": "Triggered because housing was selected as an active planning need."
+    },
+    "housingSafeRoute": {
+      "title": "Plan safe travel and transportation",
+      "description": "Identify public transport schedules, reliable taxi options, or safe transit points.",
+      "reason": "Triggered to avoid transport bottlenecks during relocation."
+    },
+    "childrenEssentialsPack": {
+      "title": "Prepare dependent essentials bag",
+      "description": "Pack immunization cards, birth certificates, school records, spare clothing, and comforting items for children.",
+      "reason": "Triggered because children/dependents were selected in your plan."
+    },
+    "childrenContinuityPlan": {
+      "title": "Plan school and healthcare continuity",
+      "description": "Note down paediatrician contacts and understand local school transfer protocols in your destination region.",
+      "reason": "Triggered to ensure child wellness and routine stability."
+    },
+    "healthPrescriptionsPack": {
+      "title": "Secure 30-day medication and medical records",
+      "description": "Obtain refills for critical prescriptions and keep copies of medical history in a safe place.",
+      "reason": "Triggered because healthcare and medical needs were selected."
+    },
+    "healthConfidentialPathway": {
+      "title": "Identify a confidential healthcare clinic",
+      "description": "Find verified public or NGO healthcare providers that do not require emergency family contact disclosure.",
+      "reason": "Triggered to ensure private, judgment-free medical care access."
+    },
+    "legalProtectionOrders": {
+      "title": "Review protection order pathways",
+      "description": "Learn about statutory protection orders, residence orders, and immediate civil injunctions.",
+      "reason": "Triggered because legal support was selected as a planning need."
+    },
+    "legalFreeCounsel": {
+      "title": "Connect with verified legal aid counsel",
+      "description": "Consult state legal services authorities or specialized legal aid NGOs for free, confidential counsel.",
+      "reason": "Triggered to provide accessible legal representation without financial strain."
+    },
+    "workDirectDepositPrivacy": {
+      "title": "Route employment earnings to a private account",
+      "description": "Update payroll direct deposit details with your employer to point to your unshared account.",
+      "reason": "Triggered because work and livelihood continuity were selected."
+    },
+    "workDiscretionChecklist": {
+      "title": "Request workplace privacy discretion",
+      "description": "Speak with trusted HR or management to remove public directory listings and restrict visitor access.",
+      "reason": "Triggered to maintain workplace safety and confidentiality."
+    }
   }
 }

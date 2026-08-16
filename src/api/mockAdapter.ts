@@ -5,30 +5,35 @@ import type {
   IConsentService,
   IObservatoryService,
   PlanNeeds,
-  ReadinessStatus,
-  ActionPlan,
+  DeviceSafetyAnswers,
+  ReadinessItem,
+  PlanAction,
   DirectoryFilters,
   DirectoryService,
   AegisVaultItem,
   ObservatoryDashboardData,
 } from './types';
+import {
+  evaluateReadiness,
+  evaluateActionPlan,
+} from '../services/rulesEngine/rulesEngine';
 
 // In a real application, these would make HTTP requests to the backend API.
-// For the MVP, we use mock adapters that return synthetic data.
+// For the MVP, we use mock adapters that execute deterministic logic in-memory.
 
 export class MockPlanService implements IPlanService {
-  async getReadinessSnapshot(needs: PlanNeeds): Promise<ReadinessStatus[]> {
-    return Object.entries(needs)
-      .filter(([, isSelected]) => isSelected)
-      .map(([key]) => ({
-        category: key,
-        status: 'Needs attention' as const, // Default for demo
-      }));
+  async getReadinessSnapshot(
+    needs: PlanNeeds,
+    deviceSafety: DeviceSafetyAnswers,
+  ): Promise<ReadinessItem[]> {
+    return evaluateReadiness(needs, deviceSafety);
   }
 
-  async generateActionPlan(needs: PlanNeeds): Promise<ActionPlan> {
-    const selectedCount = Object.values(needs).filter(Boolean).length;
-    return { plan: `Action plan generated locally based on ${selectedCount} selected needs.` };
+  async generateActionPlan(
+    needs: PlanNeeds,
+    deviceSafety: DeviceSafetyAnswers,
+  ): Promise<PlanAction[]> {
+    return evaluateActionPlan(needs, deviceSafety);
   }
 }
 
