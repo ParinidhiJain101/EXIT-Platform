@@ -10,13 +10,21 @@ import type {
   PlanAction,
   DirectoryFilters,
   DirectoryService,
-  AegisVaultItem,
+  SyntheticEvidenceTemplate,
+  VaultCapsuleItem,
+  ConsentState,
   ObservatoryDashboardData,
 } from './types';
 import {
   evaluateReadiness,
   evaluateActionPlan,
 } from '../services/rulesEngine/rulesEngine';
+import {
+  computeSHA256,
+  generateDemoAESKey,
+  encryptAESGCM,
+  simulateTamperPayload,
+} from '../services/vault/cryptoUtils';
 
 // Seeded synthetic demo directory for hackathon evaluation
 const SEEDED_SERVICES: DirectoryService[] = [
@@ -106,6 +114,51 @@ const SEEDED_SERVICES: DirectoryService[] = [
   },
 ];
 
+// Seeded synthetic evidence templates for AegisVault demo
+export const SYNTHETIC_EVIDENCE_TEMPLATES: SyntheticEvidenceTemplate[] = [
+  {
+    id: 'tpl_whatsapp_threat',
+    titleKey: 'vault.templates.whatsappThreat.title',
+    category: 'Communication Safety',
+    fileName: 'synthetic_threat_export_20260814.txt',
+    fileType: 'text/plain',
+    fileSize: '1.4 KB',
+    syntheticContent: `[SYNTHETIC CHAT EXPORT LOG - DEMO ONLY]
+Date: 2026-08-14 18:22:04 IST
+Sender: Unknown (+91 98XXX-XXXXX)
+Message: "Do not attempt to contact legal aid or change your bank branch. I have access to your device location."
+Status: Exported from device sandbox for continuity record.`,
+    descriptionKey: 'vault.templates.whatsappThreat.description',
+  },
+  {
+    id: 'tpl_bank_cutoff',
+    titleKey: 'vault.templates.bankCutoff.title',
+    category: 'Money',
+    fileName: 'synthetic_bank_alert_notice.txt',
+    fileType: 'text/plain',
+    fileSize: '2.1 KB',
+    syntheticContent: `[SYNTHETIC BANK NOTIFICATION LOG - DEMO ONLY]
+Date: 2026-08-15 09:14:22 IST
+Service: Apex Bank NetBanking Security Alert
+Alert: Primary online access credentials changed by primary account holder. Sub-account debit card authorization removed.
+Reference: TXN-SYN-883921`,
+    descriptionKey: 'vault.templates.bankCutoff.description',
+  },
+  {
+    id: 'tpl_tracker_log',
+    titleKey: 'vault.templates.trackerLog.title',
+    category: 'Digital Safety',
+    fileName: 'synthetic_bluetooth_tracker_audit.txt',
+    fileType: 'text/plain',
+    fileSize: '3.0 KB',
+    syntheticContent: `[SYNTHETIC DEVICE AUDIT LOG - DEMO ONLY]
+Date: 2026-08-15 14:40:11 IST
+Detected Device: Unknown BLE Tracker Beacon (Device ID: SYN-BLE-TAG-492)
+Location History: Moving with user device continuously for 48 hours across 3 distinct transit coordinates.`,
+    descriptionKey: 'vault.templates.trackerLog.description',
+  },
+];
+
 export class MockPlanService implements IPlanService {
   async getReadinessSnapshot(
     needs: PlanNeeds,
@@ -160,30 +213,115 @@ export class MockDirectoryService implements IDirectoryService {
 }
 
 export class MockVaultService implements IVaultService {
-  async uploadFictionalEvidence(file: File): Promise<AegisVaultItem> {
-    return {
-      id: Math.random().toString(36).substring(2, 11),
-      hash: 'synthetic-hash-' + Date.now(),
-      timestamp: new Date().toISOString(),
-      fileName: file.name || 'SYNTHETIC DEMO FILE',
-    };
+  private timeline: VaultCapsuleItem[] = [];
+
+  async getSyntheticTemplates(): Promise<SyntheticEvidenceTemplate[]> {
+    return SYNTHETIC_EVIDENCE_TEMPLATES;
   }
 
-  async getTimeline(): Promise<AegisVaultItem[]> {
-    return [];
+  async preserveSyntheticItem(
+    template: SyntheticEvidenceTemplate,
+  ): Promise<VaultCapsuleItem> {
+    const plainHash = await computeSHA256(template.syntheticContent);
+    const key = await generateDemoAESKey();
+    const { ciphertextBase64, ivHex } = await encryptAESGCM(
+      template.syntheticContent,
+      key,
+    );
+
+    const item: VaultCapsuleItem = {
+      id: 'capsule_' + Math.random().toString(36).substring(2, 10),
+      templateId: template.id,
+      title: template.fileName,
+      fileName: template.fileName,
+      fileType: template.fileType,
+      category: template.category,
+      plainHash,
+      ciphertextBase64,
+      ivHex,
+      rawSyntheticContent: template.syntheticContent,
+      timestamp: new Date().toISOString(),
+      verificationResult: {
+        verified: true,
+        computedHash: plainHash,
+        expectedHash: plainHash,
+        tampered: false,
+        verifiedAt: new Date().toISOString(),
+      },
+    };
+
+    this.timeline.unshift(item);
+    return item;
+  }
+
+  async verifyItemIntegrity(
+    item: VaultCapsuleItem,
+    simulateTamper = false,
+  ): Promise<VaultCapsuleItem> {
+    const payloadToCheck = simulateTamper
+      ? simulateTamperPayload(item.rawSyntheticContent)
+      : item.rawSyntheticContent;
+
+    const computedHash = await computeSHA256(payloadToCheck);
+    const verified = computedHash === item.plainHash;
+
+    const updatedItem: VaultCapsuleItem = {
+      ...item,
+      verificationResult: {
+        verified,
+        computedHash,
+        expectedHash: item.plainHash,
+        tampered: simulateTamper,
+        verifiedAt: new Date().toISOString(),
+      },
+    };
+
+    this.timeline = this.timeline.map((i) =>
+      i.id === item.id ? updatedItem : i,
+    );
+    return updatedItem;
+  }
+
+  async getTimeline(): Promise<VaultCapsuleItem[]> {
+    return this.timeline;
   }
 }
 
 export class MockConsentService implements IConsentService {
-  private consentFields: string[] = [];
+  private state: ConsentState = {
+    optedIn: false,
+    shareHarmCategory: false,
+    shareBroadRegion: false,
+    shareServiceNeed: false,
+    shareQuarterYear: false,
+    updatedAt: null,
+    version: '1.0-synthetic',
+  };
 
-  async submitConsent(fields: string[]): Promise<boolean> {
-    this.consentFields = fields;
-    return true;
+  async getConsentState(): Promise<ConsentState> {
+    return this.state;
   }
 
-  async getConsentStatus(): Promise<string[]> {
-    return this.consentFields;
+  async updateConsent(updates: Partial<ConsentState>): Promise<ConsentState> {
+    this.state = {
+      ...this.state,
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+    return this.state;
+  }
+
+  async withdrawConsent(): Promise<ConsentState> {
+    this.state = {
+      optedIn: false,
+      shareHarmCategory: false,
+      shareBroadRegion: false,
+      shareServiceNeed: false,
+      shareQuarterYear: false,
+      updatedAt: new Date().toISOString(),
+      version: '1.0-synthetic',
+    };
+    return this.state;
   }
 }
 

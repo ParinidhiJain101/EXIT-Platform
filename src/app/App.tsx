@@ -140,6 +140,9 @@ export default function App() {
           <Link to="/vault" style={{ color: 'var(--color-trust-blue)', textDecoration: 'none' }}>
             {t('navigation.vault')}
           </Link>
+          <Link to="/consent" style={{ color: 'var(--color-trust-blue)', textDecoration: 'none' }}>
+            {t('navigation.consent')}
+          </Link>
           <Link to="/observatory" style={{ color: 'var(--color-trust-blue)', textDecoration: 'none' }}>
             {t('navigation.observatory')}
           </Link>

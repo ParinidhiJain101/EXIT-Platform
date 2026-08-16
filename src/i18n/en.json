@@ -39,6 +39,7 @@
     "plan": "Plan",
     "directory": "Directory",
     "vault": "AegisVault",
+    "consent": "Consent",
     "observatory": "LIVEGENDER"
   },
   "onboarding": {
@@ -347,5 +348,76 @@
     "noResults": "No verified support services match your search or filter criteria.",
     "demoBannerTitle": "Synthetic Demonstration Directory",
     "demoBannerText": "All service listings, contact lines, and location records are synthetic demonstration fixtures for hackathon evaluation. No real survivor case data or personal information is stored or transmitted."
+  },
+
+  "vault": {
+    "title": "AegisVault — Evidence Continuity Demo",
+    "subtitle": "Cryptographically preserve digital evidence capsules using client-side SHA-256 integrity digests and AES-GCM encryption.",
+    "prototypeBadge": "Prototype Demonstration",
+    "legalDisclaimerTitle": "Prototype Notice & Legal Limitations",
+    "legalDisclaimerText": "AegisVault provides tamper-evident evidence continuity for demonstration purposes. It does not certify evidence authenticity, guarantee legal admissibility in court, or replace accredited digital forensics. Fictional bundled demo files only.",
+    "sandboxTitle": "Preserve Synthetic Evidence Capsule",
+    "sandboxSubtitle": "Select a bundled synthetic evidence fixture to test client-side SHA-256 hashing and AES-GCM encryption.",
+    "syntheticPreviewLabel": "Synthetic Payload Preview",
+    "preserveButton": "Preserve to AegisVault (Compute Hash & Encrypt)",
+    "timelineTitle": "Preserved Evidence Timeline",
+    "inMemoryOnly": "Memory-Only Session",
+    "noItemsInTimeline": "No evidence items have been preserved yet in this session.",
+    "timestampLabel": "Preserved on",
+    "verifiedMatch": "Verified (Hash Match)",
+    "tamperMismatch": "Tamper Mismatch Detected",
+    "unverified": "Unverified",
+    "integrityValid": "Integrity Verified",
+    "integrityValidDetails": "Live re-computed SHA-256 hash strictly matches the original preservation receipt.",
+    "integrityFailed": "Integrity Check Failed (Tampering Detected)",
+    "integrityTamperDetails": "Re-computed SHA-256 ({{computed}}) does NOT match preservation receipt ({{expected}}).",
+    "verifyIntegrityBtn": "Verify Integrity (Live SHA-256)",
+    "simulateTamperBtn": "Simulate 1-Byte Tamper Test",
+    "templates": {
+      "whatsappThreat": {
+        "title": "Harassment Message Export",
+        "description": "Synthetic WhatsApp export containing location tracking threats."
+      },
+      "bankCutoff": {
+        "title": "Financial Account Lockout Notice",
+        "description": "Synthetic bank notification showing unilateral sub-account removal."
+      },
+      "trackerLog": {
+        "title": "BLE Accessory Tracking Audit",
+        "description": "Synthetic Bluetooth tracker audit log showing continuous physical following."
+      }
+    }
+  },
+
+  "consent": {
+    "title": "Consent Gateway & Data Airlock",
+    "subtitle": "You control whether voluntary, de-identified data is shared with the LIVEGENDER service observatory. Default is 100% private.",
+    "optedInBadge": "Consented (Custom)",
+    "privateBadge": "Private by Default",
+    "airlockTitle": "The One-Way Aggregation Airlock",
+    "airlockDescription": "EXIT uses a strict one-way airlock to ensure individual cases, identities, exact locations, and evidence files can NEVER enter institutional observatory data.",
+    "allowedFieldsHeading": "Voluntary De-identified Fields",
+    "allowedFieldsSub": "Choose only what you are comfortable sharing for aggregate service planning.",
+    "fieldHarmCategoryTitle": "Broad Harm Category",
+    "fieldHarmCategoryDesc": "General category only (e.g., Financial control, Digital tracking).",
+    "fieldBroadRegionTitle": "Broad Geographic Region",
+    "fieldBroadRegionDesc": "State or district level only. Never exact GPS, address, or shelter coordinate.",
+    "fieldServiceNeedTitle": "Requested Service Category",
+    "fieldServiceNeedDesc": "Types of support sought (e.g., Legal aid, Transition shelter).",
+    "fieldQuarterTitle": "Broad Time Window",
+    "fieldQuarterDesc": "Generalized quarterly aggregation (e.g., Q3 2026).",
+    "forbiddenFieldsHeading": "Strictly Forbidden Fields",
+    "forbiddenFieldsSub": "The airlock hard-rejects the following data. They never reach the observatory.",
+    "forbidden1": "No real names, phone numbers, email addresses, or physical addresses.",
+    "forbidden2": "No exact GPS coordinates, travel routes, workplace, or shelter locations.",
+    "forbidden3": "No evidence files, screenshots, voice notes, or raw narrative text.",
+    "forbidden4": "No IP addresses, device IDs, or browser fingerprints.",
+    "forbidden5": "No data published if fewer than 10 independent contributions exist (k ≥ 10 threshold).",
+    "saveSuccess": "Consent preferences updated in memory.",
+    "privateSuccess": "All consent withdrawn. Session returned to 100% private default.",
+    "keepPrivateButton": "Keep Everything Private (Decline)",
+    "savePreferencesButton": "Save Consent Preferences",
+    "lastUpdatedReceipt": "Consent status updated",
+    "versionLabel": "Policy Version"
   }
 }

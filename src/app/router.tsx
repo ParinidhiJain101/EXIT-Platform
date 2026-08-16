@@ -2,6 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import { ExitPlanHome } from '../features/exit-plan/ExitPlanHome';
 import { ServiceDirectoryView } from '../features/directory/ServiceDirectoryView';
+import { AegisVaultDemoView } from '../features/vault-demo/AegisVaultDemoView';
+import { ConsentGatewayView } from '../features/consent/ConsentGatewayView';
 
 export const router = createBrowserRouter([
   {
@@ -18,11 +20,15 @@ export const router = createBrowserRouter([
       },
       {
         path: 'vault',
-        element: <div>AegisVault Demo</div>,
+        element: <AegisVaultDemoView />,
+      },
+      {
+        path: 'consent',
+        element: <ConsentGatewayView />,
       },
       {
         path: 'observatory',
-        element: <div>LIVEGENDER Dashboard</div>,
+        element: <div>LIVEGENDER Dashboard (Coming Soon)</div>,
       },
     ],
   },

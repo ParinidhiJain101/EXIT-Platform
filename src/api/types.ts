@@ -75,11 +75,48 @@ export interface DirectoryService {
   safetyNote: string;
 }
 
-export interface AegisVaultItem {
+// AegisVault Types
+export interface SyntheticEvidenceTemplate {
   id: string;
-  hash: string;
-  timestamp: string;
+  titleKey: string;
+  category: string;
   fileName: string;
+  fileType: string;
+  fileSize: string;
+  syntheticContent: string;
+  descriptionKey: string;
+}
+
+export interface VaultCapsuleItem {
+  id: string;
+  templateId: string;
+  title: string;
+  fileName: string;
+  fileType: string;
+  category: string;
+  plainHash: string; // Original computed SHA-256
+  ciphertextBase64: string; // AES-GCM Encrypted bytes
+  ivHex: string;
+  rawSyntheticContent: string;
+  timestamp: string;
+  verificationResult?: {
+    verified: boolean;
+    computedHash: string;
+    expectedHash: string;
+    tampered: boolean;
+    verifiedAt: string;
+  };
+}
+
+// Consent Gateway Types
+export interface ConsentState {
+  optedIn: boolean;
+  shareHarmCategory: boolean;
+  shareBroadRegion: boolean;
+  shareServiceNeed: boolean;
+  shareQuarterYear: boolean;
+  updatedAt: string | null;
+  version: string;
 }
 
 export interface ObservatoryContribution {
@@ -112,13 +149,16 @@ export interface IDirectoryService {
 }
 
 export interface IVaultService {
-  uploadFictionalEvidence(file: File): Promise<AegisVaultItem>;
-  getTimeline(): Promise<AegisVaultItem[]>;
+  getSyntheticTemplates(): Promise<SyntheticEvidenceTemplate[]>;
+  preserveSyntheticItem(template: SyntheticEvidenceTemplate): Promise<VaultCapsuleItem>;
+  verifyItemIntegrity(item: VaultCapsuleItem, simulateTamper?: boolean): Promise<VaultCapsuleItem>;
+  getTimeline(): Promise<VaultCapsuleItem[]>;
 }
 
 export interface IConsentService {
-  submitConsent(fields: string[]): Promise<boolean>;
-  getConsentStatus(): Promise<string[]>;
+  getConsentState(): Promise<ConsentState>;
+  updateConsent(state: Partial<ConsentState>): Promise<ConsentState>;
+  withdrawConsent(): Promise<ConsentState>;
 }
 
 export interface IObservatoryService {
