@@ -400,7 +400,7 @@ export const ObservatoryDashboardView: FC = () => {
               border: 'var(--color-border-green)',
             },
             {
-              label: t('observatory.statSuppressed'),
+              label: t('observatory.statSuppressed', { kThreshold }),
               value: totalSuppressed,
               color: '#B45309',
               bg: 'var(--color-soft-amber)',
